@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <FrameLayout
+        android:id="@+id/fl"
+        android:layout_width="240dp"
+        android:layout_height="120dp"
+        android:background="@drawable/dialog_bkg"
+        android:orientation="vertical">
+
+        <com.heiko.scan.ScanBoxView
+            android:id="@+id/sbv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            app:qrcv_animTime="1000"
+            app:qrcv_borderColor="@android:color/white"
+            app:qrcv_borderSize="1dp"
+            app:qrcv_cornerColor="@color/black"
+            app:qrcv_cornerLength="60dp"
+            app:qrcv_isOnlyDecodeScanBoxArea="false"
+            app:qrcv_isTipTextBelowRect="true"
+            app:qrcv_maskColor="#A1000000"
+            app:qrcv_qrCodeTipText="请对准二维码扫描"
+            app:qrcv_rectWidth="225dp"
+            app:qrcv_scanLineMargin="8dp"
+            app:qrcv_tipTextSize="13sp"
+            app:qrcv_topOffset="130dp" />
+
+
+    </FrameLayout>
+</layout>

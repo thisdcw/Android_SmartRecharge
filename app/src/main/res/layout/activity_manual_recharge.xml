@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.activity.ManualRechargeActivity">
+
+        <com.mxsella.smartrecharge.view.widget.CustomerNavBar
+            android:id="@+id/nav_bar"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            app:navTitle="手动充值"
+            app:navTitleColor="@color/white"
+            app:showBack="true" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="剩余次数" />
+
+                <TextView
+                    android:id="@+id/mac_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/mac"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="mac"
+                android:text="获取mac码" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="80dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="请输入充值次数" />
+
+                <EditText
+                    android:id="@+id/charge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="bottom"
+                    android:text="100" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/pay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="charge"
+                android:text="支付(点击支付后等待三秒)" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="剩余次数" />
+
+                <TextView
+                    android:id="@+id/read_remain_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="工作时间" />
+
+                <TextView
+                    android:id="@+id/read_work_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="info"
+                android:text="读取支付信息" />
+
+            <TextView
+                android:id="@+id/pay_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical" />
+
+            <Button
+                android:id="@+id/reset"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="reset"
+                android:text="重置次数" />
+        </LinearLayout>
+    </LinearLayout>
+</layout>

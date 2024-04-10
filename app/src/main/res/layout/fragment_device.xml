@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/manual"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="manualRecharge"
+            android:text="手动充值" />
+
+        <Button
+            android:id="@+id/scan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="scanRecharge"
+            android:text="扫码充值" />
+
+        <Button
+            android:id="@+id/info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="info"
+            android:text="设备信息" />
+
+        <Button
+            android:id="@+id/testUsb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="testUsb"
+            android:text="测试USB"
+            android:visibility="gone"/>
+    </LinearLayout>
+</layout>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CircleLoadingView">
+        <!--  菊花颜色  -->
+        <attr name="clv_color" format="color" />
+        <!--  开始角度  -->
+        <attr name="clv_startAngle" format="integer" />
+        <!--  线条宽度  -->
+        <attr name="clv_strokeWidth" format="dimension" />
+        <!--  是否自动开始  -->
+        <attr name="clv_auto_start" format="boolean" />
+    </declare-styleable>
+
+    <!--主页RadioButton-->
+    <declare-styleable name="MainRadioButton">
+        <attr name="imgWidth" format="dimension" />
+        <attr name="imgHeight" format="dimension" />
+    </declare-styleable>
+
+    <!--    顶部导航栏-->
+    <declare-styleable name="NavBar">
+        <attr name="showBack" format="boolean" /><!--是否展示背景-->
+        <attr name="navTitle" format="string" /><!--标题文本-->
+        <attr name="navTitleColor" format="color" /><!--标题颜色-->
+        <attr name="navSubTitle" format="string" /><!--副标题文本-->
+        <attr name="leftIcon" format="reference" /><!--左侧图标-->
+        <attr name="leftIconColor" format="color" /><!--左侧图标颜色-->
+        <attr name="showLeftText" format="boolean" /><!--左侧文本-->
+        <attr name="rightIcon" format="reference" /><!--右侧图标-->
+        <attr name="navBackground" format="color" /><!--背景色-->
+        <attr name="navRightText" format="string" /><!--右侧文本-->
+        <attr name="navRightTextColor" format="color" /><!--右侧文本颜色-->
+    </declare-styleable>
+
+</resources>

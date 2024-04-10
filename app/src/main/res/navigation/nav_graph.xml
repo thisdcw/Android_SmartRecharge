@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/device_fragment">
+    <fragment
+        android:id="@+id/device_fragment"
+        android:name="com.mxsella.smartrecharge.ui.fragment.DeviceFragment"
+        android:label="device_fragment"
+        tools:layout="@layout/fragment_device" />
+    <fragment
+        android:id="@+id/history_fragment"
+        android:name="com.mxsella.smartrecharge.ui.fragment.HistoryFragment"
+        android:label="history_fragment"
+        tools:layout="@layout/fragment_history" />
+    <fragment
+        android:id="@+id/settings_fragment"
+        android:name="com.mxsella.smartrecharge.ui.fragment.SettingsFragment"
+        android:label="settings_fragment"
+        tools:layout="@layout/fragment_settings" />
+</navigation>

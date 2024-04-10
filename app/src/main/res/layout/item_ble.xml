@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="ble"
+            type="com.mxsella.smartrecharge.entity.BleDeviceInfo" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="38dp"
+        android:paddingHorizontal="20dp">
+
+        <TextView
+            android:id="@+id/tv_ble_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@{ble.deviceName}"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_ble_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|end"
+            android:text="@{ble.connectState?`已连接`:`未连接`}"
+            android:textColor="#7f7f7f"
+            android:textSize="14sp" />
+
+    </FrameLayout>
+</layout>

@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bkg_settings_top"
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/llt_user_info"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginTop="40dp"
+                android:gravity="center"
+                android:paddingHorizontal="20dp">
+
+                <ImageView
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:background="@drawable/ic_default_avatar" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="13dp"
+                    android:layout_weight="1"
+                    android:text="@string/settings_user_info"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/edit" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bkg_settings"
+                android:orientation="vertical">
+
+
+                <LinearLayout
+                    android:id="@+id/tab_instruction"
+                    android:layout_width="match_parent"
+                    android:layout_height="62dp"
+                    android:layout_marginTop="40dp"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="20dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/main_tab_instruction"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="10dp"
+                        android:src="@drawable/vector" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llt_language"
+                    android:layout_width="match_parent"
+                    android:layout_height="62dp"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="20dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/settings_language"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/tv_language"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="50dp"
+                        android:text="@string/language_auto"
+                        android:textColor="@color/text_gray"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="10dp"
+                        android:src="@drawable/vector" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llt_param_adjust"
+                    android:layout_width="match_parent"
+                    android:layout_height="62dp"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="20dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/settings_parameter"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="50dp"
+                        android:src="@drawable/vector" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llt_hardware"
+                    android:layout_width="match_parent"
+                    android:layout_height="62dp"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="20dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/settings_hardware_version"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/tv_hardware"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="50dp"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="50dp"
+                        android:src="@drawable/vector" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llt_feedback"
+                    android:layout_width="match_parent"
+                    android:layout_height="62dp"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="20dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/settings_feedback"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="50dp"
+                        android:src="@drawable/vector" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llt_check_update"
+                    android:layout_width="match_parent"
+                    android:layout_height="62dp"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="20dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/settings_check_update"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+
+                    <com.mxsella.smartrecharge.view.CircleLoadingView
+                        android:id="@+id/clv"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="20dp"
+                        android:visibility="gone"
+                        app:clv_strokeWidth="1.5dp" />
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="50dp"
+                        android:src="@drawable/vector" />
+
+                </LinearLayout>
+
+
+                <Button
+                    android:id="@+id/btn_logout"
+                    android:layout_width="335dp"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="40dp"
+                    android:background="@drawable/bkg_round_gray"
+                    android:text="@string/settings_log_out"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+    </LinearLayout>
+</layout>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.activity.ScanRechargeActivity">
+
+        <com.mxsella.smartrecharge.view.widget.CustomerNavBar
+            android:id="@+id/nav_bar"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            app:navTitle="扫码充值"
+            app:navTitleColor="@color/white"
+            app:showBack="true" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="onButtonClick"
+                    android:text="zxing扫描库" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="huawei"
+                    android:text="华为扫描库" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</layout>
