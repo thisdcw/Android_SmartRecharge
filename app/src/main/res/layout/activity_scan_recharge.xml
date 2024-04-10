@@ -44,6 +44,19 @@
                     android:onClick="huawei"
                     android:text="华为扫描库" />
             </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <FrameLayout
+                android:id="@+id/rim"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </FrameLayout>
         </LinearLayout>
     </LinearLayout>
 </layout>
