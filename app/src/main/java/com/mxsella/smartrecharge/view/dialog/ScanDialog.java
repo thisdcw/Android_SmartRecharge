@@ -1,52 +1,40 @@
 package com.mxsella.smartrecharge.view.dialog;
 
-import static android.app.Activity.RESULT_OK;
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.DisplayMetrics;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.RemoteViews;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 
-import com.huawei.hms.hmsscankit.OnResultCallback;
 import com.huawei.hms.hmsscankit.RemoteView;
-import com.huawei.hms.hmsscankit.ScanUtil;
 import com.huawei.hms.ml.scan.HmsScan;
-import com.huawei.hms.ml.scan.HmsScanAnalyzerOptions;
-import com.mxsella.smartrecharge.MyApplication;
 import com.mxsella.smartrecharge.R;
-import com.mxsella.smartrecharge.databinding.DialogScanBinding;
-import com.mxsella.smartrecharge.ui.activity.ScanRechargeActivity;
+import com.mxsella.smartrecharge.view.ClipView;
 
 public class ScanDialog extends Dialog {
+    private int scanSize = 300;
     private Context context;
     private RemoteView remoteView;
-    public static final String SCAN_RESULT = "scanResult";
-
     private ScanResultCallBack scanResultCallBack;
-
-    public void setScanResultCallBack(ScanResultCallBack scanResultCallBack) {
-        this.scanResultCallBack = scanResultCallBack;
+    int mScreenWidth;
+    int mScreenHeight;
+    int halfH;
+    int halfW;
+    int clipDp;
+    ClipView clipView;
+    public ScanDialog(@NonNull Context context) {
+        super(context, R.style.MyDialog);
+        this.context = context;
     }
 
-    public ScanDialog(@NonNull Context context) {
-        super(context);
-        this.context = context;
+    public ScanDialog setScanResultCallBack(ScanResultCallBack scanResultCallBack) {
+        this.scanResultCallBack = scanResultCallBack;
+        return this;
     }
 
     public interface ScanResultCallBack {
@@ -58,53 +46,69 @@ public class ScanDialog extends Dialog {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_scan);
         // 设置扫码识别区域
-        setupScanView(savedInstanceState);
+        clipView = findViewById(R.id.viewGroup);
+        clipView.setScanFrameSize(scanSize);
+        initScanParameter();
+        remoteView.onCreate(savedInstanceState);
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        );
+        clipView.addView(remoteView, params);
+
+        findViewById(R.id.cover).setOnClickListener(v -> {
+            dismiss();
+        });
     }
 
-    private void setupScanView(Bundle savedInstanceState) {
+    private void initScanParameter() {
         DisplayMetrics dm = context.getResources().getDisplayMetrics();
         float density = dm.density;
-        int mScreenWidth = context.getResources().getDisplayMetrics().widthPixels;
-        int mScreenHeight = context.getResources().getDisplayMetrics().heightPixels;
-        final int SCAN_FRAME_SIZE = 300;
-        int scanFrameSize = (int) (SCAN_FRAME_SIZE * density);
-        Rect rect = new Rect();
-        rect.left = mScreenWidth / 2 - scanFrameSize / 2;
-        rect.right = mScreenWidth / 2 + scanFrameSize / 2;
-        rect.top = mScreenHeight / 2 - scanFrameSize / 2;
-        rect.bottom = mScreenHeight / 2 + scanFrameSize / 2;
+        mScreenWidth = context.getResources().getDisplayMetrics().widthPixels;
+        mScreenHeight = context.getResources().getDisplayMetrics().heightPixels;
 
+        halfH = mScreenHeight / 2;
+        halfW = mScreenWidth / 2;
+
+
+        clipDp = (int) (scanSize * density) / 2;
+
+        int left = halfW - clipDp;//左边x坐标
+        int right = halfW + clipDp;//右边x坐标
+        int top = halfH - clipDp;//上边y坐标
+        int bottom = halfH + clipDp;//下边y坐标
+
+        Rect rect = new Rect(left, top, right, bottom);
         remoteView = new RemoteView.Builder()
                 .setContext((Activity) context)
                 .setFormat(HmsScan.ALL_SCAN_TYPE)
+                .setBoundingBox(rect)
                 .build();
 
-        FrameLayout frameLayout = findViewById(R.id.rv);
-        remoteView.setOnResultCallback(new OnResultCallback() {
-            @Override
-            public void onResult(HmsScan[] result) {
-                if (scanResultCallBack!=null){
-                    scanResultCallBack.onResult(result);
-                }
+        remoteView.setOnResultCallback(result -> {
+            if (scanResultCallBack != null) {
+                scanResultCallBack.onResult(result);
             }
         });
-        remoteView.onCreate(savedInstanceState);
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT
-        );
-        frameLayout.addView(remoteView, params);
+    }
+
+    public ScanDialog setScanSize(int scanSize) {
+        this.scanSize = scanSize;
+        return this;
     }
 
     @Override
-    public void onStart() {
+    protected void onStart() {
         super.onStart();
         remoteView.onStart();
+        remoteView.onResume();
     }
 
     @Override
-    public void onStop() {
+    protected void onStop() {
         super.onStop();
+        remoteView.onPause();
         remoteView.onStop();
+        remoteView.onDestroy();
     }
 }
