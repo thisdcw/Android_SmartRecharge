@@ -6,7 +6,6 @@ public interface ICommunicateService {
     void send(String str);
     void send(short address, short command);
     void imitateReceive(byte[] bytes);
-
     boolean isConnected();
     boolean isEnable();
     void startService();

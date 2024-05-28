@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="userVM"
+            type="com.mxsella.smartrecharge.viewmodel.UserViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/login_bkg"
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="300dp"
+            android:layout_height="62dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="144dp"
+            android:src="@drawable/mxsella_logo" />
+
+        <LinearLayout
+            android:layout_width="335dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="112dp"
+            android:background="@drawable/input_bkg">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="14dp"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/telephone_logo" />
+
+            <EditText
+                android:id="@+id/edt_telephone"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="14dp"
+                android:background="@null"
+                android:hint="@string/login_enter_telephone"
+                android:text="18296630779"
+                android:inputType="number"
+                android:maxLength="11"
+                android:textColor="@color/black"
+                android:textColorHint="#ABABAB"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+
+        <FrameLayout
+            android:id="@+id/flt_verify_code"
+            android:layout_width="335dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="14dp"
+            android:background="@drawable/input_bkg">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="14dp"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/verify_code_logo" />
+
+            <EditText
+                android:id="@+id/edt_verify_code"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="48dp"
+                android:background="@null"
+                android:hint="@string/login_enter_verify"
+                android:inputType="number"
+                android:maxLength="6"
+                android:textColor="@color/black"
+                android:textColorHint="#ABABAB"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_get_verify_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|end"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/bkg_login_verify"
+                android:padding="5dp"
+                android:onClick="getVerifyCode"
+                android:text="@string/login_send_verify"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/lyt_invite"
+            android:layout_width="335dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="14dp"
+            android:background="@drawable/input_bkg">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="14dp"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/password_logo" />
+
+            <EditText
+                android:id="@+id/edt_invite_code"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="14dp"
+                android:background="@null"
+                android:hint="@string/login_enter_invite_code"
+                android:inputType="text"
+                android:text="Go0PAOsS"
+                android:maxLength="12"
+                android:textColor="@color/black"
+                android:textColorHint="#ABABAB"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/tv_register"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="@string/to_login"
+                android:onClick="toLogin"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_login_way"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="20dp"
+                android:text="@string/login_way_password"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+        </FrameLayout>
+
+
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="335dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="56dp"
+            android:background="@drawable/login_btn"
+            android:text="@string/register"
+            android:textAllCaps="false"
+            android:onClick="doRegister"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="27dp"
+            android:gravity="center">
+
+            <CheckBox
+                android:id="@+id/checkbox"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/login_checkbox"
+                android:button="@null" />
+
+            <TextView
+                android:id="@+id/tv_privacy_policy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@string/login_privacy"
+                android:textColor="#7E7E7E"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

@@ -14,21 +14,30 @@ import com.mxsella.smartrecharge.common.base.BaseActivity;
 import com.mxsella.smartrecharge.databinding.ActivityManualRechargeBinding;
 import com.mxsella.smartrecharge.utils.LogUtil;
 import com.mxsella.smartrecharge.utils.PayUtils;
+import com.mxsella.smartrecharge.utils.TimerUtils;
+import com.mxsella.smartrecharge.utils.ToastUtils;
 
 public class ManualRechargeActivity extends BaseActivity<ActivityManualRechargeBinding> {
-    ICommunicateService iCommunicateService;
 
+    ICommunicateService iCommunicateService;
     private int remainTimes = 0;
     private int workTime = 0;
+    private volatile boolean isReceiver = false;
+    private volatile boolean isPaying = false;
+    private TimerUtils tu;
+
     @Override
     public void initView() {
         iCommunicateService = BleService.getInstance();
         iCommunicateService.setListener(packet -> {
             switch (packet.getType()) {
                 case ReceivePacket.TYPE_INFO:
+                    if (isPaying) {
+                        isReceiver = true;
+                    }
                     remainTimes = packet.getRemainTimes();
                     workTime = packet.getWorkTime();
-                    LogUtil.test("remainTimes => " + remainTimes + "work time => " + workTime);
+                    LogUtil.test("remainTimes => " + remainTimes + " work time => " + workTime);
                     runOnUiThread(() -> {
                         binding.readRemainTime.setText(remainTimes + " 次");
                         binding.readWorkTime.setText(workTime + " s");
@@ -37,14 +46,16 @@ public class ManualRechargeActivity extends BaseActivity<ActivityManualRechargeB
                 case ReceivePacket.TYPE_PAY:
                     remainTimes = packet.getRemainTimes();
                     workTime = packet.getWorkTime();
-                    LogUtil.test("支付成功 !remainTimes => " + remainTimes + "work time => " + workTime);
+                    LogUtil.test("支付成功! remainTimes => " + remainTimes + " work time => " + workTime);
                     runOnUiThread(() -> {
-                        binding.payStatus.setText("充值成功!!! 充值次数: " + remainTimes + "工作时间: " + workTime);
+                        binding.payStatus.setText("充值成功!!! 充值次数: " + remainTimes + " 工作时间: " + workTime);
                     });
+                    isPaying = false;
+                    tu.cancel();
                     break;
                 case ReceivePacket.TYPE_MAC:
                     String mac = packet.getMac();
-                    LogUtil.test("mac码-> " + mac);
+                    LogUtil.test("mac码 -> " + mac);
                     runOnUiThread(() -> {
                         binding.macAddress.setText("" + mac);
                     });
@@ -55,26 +66,43 @@ public class ManualRechargeActivity extends BaseActivity<ActivityManualRechargeB
 
         });
     }
-    public void reset(View view){
+
+    public void reset(View view) {
         iCommunicateService.send(Protocol.command(PayUtils.encode(0)));
     }
+
     public void charge(View view) {
+        if (!BleService.getInstance().isConnected()) {
+            ToastUtils.showToast("请先连接设备");
+            return;
+        }
+        if (isPaying) {
+            ToastUtils.showToast("正在充值,请勿重复点击");
+            return;
+        }
+        isPaying = true;
         iCommunicateService.send(Protocol.command(PayUtils.encode()));
         // 使当前线程休眠三秒钟
-        try {
-            Thread.sleep(3000); // 3000毫秒 = 3秒
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        int times = Integer.parseInt(binding.charge.getText().toString().trim()) + remainTimes;
-        iCommunicateService.send(Protocol.command(PayUtils.encode(times)));
+        tu = new TimerUtils();
+        tu.scheduleTask(3000, () -> {
+            if (isReceiver) {
+                int times = Integer.parseInt(binding.charge.getText().toString().trim()) + remainTimes;
+                iCommunicateService.send(Protocol.command(PayUtils.encode(times)));
+            } else {
+                runOnUiThread(() -> {
+                    ToastUtils.showLongToast("充值失败 !!!");
+                });
+                tu.cancel();
+                isPaying = false;
+            }
+        });
     }
 
     public void info(View view) {
         iCommunicateService.send(Protocol.command(PayUtils.encode()));
     }
 
-    public void mac(View view){
+    public void mac(View view) {
         iCommunicateService.send(Protocol.MAC);
     }
 

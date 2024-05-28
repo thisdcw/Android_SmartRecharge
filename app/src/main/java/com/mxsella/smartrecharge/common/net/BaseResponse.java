@@ -1,17 +1,22 @@
 package com.mxsella.smartrecharge.common.net;
 
+/**
+ * 响应体
+ *
+ * @param <T>
+ */
 public class BaseResponse<T> {
 
-    private String code;
+    private int code;
     private String message;
 
     private T data;
 
-    public String getCode() {
+    public int getCode() {
         return code;
     }
 
-    public void setCode(String code) {
+    public void setCode(int code) {
         this.code = code;
     }
 

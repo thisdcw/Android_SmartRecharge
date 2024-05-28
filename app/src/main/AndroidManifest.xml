@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.USB_PERMISSION" />
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
     <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
@@ -13,18 +14,27 @@
     <uses-permission android:name="android.permission.INTERNET" /> <!-- 网络权限 -->
     <uses-permission android:name="android.permission.VIBRATE" /> <!-- 震动权限 -->
     <uses-permission android:name="android.permission.CAMERA" /> <!-- 摄像头权限 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
+
     <uses-feature android:name="android.hardware.camera.autofocus" />
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
 
     <uses-permission android:name="android.permission.USB_PERMISSION" />
+
     <uses-feature
         android:name="android.hardware.usb.host"
         android:required="true" />
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
+        android:configChanges="orientation|keyboard|keyboardHidden"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:hardwareAccelerated="true"
@@ -35,11 +45,34 @@
         android:theme="@style/Theme.Android_SmartRecharge"
         tools:targetApi="31">
         <activity
-            android:name=".ui.activity.USBActivity"
-            android:exported="false" >
+            android:name=".ui.activity.DeviceListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.ChildUserListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.InviteCodeListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.RegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.WelcomeActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.activity.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.ProductEntryActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
-                <action android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED" />
             </intent-filter>
         </activity>
         <activity
@@ -56,20 +89,13 @@
             android:exported="false" />
         <activity
             android:name=".ui.activity.MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity> <!-- 告知 XXPermissions 当前项目已经适配了分区存储特性 -->
+            android:exported="true" /> <!-- 告知 XXPermissions 当前项目已经适配了分区存储特性 -->
         <meta-data
             android:name="ScopedStorage"
             android:value="true" />
         <meta-data
             android:name="design_width_in_dp"
             android:value="375" />
-
     </application>
 
 </manifest>

@@ -39,7 +39,6 @@ public class BleActivity extends BaseActivity<ActivityBleBinding> {
 
     @Override
     public void initView() {
-        PermissionUtil.getInstance().requestBlePermission(this);
         bleAdapter = new BleAdapter();
         binding.rcvBle.setLayoutManager(new LinearLayoutManager(this));
         binding.rcvBle.setAdapter(bleAdapter);

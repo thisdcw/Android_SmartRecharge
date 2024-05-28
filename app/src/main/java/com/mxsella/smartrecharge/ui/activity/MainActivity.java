@@ -12,19 +12,25 @@ import com.hjq.permissions.XXPermissions;
 import com.mxsella.smartrecharge.R;
 import com.mxsella.smartrecharge.comm.BleService;
 import com.mxsella.smartrecharge.comm.IBleConnectStateCallback;
+import com.mxsella.smartrecharge.common.Config;
 import com.mxsella.smartrecharge.common.base.BaseActivity;
 import com.mxsella.smartrecharge.databinding.ActivityMainBinding;
 import com.mxsella.smartrecharge.utils.PermissionUtil;
 import com.mxsella.smartrecharge.utils.ToastUtils;
+import com.mxsella.smartrecharge.viewmodel.UserViewModel;
 
 import java.util.List;
 
 public class MainActivity extends BaseActivity<ActivityMainBinding> {
 
+
     @Override
     public void initView() {
-        PermissionUtil.getInstance().requestBlePermission(this);
+        PermissionUtil.getInstance(this).requestBlePermission().requestExternalPermission().requestCameraPermission();
+
         initEvent();
+
+
     }
 
     public void connectBle(View view) {
@@ -43,8 +49,13 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
         navTo(DeviceInfoActivity.class);
     }
 
-    public void testUsb(View view){
-        navTo(USBActivity.class);
+    public void entry(View view) {
+        navTo(ProductEntryActivity.class);
+    }
+
+    public void logout(View view) {
+        Config.saveUser(null);
+        navToFinishAll(WelcomeActivity.class);
     }
 
     private void initEvent() {

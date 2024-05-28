@@ -27,7 +27,18 @@
             android:layout_gravity="center_horizontal|bottom"
             android:layout_marginBottom="100dp"
             android:background="@drawable/btn_bkg"
-            android:textColor="@color/white"
-            android:text="取消" />
+            android:text="取消"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/picture"
+            android:layout_width="335dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="100dp"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_marginBottom="100dp"
+            android:background="@drawable/btn_bkg"
+            android:text="从相册中扫描图片"
+            android:textColor="@color/white" />
     </FrameLayout>
 </layout>

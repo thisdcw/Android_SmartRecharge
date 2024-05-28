@@ -18,7 +18,6 @@ public class ScanRechargeActivity extends BaseActivity<ActivityScanRechargeBindi
 
     @Override
     public void initView() {
-        PermissionUtil.getInstance().requestCameraPermission(this);
 
     }
 
@@ -35,7 +34,7 @@ public class ScanRechargeActivity extends BaseActivity<ActivityScanRechargeBindi
                     handleScanData(hmsScan);
                     scanDialog.dismiss();
                 });
-        scanDialog.show();
+        scanDialog.show(getSupportFragmentManager(), "customer_scan");
     }
 
     private void handleScanData(HmsScan data) {

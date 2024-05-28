@@ -35,7 +35,11 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
         mContext = this;
         ActivityStackManager.getInstance().addActivity(this);
         registerBroadcastReceiver();
-        binding = DataBindingUtil.setContentView(this, layoutId());
+        try {
+            binding = DataBindingUtil.setContentView(this, layoutId());
+        } catch (Exception e) {
+            LogUtil.e("error layout -> "+e.getMessage());
+        }
         initView();
     }
 

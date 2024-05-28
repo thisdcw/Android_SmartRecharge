@@ -3,11 +3,14 @@ package com.mxsella.smartrecharge.common;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.google.gson.Gson;
 import com.mxsella.smartrecharge.entity.BleDeviceInfo;
+import com.mxsella.smartrecharge.model.User;
 import com.mxsella.smartrecharge.utils.LogUtil;
 
 public class Config {
     public static final boolean isDebug = true;
+    public static final boolean checkLogin = true;
     public static SharedPreferences mainSP;
     // Ble名称
     private static final String BLE_NAME = "ble_name";
@@ -17,6 +20,22 @@ public class Config {
     private static final String SECRET_KEY = "secret_key";
     private static final String DEVICE_MAC = "device_mac";
     private static final String PASSWORD = "password";
+    private static final String CURRENT_USER = "current_user";
+
+    public static void saveUser(User currentUser) {
+        LogUtil.d("保存的用户: " + currentUser);
+        if (currentUser == null) {
+            save(CURRENT_USER, "");
+            return;
+        }
+        String userInfo = new Gson().toJson(currentUser);
+        save(CURRENT_USER, userInfo);
+    }
+
+    public static String getCurrentUser() {
+
+        return mainSP.getString(CURRENT_USER, "");
+    }
 
     public static void saveBle(BleDeviceInfo deviceInfo) {
         save(BLE, deviceInfo.toString());
@@ -36,8 +55,7 @@ public class Config {
     }
 
     public static String getDeviceMac() {
-        return "F724C9D500AD";
-//        return mainSP.getString(DEVICE_MAC, "F724C9D500AD");
+        return mainSP.getString(DEVICE_MAC, "F724C9D500AD");
     }
 
     public static void saveDeviceMac(String deviceMac) {
@@ -46,7 +64,6 @@ public class Config {
 
     public static int getSecretKey() {
         int key = Integer.parseInt(mainSP.getString(SECRET_KEY, "-1"));
-        LogUtil.d("key => " + key);
         return key;
     }
 

@@ -33,11 +33,11 @@
             android:text="设备信息" />
 
         <Button
-            android:id="@+id/testUsb"
+            android:id="@+id/product_entry"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="testUsb"
-            android:text="测试USB"
-            android:visibility="gone"/>
+            android:onClick="entry"
+            android:text="产品录入" />
+
     </LinearLayout>
 </layout>

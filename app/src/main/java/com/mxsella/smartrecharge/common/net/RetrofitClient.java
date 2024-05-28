@@ -3,18 +3,26 @@ package com.mxsella.smartrecharge.common.net;
 import com.mxsella.smartrecharge.MyApplication;
 import com.mxsella.smartrecharge.common.Config;
 import com.mxsella.smartrecharge.common.net.interceptor.TokenInterceptor;
+import com.mxsella.smartrecharge.common.net.service.ApiService;
 import com.mxsella.smartrecharge.utils.LogUtil;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * Retrofit客户端
+ */
 public class RetrofitClient {
     private final ApiService apiService;
     private static final long WRITE_TIMEOUT = 30L;
@@ -28,6 +36,7 @@ public class RetrofitClient {
                 MAX_CACHE_SIZE);
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .retryOnConnectionFailure(true)
                 .cache(cache)
                 .addInterceptor(new TokenInterceptor())
                 .addInterceptor(getLoggingInterceptor())
@@ -44,6 +53,14 @@ public class RetrofitClient {
                 .build();
 
         apiService = retrofit.create(ApiService.class);
+    }
+
+    private static class NetInterceptor implements Interceptor {
+        @Override
+        public Response intercept(Chain chain) throws IOException {
+            Request request = chain.request().newBuilder().removeHeader("Connection").addHeader("Connection", "close").build();
+            return chain.proceed(request);
+        }
     }
 
     private HttpLoggingInterceptor getLoggingInterceptor() {
