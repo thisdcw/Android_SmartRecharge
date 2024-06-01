@@ -1,15 +1,19 @@
 package com.mxsella.smartrecharge.common.net.service;
 
-import com.mxsella.smartrecharge.common.net.BaseResponse;
-import com.mxsella.smartrecharge.model.Brand;
-import com.mxsella.smartrecharge.model.Device;
-import com.mxsella.smartrecharge.model.InviteRecord;
-import com.mxsella.smartrecharge.model.TestUser;
-import com.mxsella.smartrecharge.model.User;
+import com.mxsella.smartrecharge.model.response.BaseResponse;
+import com.mxsella.smartrecharge.model.domain.ApplyTimes;
+import com.mxsella.smartrecharge.model.domain.Brand;
+import com.mxsella.smartrecharge.model.domain.Device;
+import com.mxsella.smartrecharge.model.domain.InviteRecord;
+import com.mxsella.smartrecharge.model.domain.TestUser;
+import com.mxsella.smartrecharge.model.domain.User;
+import com.mxsella.smartrecharge.model.request.ApplyTimesRequestBody;
+import com.mxsella.smartrecharge.model.request.DealApplyRequestBody;
+import com.mxsella.smartrecharge.model.request.DeviceRechargeRequestBody;
 import com.mxsella.smartrecharge.model.request.SubNameRequestBody;
+import com.mxsella.smartrecharge.model.request.UpdateDeviceBrandRequestBody;
+import com.mxsella.smartrecharge.model.request.UserRechargeRequestBody;
 import com.mxsella.smartrecharge.model.response.ListResponse;
-
-import java.util.List;
 
 import io.reactivex.rxjava3.core.Observable;
 import retrofit2.http.Body;
@@ -117,16 +121,73 @@ public interface ApiService {
      * @return
      */
     @POST("device/device/list/{current}/{size}")
-    Observable<BaseResponse<ListResponse<Device>>> getDeviceList(@Path("current") int current, @Path("size") int size,@Query("productName") String productName);
+    Observable<BaseResponse<ListResponse<Device>>> getDeviceList(@Path("current") int current, @Path("size") int size, @Query("productName") String productName);
 
     /**
      * 更新设备厂商
      *
-     * @param productName
-     * @param deviceId
-     * @param targetUid
+     * @param updateDeviceBrandRequestBody
      * @return
      */
     @POST("device/device/update_brand")
-    Observable<BaseResponse<Brand>> updateBrand(@Query("productName") String productName, @Query("deviceId") String deviceId, @Query("targetUid") String targetUid);
+    Observable<BaseResponse<Brand>> updateBrand(@Body UpdateDeviceBrandRequestBody updateDeviceBrandRequestBody);
+
+    /**
+     * 获取用户产品剩余次数
+     *
+     * @param productName
+     * @return
+     */
+    @GET("device/times/get")
+    Observable<BaseResponse<Integer>> getUserTimes(@Query("productName") String productName);
+
+    /**
+     * 充值用户次数
+     *
+     * @param userRechargeRequestBody
+     * @return
+     */
+    @POST("device/times/recharge/user")
+    Observable<BaseResponse<Integer>> userRecharge(@Body UserRechargeRequestBody userRechargeRequestBody);
+
+    /**
+     * 充值设备次数
+     *
+     * @param deviceRechargeRequestBody
+     * @return
+     */
+    @POST("device/times/recharge/device")
+    Observable<BaseResponse<Integer>> deviceRecharge(@Body DeviceRechargeRequestBody deviceRechargeRequestBody);
+
+    /**
+     * 充值次数申请
+     *
+     * @param applyTimesRequestBody
+     * @return
+     */
+    @POST("device/times/recharge/apply")
+    Observable<BaseResponse<ApplyTimes>> applyTimes(@Body ApplyTimesRequestBody applyTimesRequestBody);
+
+    /**
+     * 处理申请
+     *
+     * @param dealApplyRequestBody
+     * @return
+     */
+    @POST("device/times/recharge/deal_apply")
+    Observable<BaseResponse<ApplyTimes>> dealApply(@Body DealApplyRequestBody dealApplyRequestBody);
+
+    /**
+     * 获取充值次数申请
+     *
+     * @param current
+     * @param size
+     * @param productName
+     * @return
+     */
+    @POST("device/times/recharge/apply_list/{current}/{size}")
+    Observable<BaseResponse<ListResponse<ApplyTimes>>> getApplyList(@Path("current") int current, @Path("size") int size, @Query("productName") String productName);
+
+    @POST("device/times/recharge/sub_apply_list/{current}/{size}")
+    Observable<BaseResponse<ListResponse<ApplyTimes>>> getChildApplyList(@Path("current") int current, @Path("size") int size, @Query("productName") String productName);
 }

@@ -5,7 +5,7 @@
 
         <variable
             name="device"
-            type="com.mxsella.smartrecharge.model.Device" />
+            type="com.mxsella.smartrecharge.model.domain.Device" />
     </data>
 
     <LinearLayout
@@ -39,6 +39,19 @@
                 android:textColor="#767676"
                 android:textSize="14sp" />
 
+            <LinearLayout
+                android:id="@+id/edit"
+                android:layout_width="0dp"
+                android:layout_height="49dp"
+                android:layout_weight="0.5"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/edit_item" />
+            </LinearLayout>
         </LinearLayout>
 
         <View

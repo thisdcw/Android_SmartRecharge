@@ -11,9 +11,9 @@
         tools:layout="@layout/fragment_device" />
     <fragment
         android:id="@+id/history_fragment"
-        android:name="com.mxsella.smartrecharge.ui.fragment.HistoryFragment"
+        android:name="com.mxsella.smartrecharge.ui.fragment.MessageFragment"
         android:label="history_fragment"
-        tools:layout="@layout/fragment_history" />
+        tools:layout="@layout/fragment_message" />
     <fragment
         android:id="@+id/settings_fragment"
         android:name="com.mxsella.smartrecharge.ui.fragment.SettingsFragment"

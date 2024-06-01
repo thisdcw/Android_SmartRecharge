@@ -310,10 +310,10 @@ public class BleService implements ICommunicateService {
                             for (int i = 2; i < bytes.length - 1; i++) {
                                 if (bytes[0] == (byte) Protocol.ADDR_INFO) {
                                     sum = bytes[i] + key + sum;
-                                    bytes[i] += key;
+                                    bytes[i] += (byte) key;
                                 } else if (bytes[0] == (byte) Protocol.ADDR_PAY) {
                                     sum = bytes[i] + key + sum;
-                                    bytes[i] += key;
+                                    bytes[i] += (byte) key;
                                 } else {
                                     sum += bytes[i];
                                 }

@@ -4,9 +4,8 @@ import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.mxsella.smartrecharge.common.Config;
-import com.mxsella.smartrecharge.model.User;
+import com.mxsella.smartrecharge.model.domain.User;
 import com.mxsella.smartrecharge.utils.LogUtil;
-import com.mxsella.smartrecharge.viewmodel.UserViewModel;
 
 import java.io.IOException;
 

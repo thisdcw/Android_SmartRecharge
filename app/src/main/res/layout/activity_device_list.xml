@@ -49,6 +49,15 @@
                     android:textColor="@color/primary"
                     android:textSize="14sp" />
 
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:text="操作"
+                    android:textColor="@color/primary"
+                    android:textSize="14sp" />
+
             </LinearLayout>
 
             <View
@@ -87,7 +96,18 @@
                 android:layout_gravity="right|bottom"
                 android:layout_marginRight="20dp"
                 android:layout_marginBottom="80dp"
-                android:background="@drawable/add_device" />
+                android:background="@drawable/add_device"
+                android:visibility="gone" />
+
+            <com.wang.avi.AVLoadingIndicatorView
+                android:id="@+id/avi"
+                style="@style/AVLoadingIndicatorView"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                app:indicatorColor="@color/primary"
+                app:indicatorName="FadingCircle" />
         </FrameLayout>
 
     </LinearLayout>

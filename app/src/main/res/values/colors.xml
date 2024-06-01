@@ -20,4 +20,5 @@
     <color name="assess_record_radar_2">#96EEE9</color>
     <color name="primary">#31D6D6</color>
     <color name="red">#F44336</color>
+    <color name="default_color">#999999</color>
 </resources>

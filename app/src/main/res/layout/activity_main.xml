@@ -41,8 +41,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:layout_alignParentBottom="true"
-                android:background="@color/primary"
+                android:background="@color/white"
                 app:itemBackground="@android:color/transparent"
+                app:itemIconTint="@color/icon_color_selector"
+                app:itemTextColor="@color/text_color_selector"
                 app:labelVisibilityMode="labeled"
                 app:menu="@menu/navigation_menu" />
         </RelativeLayout>

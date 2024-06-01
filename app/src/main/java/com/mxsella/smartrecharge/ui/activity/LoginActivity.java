@@ -3,9 +3,11 @@ package com.mxsella.smartrecharge.ui.activity;
 import android.view.View;
 
 import com.mxsella.smartrecharge.R;
+import com.mxsella.smartrecharge.common.Config;
 import com.mxsella.smartrecharge.common.base.BaseActivity;
-import com.mxsella.smartrecharge.common.net.NetConstants;
+import com.mxsella.smartrecharge.common.Constants;
 import com.mxsella.smartrecharge.databinding.ActivityLoginBinding;
+import com.mxsella.smartrecharge.model.enums.ResultCode;
 import com.mxsella.smartrecharge.utils.MD5Utils;
 import com.mxsella.smartrecharge.utils.ToastUtils;
 import com.mxsella.smartrecharge.viewmodel.UserViewModel;
@@ -25,17 +27,19 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
     public void initView() {
         userViewModel = new UserViewModel();
 
-        userViewModel.getLoginState().observe(this, isLogin -> {
-            if (isLogin) {
+        userViewModel.getLoginResult().observe(this, result -> {
+            if (result.getResultCode() == ResultCode.SUCCESS) {
+                Config.setLogin(true);
+                Config.saveUser(result.getData());
                 navToWithFinish(MainActivity.class);
             }
         });
 
-        userViewModel.getVerifyState().observe(this, isGet -> {
-            if (isGet) {
-                ToastUtils.showToast("获取验证码成功");
+        userViewModel.getVerifyResult().observe(this, result -> {
+            if (result.getResultCode() == ResultCode.SUCCESS) {
+                ToastUtils.showToast(result.getMessage());
             } else {
-                ToastUtils.showToast("获取验证码失败");
+                ToastUtils.showToast(result.getMessage());
             }
         });
     }
@@ -71,6 +75,6 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
 
     public void getVerifyCode(View view) {
         String phone = binding.edtTelephone.getText().toString().trim();
-        userViewModel.getVerifyCode(phone, NetConstants.TYPE_LOGIN);
+        userViewModel.getVerifyCode(phone, Constants.TYPE_LOGIN);
     }
 }

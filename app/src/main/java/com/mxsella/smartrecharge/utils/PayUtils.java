@@ -1,7 +1,6 @@
 package com.mxsella.smartrecharge.utils;
 
 import com.mxsella.smartrecharge.comm.Protocol;
-import com.mxsella.smartrecharge.comm.ReceivePacket;
 import com.mxsella.smartrecharge.common.Config;
 
 import java.util.Locale;
@@ -56,7 +55,7 @@ public class PayUtils {
 
     /**
      * 加密:
-     * 1. 计算加密前的校验码
+     * 1. 计算校验码
      * 2. 对每个字节进行加密并拼接
      *
      * @param sb

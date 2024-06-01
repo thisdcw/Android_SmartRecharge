@@ -15,7 +15,6 @@ import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,9 +26,7 @@ import com.huawei.hms.ml.scan.HmsScanAnalyzerOptions;
 import com.mxsella.smartrecharge.R;
 import com.mxsella.smartrecharge.common.base.BaseDialog;
 import com.mxsella.smartrecharge.databinding.DialogScanBinding;
-import com.mxsella.smartrecharge.inter.ScanLifeListener;
 import com.mxsella.smartrecharge.utils.ToastUtils;
-import com.mxsella.smartrecharge.view.ClipView;
 
 import java.io.IOException;
 

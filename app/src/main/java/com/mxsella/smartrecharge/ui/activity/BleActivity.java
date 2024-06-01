@@ -1,14 +1,13 @@
 package com.mxsella.smartrecharge.ui.activity;
 
-import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
-import android.view.View;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.clj.fastble.BleManager;
 import com.clj.fastble.callback.BleScanCallback;
 import com.clj.fastble.data.BleDevice;
+import com.mxsella.smartrecharge.MyApplication;
 import com.mxsella.smartrecharge.R;
 import com.mxsella.smartrecharge.comm.BleService;
 import com.mxsella.smartrecharge.comm.IBleConnectStateCallback;
@@ -19,7 +18,6 @@ import com.mxsella.smartrecharge.databinding.ActivityBleBinding;
 import com.mxsella.smartrecharge.entity.BleDeviceInfo;
 import com.mxsella.smartrecharge.ui.adapter.BleAdapter;
 import com.mxsella.smartrecharge.utils.LogUtil;
-import com.mxsella.smartrecharge.utils.PermissionUtil;
 import com.mxsella.smartrecharge.utils.ToastUtils;
 
 import java.util.ArrayList;
@@ -85,7 +83,7 @@ public class BleActivity extends BaseActivity<ActivityBleBinding> {
                 Config.saveBle(item);
                 Config.saveBleName(item.getDeviceName());
                 Config.saveBleAddress(item.getDeviceAddress());
-                isConnected = true;
+                MyApplication.getInstance().setConnected(true);
             }
 
             @Override
@@ -102,7 +100,7 @@ public class BleActivity extends BaseActivity<ActivityBleBinding> {
                 bleAdapter.set(position, item);
                 bleAdapter.notifyDataSetChanged();
                 Config.saveBle(null);
-                isConnected = false;
+                MyApplication.getInstance().setConnected(false);
             }
         });
     }

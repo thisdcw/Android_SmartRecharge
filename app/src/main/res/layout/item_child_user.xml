@@ -6,7 +6,7 @@
 
         <variable
             name="user"
-            type="com.mxsella.smartrecharge.model.User" />
+            type="com.mxsella.smartrecharge.model.domain.User" />
     </data>
 
     <LinearLayout
@@ -47,7 +47,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:gravity="center"
-                    android:text="@{user.telephone}" />
+                    android:text="@{user.uid}" />
             </LinearLayout>
 
         </LinearLayout>

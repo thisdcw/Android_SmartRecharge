@@ -83,4 +83,9 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 
+    //tab
+    implementation 'io.github.h07000223:flycoTabLayout:3.0.0'
+
+    //loading
+    implementation 'com.wang.avi:library:2.1.3'
 }

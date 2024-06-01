@@ -7,16 +7,23 @@ import android.content.Context;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.mxsella.smartrecharge.R;
+import com.mxsella.smartrecharge.common.Constants;
 import com.mxsella.smartrecharge.common.base.BaseActivity;
 import com.mxsella.smartrecharge.databinding.ActivityInviteCodeListBinding;
+import com.mxsella.smartrecharge.inter.DialogClickListener;
+import com.mxsella.smartrecharge.model.domain.InviteRecord;
+import com.mxsella.smartrecharge.model.domain.User;
+import com.mxsella.smartrecharge.model.enums.ResultCode;
+import com.mxsella.smartrecharge.model.enums.UserEnum;
 import com.mxsella.smartrecharge.ui.adapter.InviteRecodeAdapter;
-import com.mxsella.smartrecharge.utils.LogUtil;
 import com.mxsella.smartrecharge.utils.ToastUtils;
-import com.mxsella.smartrecharge.view.dialog.InviteCodeDialog;
+import com.mxsella.smartrecharge.view.dialog.InputDialog;
 import com.mxsella.smartrecharge.viewmodel.UserViewModel;
 import com.scwang.smart.refresh.footer.ClassicsFooter;
 import com.scwang.smart.refresh.header.ClassicsHeader;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
+
+import java.util.List;
 
 public class InviteCodeListActivity extends BaseActivity<ActivityInviteCodeListBinding> {
 
@@ -31,7 +38,7 @@ public class InviteCodeListActivity extends BaseActivity<ActivityInviteCodeListB
     private static final int FRESH_DELAY = 2000;
     private final int LOAD_DELAY = 2000;
 
-    private InviteCodeDialog codeDialog;
+    private InputDialog codeDialog;
 
     @Override
     public void initView() {
@@ -53,20 +60,26 @@ public class InviteCodeListActivity extends BaseActivity<ActivityInviteCodeListB
         binding.rv.setLayoutManager(new LinearLayoutManager(mContext));
         binding.rv.setAdapter(adapter);
 
-        userViewModel.getInviteRecordListResponse().observe(this, response -> {
-            LogUtil.d("我的邀请码 -> " + response.getRecords());
-            adapter.submitList(response.getRecords());
+        userViewModel.getInviteCodeList().observe(this, response -> {
+            if (response.getResultCode() == ResultCode.SUCCESS) {
+                ToastUtils.showToast(response.getMessage());
+                List<InviteRecord> records = response.getData().getRecords();
+                if (!records.isEmpty()) {
+                    adapter.submitList(records);
+                }
+            }
+
         });
         userViewModel.getInviteCodeList(cur, size);
 
         binding.navBar.getRightImageView().setOnClickListener(v -> showAddInviteCodeDialog());
 
-        userViewModel.getCreateCodeState().observe(this, isCreate -> {
-            if (isCreate) {
-                ToastUtils.showToast("邀请码创建成功");
+        userViewModel.getCreateCodeResult().observe(this, result -> {
+            if (result.getResultCode() == ResultCode.SUCCESS) {
+                ToastUtils.showToast(result.getMessage());
                 userViewModel.getInviteCodeList(cur, size);
             } else {
-                ToastUtils.showToast("邀请码创建失败");
+                ToastUtils.showToast(result.getMessage());
             }
         });
 
@@ -78,14 +91,27 @@ public class InviteCodeListActivity extends BaseActivity<ActivityInviteCodeListB
 
             ToastUtils.showToast("已复制邀请码到剪切板");
         });
+        userViewModel.getLoadingSate().observe(this,loading->{
+            if (loading){
+                binding.avi.show();
+            }else {
+                binding.avi.hide();
+            }
+        });
     }
 
     private void showAddInviteCodeDialog() {
-        codeDialog = new InviteCodeDialog();
-        codeDialog.setDialogListener(new InviteCodeDialog.DialogListener() {
+        User user = userViewModel.getCurrentUser();
+        UserEnum userEnum = Constants.roleMap.get(user.getRole());
+        if (userEnum == null) {
+            ToastUtils.showToast("出错啦!");
+            return;
+        }
+        codeDialog = new InputDialog("确认生成邀请码吗?", "注意!邀请码的有效期只有一天!", getString(R.string.device_invite_name_hint, userEnum.getChildRole()));
+        codeDialog.setDialogListener(new DialogClickListener() {
             @Override
-            public void onConfirmClick() {
-                String subName = codeDialog.getSubName();
+            public void onConfirm() {
+                String subName = codeDialog.getInput();
                 if (subName == null || subName.trim().isEmpty()) {
                     ToastUtils.showToast("品牌商名称有误");
                     codeDialog.dismiss();
@@ -95,7 +121,8 @@ public class InviteCodeListActivity extends BaseActivity<ActivityInviteCodeListB
             }
 
             @Override
-            public void onCancelClick() {
+            public void onCancel() {
+
             }
         });
         codeDialog.show(getSupportFragmentManager(), "invite_dialog");

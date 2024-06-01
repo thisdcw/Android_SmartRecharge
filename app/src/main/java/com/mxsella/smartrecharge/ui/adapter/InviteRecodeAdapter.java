@@ -2,7 +2,6 @@ package com.mxsella.smartrecharge.ui.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -11,7 +10,7 @@ import androidx.annotation.Nullable;
 import com.chad.library.adapter4.BaseQuickAdapter;
 import com.chad.library.adapter4.viewholder.DataBindingHolder;
 import com.mxsella.smartrecharge.databinding.ItemInviteRecordBinding;
-import com.mxsella.smartrecharge.model.InviteRecord;
+import com.mxsella.smartrecharge.model.domain.InviteRecord;
 
 public class InviteRecodeAdapter extends BaseQuickAdapter<InviteRecord, DataBindingHolder<ItemInviteRecordBinding>> {
 

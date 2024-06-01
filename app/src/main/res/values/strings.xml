@@ -27,4 +27,16 @@
     <string name="to_register">还没有账号,去注册?</string>
     <string name="to_login">已有账号,去登录?</string>
     <string name="login_privacy">点击注册即代表您已经同意《隐私政策》</string>
+    <string name="device_info">设备信息</string>
+    <string name="seconds">%s s</string>
+    <string name="device_info_device_id">设备id:%s</string>
+    <string name="device_info_product_id">产品id:%s</string>
+    <string name="device_info_brand">品牌商:%s</string>
+    <string name="device_info_agent">代理商:%s</string>
+    <string name="device_info_store">店铺:%s</string>
+    <string name="device_invite_name_hint">请输入%s名称</string>
+    <string name="device_update_product_name">所属产品:%s</string>
+    <string name="device_update_product_role">%s id</string>
+    <string name="device_update_product_role_hint">请输入%s id</string>
+    <string name="device_user_recharge_user">当前用户:%s</string>
 </resources>

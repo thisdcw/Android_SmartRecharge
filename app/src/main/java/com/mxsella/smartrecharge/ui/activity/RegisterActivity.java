@@ -4,8 +4,9 @@ import android.view.View;
 
 import com.mxsella.smartrecharge.R;
 import com.mxsella.smartrecharge.common.base.BaseActivity;
-import com.mxsella.smartrecharge.common.net.NetConstants;
+import com.mxsella.smartrecharge.common.Constants;
 import com.mxsella.smartrecharge.databinding.ActivityRegisterBinding;
+import com.mxsella.smartrecharge.model.enums.ResultCode;
 import com.mxsella.smartrecharge.utils.ToastUtils;
 import com.mxsella.smartrecharge.viewmodel.UserViewModel;
 
@@ -22,20 +23,19 @@ public class RegisterActivity extends BaseActivity<ActivityRegisterBinding> {
     public void initView() {
         userViewModel = new UserViewModel();
 
-        userViewModel.getVerifyState().observe(this, isGet -> {
-            if (isGet) {
-                ToastUtils.showToast("获取验证码成功");
+        userViewModel.getVerifyResult().observe(this, result -> {
+            if (result.getResultCode() == ResultCode.SUCCESS) {
+                ToastUtils.showToast(result.getMessage());
             } else {
-                ToastUtils.showToast("获取验证码失败");
+                ToastUtils.showToast(result.getMessage());
             }
         });
 
-        userViewModel.getRegisterState().observe(this, isRegister -> {
-            if (isRegister) {
-                ToastUtils.showToast("注册成功");
-                navToWithFinish(LoginActivity.class);
+        userViewModel.getRegisterResult().observe(this, result -> {
+            if (result.getResultCode() == ResultCode.SUCCESS) {
+                ToastUtils.showToast(result.getMessage());
             } else {
-                ToastUtils.showToast("注册失败");
+                ToastUtils.showToast(result.getMessage());
             }
         });
     }
@@ -53,6 +53,6 @@ public class RegisterActivity extends BaseActivity<ActivityRegisterBinding> {
 
     public void getVerifyCode(View view) {
         String phone = binding.edtTelephone.getText().toString().trim();
-        userViewModel.getVerifyCode(phone, NetConstants.TYPE_REGISTER);
+        userViewModel.getVerifyCode(phone, Constants.TYPE_REGISTER);
     }
 }

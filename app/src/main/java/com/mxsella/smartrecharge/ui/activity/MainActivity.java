@@ -2,24 +2,14 @@ package com.mxsella.smartrecharge.ui.activity;
 
 import android.view.View;
 
-import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
-import com.hjq.permissions.OnPermissionCallback;
-import com.hjq.permissions.Permission;
-import com.hjq.permissions.XXPermissions;
 import com.mxsella.smartrecharge.R;
-import com.mxsella.smartrecharge.comm.BleService;
-import com.mxsella.smartrecharge.comm.IBleConnectStateCallback;
 import com.mxsella.smartrecharge.common.Config;
 import com.mxsella.smartrecharge.common.base.BaseActivity;
 import com.mxsella.smartrecharge.databinding.ActivityMainBinding;
 import com.mxsella.smartrecharge.utils.PermissionUtil;
-import com.mxsella.smartrecharge.utils.ToastUtils;
-import com.mxsella.smartrecharge.viewmodel.UserViewModel;
-
-import java.util.List;
 
 public class MainActivity extends BaseActivity<ActivityMainBinding> {
 
@@ -54,7 +44,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     }
 
     public void logout(View view) {
-        Config.saveUser(null);
+        Config.setLogin(false);
         navToFinishAll(WelcomeActivity.class);
     }
 

@@ -10,7 +10,7 @@ import androidx.annotation.Nullable;
 import com.chad.library.adapter4.BaseQuickAdapter;
 import com.chad.library.adapter4.viewholder.DataBindingHolder;
 import com.mxsella.smartrecharge.databinding.ItemChildUserBinding;
-import com.mxsella.smartrecharge.model.User;
+import com.mxsella.smartrecharge.model.domain.User;
 
 public class ChildUserAdapter extends BaseQuickAdapter<User, DataBindingHolder<ItemChildUserBinding>> {
 
@@ -32,7 +32,7 @@ public class ChildUserAdapter extends BaseQuickAdapter<User, DataBindingHolder<I
         binding.setUser(user);
         binding.phone.setOnLongClickListener(v -> {
             if (user != null) {
-                clickClip.toClipBoard(user.getTelephone());
+                clickClip.toClipBoard(user.getUid());
             }
             return true;
         });
