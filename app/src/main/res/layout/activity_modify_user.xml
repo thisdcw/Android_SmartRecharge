@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <com.mxsella.smartrecharge.view.widget.CustomerNavBar
+            android:id="@+id/nav_bar"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            app:navTitle="用户信息修改"
+            app:navTitleColor="@color/black"
+            app:showBack="true" />
+
+        <FrameLayout
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="36dp">
+
+            <com.mxsella.smartrecharge.view.CustomerImageView
+                android:id="@+id/avatar"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@mipmap/ic_default_avatar"
+                app:shapeAppearanceOverlay="@style/circleImageStyle" />
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="bottom|end"
+                android:src="@mipmap/photo" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="姓名" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/bkg_modify_input"
+                android:paddingHorizontal="13dp"
+                android:paddingVertical="10dp">
+
+                <EditText
+                    android:id="@+id/username"
+                    android:layout_width="240dp"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:hint="请输入用户名"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/sure"
+            android:layout_width="335dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="88dp"
+            android:clickable="true"
+            android:onClick="sure"
+            android:background="@drawable/primary_btn"
+            android:gravity="center"
+            android:focusable="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="确定"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    </LinearLayout>
+</layout>

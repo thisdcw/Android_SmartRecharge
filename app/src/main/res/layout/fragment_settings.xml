@@ -75,7 +75,30 @@
                     android:layout_marginTop="10dp"
                     android:gravity="center_horizontal"
                     android:orientation="vertical">
+                    <LinearLayout
+                        android:id="@+id/llt_pwd"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center_vertical"
+                        android:paddingHorizontal="20dp">
 
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="修改密码"
+                            android:textColor="@color/settings_item_title"
+                            android:textSize="15sp" />
+
+                        <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_marginStart="10dp"
+                            android:src="@mipmap/edit_product" />
+
+                    </LinearLayout>
                     <LinearLayout
                         android:id="@+id/llt_my_product"
                         android:layout_width="match_parent"
@@ -168,7 +191,30 @@
                             android:src="@mipmap/vector" />
 
                     </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/llt_recharge_code"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center_vertical"
+                        android:paddingHorizontal="20dp">
 
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="我的充值码"
+                            android:textColor="@color/settings_item_title"
+                            android:textSize="15sp" />
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_marginStart="10dp"
+                            android:src="@mipmap/vector" />
+
+                    </LinearLayout>
                     <LinearLayout
                         android:id="@+id/llt_children_user"
                         android:layout_width="match_parent"

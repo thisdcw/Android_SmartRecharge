@@ -2,6 +2,7 @@ package com.mxsella.smartrecharge.common.net.service;
 
 import com.mxsella.smartrecharge.model.domain.RechargeCode;
 import com.mxsella.smartrecharge.model.domain.UserHistory;
+import com.mxsella.smartrecharge.model.request.ModifySubRequestBody;
 import com.mxsella.smartrecharge.model.request.ModifyUserRequestBody;
 import com.mxsella.smartrecharge.model.request.UseRechargeCodeRequest;
 import com.mxsella.smartrecharge.model.response.BaseResponse;
@@ -118,7 +119,7 @@ public interface ApiService {
      * @return
      */
     @POST("user/password/verify_change")
-    Observable<BaseResponse<ListResponse<String>>> changePasswordWithCode(@Query("telephone") String telephone, @Query("verifyCode") String verify, @Query("password") String password);
+    Observable<BaseResponse<String>> changePasswordWithCode(@Query("telephone") String telephone, @Query("verifyCode") String verify, @Query("password") String password);
 
 
     /**
@@ -129,7 +130,7 @@ public interface ApiService {
      * @return
      */
     @POST("user/password/change")
-    Observable<BaseResponse<ListResponse<String>>> changePassword(@Query("oldPassword") String oldPassword, @Query("newPassword") String newPassword);
+    Observable<BaseResponse<String>> changePassword(@Query("oldPassword") String oldPassword, @Query("newPassword") String newPassword);
 
     /**
      * 修改用户信息
@@ -138,17 +139,21 @@ public interface ApiService {
      * @return
      */
     @POST("user/user_info/change")
-    Observable<BaseResponse<User>> changeUser(@Body ModifyUserRequestBody userRequestBody);
+    Observable<BaseResponse<User>> changeUserinfo(@Body ModifyUserRequestBody userRequestBody);
 
 
     /**
      * 修改下级信息
      *
-     * @param userRequestBody
+     * @param subRequestBody
      * @return
      */
     @POST("user/user_info/sub_name/change")
-    Observable<BaseResponse<User>> changeSub(@Body ModifyUserRequestBody userRequestBody);
+    Observable<BaseResponse<User>> changeSub(@Body ModifySubRequestBody subRequestBody);
+
+
+    @GET("user/user_info/get")
+    Observable<BaseResponse<User>> getUserInfo();
     //================================================================================================================================
 
 
@@ -161,9 +166,9 @@ public interface ApiService {
      * @return
      */
     @POST("device/times/history/list/{current}/{size}")
-    Observable<ListResponse<UserHistory>> getHistoryList(@Path("current") int current,
-                                                         @Path("size") int size,
-                                                         @Query("productName") String productName);
+    Observable<BaseResponse<ListResponse<UserHistory>>> getUserTimesHistoryList(@Path("current") int current,
+                                                                                @Path("size") int size,
+                                                                                @Query("productName") String productName);
 
 
     /**
@@ -175,9 +180,9 @@ public interface ApiService {
      * @return
      */
     @POST("device/times/recharge_code/list/{current}/{size}")
-    Observable<ListResponse<RechargeCode>> getRechargeCodeList(@Path("current") int current,
-                                                               @Path("size") int size,
-                                                               @Query("productName") String productName);
+    Observable<BaseResponse<ListResponse<RechargeCode>>> getRechargeCodeList(@Path("current") int current,
+                                                                             @Path("size") int size,
+                                                                             @Query("productName") String productName);
 
 
     /**
@@ -186,6 +191,7 @@ public interface ApiService {
      * @param useRechargeCodeRequest
      * @return
      */
+    @POST("device/times/recharge_code/use")
     Observable<BaseResponse<String>> useRechargeCode(@Body UseRechargeCodeRequest useRechargeCodeRequest);
 
     /**

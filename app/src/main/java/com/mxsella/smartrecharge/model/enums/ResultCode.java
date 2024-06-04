@@ -4,6 +4,7 @@ public enum ResultCode {
 
     SUCCESS(200, "success", ""),
     FAILED(300, "failed", ""),
+    INVALID(401, "invalid token", ""),
     ERROR(500, "error", "");
 
     private final int code;

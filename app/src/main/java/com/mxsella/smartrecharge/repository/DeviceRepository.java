@@ -1,6 +1,9 @@
 package com.mxsella.smartrecharge.repository;
 
 import com.mxsella.smartrecharge.common.net.ApiResponseHandler;
+import com.mxsella.smartrecharge.model.domain.RechargeCode;
+import com.mxsella.smartrecharge.model.domain.UserHistory;
+import com.mxsella.smartrecharge.model.request.UseRechargeCodeRequest;
 import com.mxsella.smartrecharge.model.response.BaseResponse;
 import com.mxsella.smartrecharge.common.net.HandlerLoading;
 import com.mxsella.smartrecharge.model.domain.ApplyTimes;
@@ -13,10 +16,26 @@ import com.mxsella.smartrecharge.model.request.UpdateDeviceBrandRequestBody;
 import com.mxsella.smartrecharge.model.request.UserRechargeRequestBody;
 import com.mxsella.smartrecharge.model.response.ListResponse;
 
+import retrofit2.http.Body;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
+
 public class DeviceRepository extends NetworkRepository {
 
     public DeviceRepository(HandlerLoading handlerLoading) {
         super(handlerLoading);
+    }
+
+    public void useRechargeCode(UseRechargeCodeRequest useRechargeCodeRequest, ApiResponseHandler<BaseResponse<String>> handler) {
+        subscribeWithHandler(apiService.useRechargeCode(useRechargeCodeRequest), handler);
+    }
+
+    public void getRechargeCodeList(int current, int size, String productName, ApiResponseHandler<BaseResponse<ListResponse<RechargeCode>>> handler) {
+        subscribeWithHandler(apiService.getRechargeCodeList(current, size, productName), handler);
+    }
+
+    public void getUserTimesHistoryList(int current, int size, String productName, ApiResponseHandler<BaseResponse<ListResponse<UserHistory>>> handler) {
+        subscribeWithHandler(apiService.getUserTimesHistoryList(current, size, productName), handler);
     }
 
     public void getChildApplyList(int cur, int size, String productName, ApiResponseHandler<BaseResponse<ListResponse<ApplyTimes>>> handler) {

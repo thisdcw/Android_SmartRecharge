@@ -8,6 +8,7 @@ import com.mxsella.smartrecharge.model.enums.ResultCode;
 import com.mxsella.smartrecharge.model.response.BaseResponse;
 import com.mxsella.smartrecharge.model.response.handler.NetWorkResult;
 import com.mxsella.smartrecharge.model.response.handler.ResultUtil;
+import com.mxsella.smartrecharge.ui.activity.LoginActivity;
 
 public class BaseViewModel extends ViewModel {
 

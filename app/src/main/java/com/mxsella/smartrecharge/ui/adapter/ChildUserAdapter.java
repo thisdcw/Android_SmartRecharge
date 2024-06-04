@@ -18,6 +18,20 @@ public class ChildUserAdapter extends BaseQuickAdapter<User, DataBindingHolder<I
 
     private ClickClip clickClip;
 
+    private OnClickListener onClickListener;
+
+    public interface OnClickListener {
+        void onClick(User user);
+    }
+
+    public OnClickListener getOnClickListener() {
+        return onClickListener;
+    }
+
+    public void setOnClickListener(OnClickListener onClickListener) {
+        this.onClickListener = onClickListener;
+    }
+
     public void setClickClip(ClickClip clickClip) {
         this.clickClip = clickClip;
     }
@@ -30,11 +44,16 @@ public class ChildUserAdapter extends BaseQuickAdapter<User, DataBindingHolder<I
     protected void onBindViewHolder(@NonNull DataBindingHolder<ItemChildUserBinding> itemInviteRecordBindingDataBindingHolder, int i, @Nullable User user) {
         binding = itemInviteRecordBindingDataBindingHolder.getBinding();
         binding.setUser(user);
-        binding.phone.setOnLongClickListener(v -> {
+        binding.id.setOnLongClickListener(v -> {
             if (user != null) {
                 clickClip.toClipBoard(user.getUid());
             }
             return true;
+        });
+        binding.subName.setOnClickListener(v -> {
+            if (getOnClickListener() != null) {
+                onClickListener.onClick(user);
+            }
         });
         binding.executePendingBindings();
     }

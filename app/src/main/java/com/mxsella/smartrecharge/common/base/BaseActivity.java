@@ -73,4 +73,8 @@ public abstract class BaseActivity<DB extends ViewDataBinding> extends AppCompat
     public void navToWithParam(Class<? extends Activity> cls, Bundle bundle) {
         ActivityStackManager.getInstance().startActivity(this, cls, bundle);
     }
+
+    public void finish(Activity activity) {
+        ActivityStackManager.getInstance().finishCurrentActivity(activity);
+    }
 }

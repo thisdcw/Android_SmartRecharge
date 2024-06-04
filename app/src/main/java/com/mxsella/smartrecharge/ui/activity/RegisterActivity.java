@@ -1,11 +1,13 @@
 package com.mxsella.smartrecharge.ui.activity;
 
+import android.os.CountDownTimer;
 import android.view.View;
 
 import com.mxsella.smartrecharge.R;
 import com.mxsella.smartrecharge.common.base.BaseActivity;
 import com.mxsella.smartrecharge.common.Constants;
 import com.mxsella.smartrecharge.databinding.ActivityRegisterBinding;
+import com.mxsella.smartrecharge.model.enums.CodeType;
 import com.mxsella.smartrecharge.model.enums.ResultCode;
 import com.mxsella.smartrecharge.utils.ToastUtils;
 import com.mxsella.smartrecharge.viewmodel.UserViewModel;
@@ -13,6 +15,7 @@ import com.mxsella.smartrecharge.viewmodel.UserViewModel;
 public class RegisterActivity extends BaseActivity<ActivityRegisterBinding> {
 
     private UserViewModel userViewModel;
+    private CountDownTimer countDownTimer;
 
     @Override
     public int layoutId() {
@@ -25,6 +28,7 @@ public class RegisterActivity extends BaseActivity<ActivityRegisterBinding> {
 
         userViewModel.getVerifyResult().observe(this, result -> {
             if (result.getResultCode() == ResultCode.SUCCESS) {
+                countDown();
                 ToastUtils.showToast(result.getMessage());
             } else {
                 ToastUtils.showToast(result.getMessage());
@@ -33,11 +37,32 @@ public class RegisterActivity extends BaseActivity<ActivityRegisterBinding> {
 
         userViewModel.getRegisterResult().observe(this, result -> {
             if (result.getResultCode() == ResultCode.SUCCESS) {
+                if (countDownTimer != null) {
+                    countDownTimer.cancel();
+                }
                 ToastUtils.showToast(result.getMessage());
+                navToWithFinish(LoginActivity.class);
             } else {
                 ToastUtils.showToast(result.getMessage());
             }
         });
+    }
+
+    private void countDown() {
+        countDownTimer = new CountDownTimer(60 * 1000L, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                int time = (int) millisUntilFinished / 1000;
+                binding.tvGetVerifyCode.setText(String.valueOf(time));
+
+            }
+
+            @Override
+            public void onFinish() {
+                binding.tvGetVerifyCode.setText("再次获取");
+            }
+        };
+        countDownTimer.start();
     }
 
     public void toLogin(View view) {
@@ -53,6 +78,14 @@ public class RegisterActivity extends BaseActivity<ActivityRegisterBinding> {
 
     public void getVerifyCode(View view) {
         String phone = binding.edtTelephone.getText().toString().trim();
-        userViewModel.getVerifyCode(phone, Constants.TYPE_REGISTER);
+        userViewModel.getVerifyCode(phone, CodeType.REGISTER.getType());
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+        }
     }
 }

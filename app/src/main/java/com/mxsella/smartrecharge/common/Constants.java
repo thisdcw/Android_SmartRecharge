@@ -8,10 +8,6 @@ import java.util.HashMap;
 public class Constants {
     public static final String BLE_CONNECT = "com.mxsella.smartrecharge.BLE_CONNECT";
     public static final String BLE_DISCONNECT = "com.mxsella.smartrecharge.BLE_DISCONNECT";
-
-    public static final String TYPE_REGISTER = "0";
-    public static final String TYPE_LOGIN = "1";
-    public static final String TYPE_LOGOUT = "2";
     public static final String ROLE_ADMIN = "admin";//管理员
     public static final String ROLE_BRAND = "brand";//品牌商
     public static final String ROLE_AGENT = "agent";//代理商

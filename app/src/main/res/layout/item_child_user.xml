@@ -12,7 +12,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="44dp"
-        android:orientation="vertical">
+        android:clickable="true"
+        android:orientation="vertical"
+        android:focusable="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -37,8 +39,9 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/id"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="@{user.userName}"
@@ -46,12 +49,12 @@
                     android:textColor="@color/settings_code_list_item_text"/>
 
                 <TextView
-                    android:id="@+id/phone"
+                    android:id="@+id/subName"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="@{user.uid}"
+                    android:text="@{user.subName}"
                     android:textSize="14sp"
                     android:textColor="@color/settings_code_list_item_text"/>
             </LinearLayout>

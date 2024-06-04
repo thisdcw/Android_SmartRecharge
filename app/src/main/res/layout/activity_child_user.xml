@@ -63,7 +63,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="ID"
+                        android:text="商户名"
                         android:textColor="@color/settings_code_list_item_head"
                         android:textSize="14sp" />
                 </LinearLayout>

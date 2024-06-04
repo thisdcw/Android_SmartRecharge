@@ -2,6 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
+
         <variable
             name="userVM"
             type="com.mxsella.smartrecharge.viewmodel.UserViewModel" />
@@ -45,9 +46,9 @@
                 android:layout_marginStart="14dp"
                 android:background="@null"
                 android:hint="@string/login_enter_telephone"
-                android:text="18296630779"
                 android:inputType="number"
                 android:maxLength="11"
+                android:text="18296630779"
                 android:textColor="@color/black"
                 android:textColorHint="#ABABAB"
                 android:textSize="14sp" />
@@ -84,12 +85,12 @@
 
             <TextView
                 android:id="@+id/tv_get_verify_code"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="80dp"
+                android:layout_height="30dp"
                 android:layout_gravity="center_vertical|end"
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/bkg_login_verify"
-                android:padding="5dp"
+                android:gravity="center"
                 android:onClick="getVerifyCode"
                 android:text="@string/login_send_verify"
                 android:textColor="@color/black"
@@ -120,8 +121,8 @@
                 android:background="@null"
                 android:hint="@string/login_enter_invite_code"
                 android:inputType="text"
-                android:text="Go0PAOsS"
                 android:maxLength="12"
+                android:text="Go0PAOsS"
                 android:textColor="@color/black"
                 android:textColorHint="#ABABAB"
                 android:textSize="14sp" />
@@ -139,8 +140,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:text="@string/to_login"
                 android:onClick="toLogin"
+                android:text="@string/to_login"
                 android:textColor="@color/white"
                 android:textSize="12sp" />
 
@@ -163,9 +164,9 @@
             android:layout_height="50dp"
             android:layout_marginTop="56dp"
             android:background="@drawable/login_btn"
+            android:onClick="doRegister"
             android:text="@string/register"
             android:textAllCaps="false"
-            android:onClick="doRegister"
             android:textColor="@color/white"
             android:textSize="18sp" />
 
