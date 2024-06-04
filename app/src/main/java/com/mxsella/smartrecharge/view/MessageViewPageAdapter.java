@@ -1,6 +1,9 @@
 package com.mxsella.smartrecharge.view;
 
+import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -9,28 +12,37 @@ import java.util.List;
 
 public class MessageViewPageAdapter extends FragmentPagerAdapter {
 
-    private List<Fragment> fragmentList;
-    private String[] titles;
+    String[] titleArr;
+    List<Fragment> mFragmentList;
 
-    public MessageViewPageAdapter(@NonNull FragmentManager fm, List<Fragment> fragments, String[] titles) {
-        super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        this.fragmentList = fragments;
-        this.titles = titles;
+    public MessageViewPageAdapter(FragmentManager fm, List<Fragment> list, String[] titleArr) {
+        super(fm);
+        mFragmentList = list;
+        this.titleArr = titleArr;
     }
+
+
 
     @NonNull
     @Override
-    public Fragment getItem(int position) {
-        return fragmentList.get(position);
+    public Fragment getItem(int i) {
+        return mFragmentList.get(i);
     }
 
     @Override
     public int getCount() {
-        return fragmentList.size();
+        return mFragmentList != null ? mFragmentList.size() : 0;
+    }
+
+    @Nullable
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return titleArr[position];
     }
 
     @Override
-    public CharSequence getPageTitle(int position) {
-        return titles[position];
+    public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
+        // 不要调用 super 方法，以防止销毁页面
+//        super.destroyItem(container, position, object);
     }
 }

@@ -9,7 +9,6 @@ import com.mxsella.smartrecharge.common.base.BaseFragment;
 import com.mxsella.smartrecharge.databinding.FragmentMessageBinding;
 import com.mxsella.smartrecharge.inter.DialogClickListener;
 import com.mxsella.smartrecharge.model.enums.ResultCode;
-import com.mxsella.smartrecharge.utils.SortUtil;
 import com.mxsella.smartrecharge.utils.ToastUtils;
 import com.mxsella.smartrecharge.view.MessageViewPageAdapter;
 import com.mxsella.smartrecharge.view.dialog.InputDialog;
@@ -21,10 +20,7 @@ public class MessageFragment extends BaseFragment<FragmentMessageBinding> {
 
     private final String[] titles = {"我的", "消息"};
 
-    private final ArrayList<Fragment> fragments = new ArrayList<Fragment>() {{
-        add(new RechargeApplyFragment());
-        add(new DealApplyFragment());
-    }};
+    private final ArrayList<Fragment> fragments = new ArrayList<>();
     private InputDialog applyAddDialog;
 
     private final DeviceViewModel deviceViewModel = new DeviceViewModel();
@@ -37,39 +33,23 @@ public class MessageFragment extends BaseFragment<FragmentMessageBinding> {
     @Override
     public void initEventAndData() {
         MessageViewPageAdapter adapter = new MessageViewPageAdapter(getChildFragmentManager(), fragments, titles);
-        binding.vp.setAdapter(adapter);
-        binding.vp.setOffscreenPageLimit(fragments.size());
+        fragments.add(new RechargeApplyFragment());
+        fragments.add(new DealApplyFragment());
 
-        binding.segmentTabLayout.setTabData(titles);
-        binding.segmentTabLayout.setOnTabSelectListener(new OnTabSelectListener() {
+        binding.vp.setAdapter(adapter);
+        binding.st.setViewPager(binding.vp, titles);
+
+        binding.st.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelect(int position) {
-                binding.vp.setCurrentItem(position);
+
             }
 
             @Override
             public void onTabReselect(int position) {
-                // Handle tab reselection if needed
+
             }
         });
-
-        binding.vp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                binding.segmentTabLayout.setCurrentTab(position);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-            }
-        });
-
-        // 默认显示第一个Fragment
-        binding.vp.setCurrentItem(0);
 
         binding.addApply.setOnClickListener(v -> {
             showAddApplyDialog();

@@ -23,7 +23,7 @@ public class ProductEntryActivity extends BaseActivity<ActivityProductEntryBindi
 
     @Override
     public void initView() {
-
+        binding.res.setText(getString(R.string.product_id, "test"));
     }
 
     private void startScan() {

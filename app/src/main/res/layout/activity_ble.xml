@@ -10,34 +10,65 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context=".ui.activity.BleActivity">
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <com.mxsella.smartrecharge.view.widget.CustomerNavBar
+            android:id="@+id/nav_bar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="48dp"
+            app:navRightText="扫描"
+            app:navRightTextColor="@color/primary"
+            app:navTitle="蓝牙"
+            app:navTitleColor="@color/black"
+            app:showBack="true" />
 
-            <Button
-                android:id="@+id/back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="返回" />
-
-            <Button
-                android:id="@+id/scan"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="扫描" />
-        </LinearLayout>
-
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rcv_ble"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginHorizontal="18dp"
-            android:layout_marginVertical="12dp"
-            android:background="@color/white" />
+            android:layout_marginVertical="20dp">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcv_ble"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:background="@color/white" />
+
+            <com.wang.avi.AVLoadingIndicatorView
+                android:id="@+id/avi"
+                style="@style/AVLoadingIndicatorView"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                app:indicatorColor="@color/primary"
+                app:indicatorName="FadingCircle" />
+
+            <LinearLayout
+                android:id="@+id/empty"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:src="@mipmap/no_data" />
+
+                <TextView
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="抱歉~暂无设备"
+                    android:textColor="#9FA5C0"
+                    android:textSize="20sp" />
+            </LinearLayout>
+        </FrameLayout>
+
     </LinearLayout>
 </layout>

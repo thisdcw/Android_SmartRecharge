@@ -100,6 +100,8 @@ public class DeviceListActivity extends BaseActivity<ActivityDeviceListBinding> 
                 if (!records.isEmpty()) {
                     SortUtil.sortByTimeDescending(records);
                     adapter.submitList(records);
+                }else {
+                    binding.empty.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -160,12 +162,26 @@ public class DeviceListActivity extends BaseActivity<ActivityDeviceListBinding> 
                 ToastUtils.showToast(result.getMessage());
             }
         });
-        deviceViewModel.getLoadingSate().observe(this,loading->{
-            if (loading){
+        deviceViewModel.getLoadingSate().observe(this, loading -> {
+            if (loading) {
                 binding.avi.show();
-            }else {
+            } else {
                 binding.avi.hide();
             }
+        });
+        binding.navBar.getRightImageView().setOnClickListener(v -> {
+            binding.search.setVisibility(View.VISIBLE);
+            binding.navBar.getRightImageView().setVisibility(View.GONE);
+            binding.navBar.getRightTextView().setVisibility(View.VISIBLE);
+            binding.navBar.getRightTextView().setText("取消");
+        });
+        binding.navBar.getRightTextView().setOnClickListener(v -> {
+            binding.search.setVisibility(View.GONE);
+            binding.navBar.getRightImageView().setVisibility(View.VISIBLE);
+            binding.navBar.getRightTextView().setVisibility(View.GONE);
+        });
+        binding.sure.setOnClickListener(v -> {
+            ToastUtils.showToast("此功能暂未开发");
         });
     }
 

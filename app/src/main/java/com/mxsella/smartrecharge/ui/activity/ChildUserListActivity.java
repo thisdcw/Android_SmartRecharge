@@ -3,6 +3,7 @@ package com.mxsella.smartrecharge.ui.activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.view.View;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -18,8 +19,10 @@ import com.mxsella.smartrecharge.model.enums.ResultCode;
 import com.mxsella.smartrecharge.model.enums.UserEnum;
 import com.mxsella.smartrecharge.model.response.ListResponse;
 import com.mxsella.smartrecharge.ui.adapter.ChildUserAdapter;
+import com.mxsella.smartrecharge.utils.LogUtil;
 import com.mxsella.smartrecharge.utils.ToastUtils;
 import com.mxsella.smartrecharge.view.dialog.InputDialog;
+import com.mxsella.smartrecharge.view.dialog.LoadingDialog;
 import com.mxsella.smartrecharge.viewmodel.DeviceViewModel;
 import com.mxsella.smartrecharge.viewmodel.UserViewModel;
 import com.scwang.smart.refresh.footer.ClassicsFooter;
@@ -81,9 +84,15 @@ public class ChildUserListActivity extends BaseActivity<ActivityChildUserBinding
 
         userViewModel.getListChildUserResult().observe(this, result -> {
             ListResponse<User> data = result.getData();
+            if (data == null) {
+                binding.empty.setVisibility(View.VISIBLE);
+                return;
+            }
             List<User> records = data.getRecords();
             if (!records.isEmpty()) {
                 childUserAdapter.submitList(records);
+            } else {
+                binding.empty.setVisibility(View.VISIBLE);
             }
         });
 
@@ -112,11 +121,13 @@ public class ChildUserListActivity extends BaseActivity<ActivityChildUserBinding
                 ToastUtils.showToast(result.getMessage());
             }
         });
-        deviceViewModel.getLoadingSate().observe(this,loading->{
-            if (loading){
-                binding.avi.smoothToShow();
-            }else {
-                binding.avi.smoothToHide();
+        deviceViewModel.getLoadingSate().observe(this, loading -> {
+            if (loading) {
+
+//                binding.avi.smoothToShow();
+            } else {
+
+//                binding.avi.smoothToHide();
             }
         });
     }

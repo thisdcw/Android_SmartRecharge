@@ -7,20 +7,21 @@
 
     </data>
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.fragment.RechargeApplyFragment">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="38dp"
+            android:background="@color/white"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -30,7 +31,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="请求次数"
-                    android:textColor="@color/primary"
+                    android:textColor="@color/settings_code_list_item_head"
                     android:textSize="14sp" />
 
                 <TextView
@@ -39,7 +40,7 @@
                     android:layout_weight="2"
                     android:gravity="center"
                     android:text="请求时间"
-                    android:textColor="@color/primary"
+                    android:textColor="@color/settings_code_list_item_head"
                     android:textSize="14sp" />
 
                 <TextView
@@ -48,7 +49,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="状态"
-                    android:textColor="@color/primary"
+                    android:textColor="@color/settings_code_list_item_head"
                     android:textSize="14sp" />
             </LinearLayout>
 
@@ -58,39 +59,65 @@
                 android:background="@color/bkg_gray" />
         </LinearLayout>
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="20dp">
 
-            <com.scwang.smart.refresh.layout.SmartRefreshLayout
-                android:id="@+id/refreshLayout"
+        <com.scwang.smart.refresh.layout.SmartRefreshLayout
+            android:id="@+id/refreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.scwang.smart.refresh.header.ClassicsHeader
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-
-                <com.scwang.smart.refresh.header.ClassicsHeader
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
-                <com.scwang.smart.refresh.footer.ClassicsFooter
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </com.scwang.smart.refresh.layout.SmartRefreshLayout>
-        </FrameLayout>
+                <com.wang.avi.AVLoadingIndicatorView
+                    android:id="@+id/avi"
+                    style="@style/AVLoadingIndicatorView"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_gravity="center"
+                    android:visibility="visible"
+                    app:indicatorColor="@color/primary"
+                    app:indicatorName="FadingCircle" />
 
-        <com.wang.avi.AVLoadingIndicatorView
-            android:id="@+id/avi"
-            style="@style/AVLoadingIndicatorView"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_gravity="center"
-            android:visibility="visible"
-            app:indicatorColor="@color/primary"
-            app:indicatorName="FadingCircle" />
-    </FrameLayout>
+                <LinearLayout
+                    android:id="@+id/empty"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        android:src="@mipmap/no_data" />
+
+                    <TextView
+                        android:id="@+id/text"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="抱歉~暂无数据"
+                        android:textColor="#9FA5C0"
+                        android:textSize="20sp" />
+                </LinearLayout>
+            </FrameLayout>
+
+            <com.scwang.smart.refresh.footer.ClassicsFooter
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
+
+    </LinearLayout>
 </layout>

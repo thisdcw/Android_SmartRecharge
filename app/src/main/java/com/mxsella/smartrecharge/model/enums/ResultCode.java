@@ -2,9 +2,9 @@ package com.mxsella.smartrecharge.model.enums;
 
 public enum ResultCode {
 
-    SUCCESS(200, "获取成功", ""),
-    FAILED(300, "获取失败", ""),
-    ERROR(500, "出错啦", "");
+    SUCCESS(200, "success", ""),
+    FAILED(300, "failed", ""),
+    ERROR(500, "error", "");
 
     private final int code;
 

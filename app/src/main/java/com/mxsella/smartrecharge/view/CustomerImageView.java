@@ -16,11 +16,12 @@ import com.mxsella.smartrecharge.R;
 
 public class CustomerImageView extends ShapeableImageView {
     private static final RequestOptions OPTIONS_LOCAL = new RequestOptions()
-            .placeholder(R.drawable.ic_default_avatar)
-            .fallback(R.drawable.ic_default_avatar)
-            .error(R.drawable.ic_default_avatar)
+            .placeholder(R.mipmap.ic_default_avatar)
+            .fallback(R.mipmap.ic_default_avatar)
+            .error(R.mipmap.ic_default_avatar)
             .diskCacheStrategy(DiskCacheStrategy.NONE)
-            .skipMemoryCache(true);
+            .skipMemoryCache(true)
+            ;
 
     public CustomerImageView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -31,6 +32,6 @@ public class CustomerImageView extends ShapeableImageView {
         Glide.with(MyApplication.getInstance()).load(url).apply(OPTIONS_LOCAL).into(imageView);
     }
     public void setImageUrl(String url) {
-        Glide.with(getContext()).load(url).apply(OPTIONS_LOCAL).into(this);
+        Glide.with(getContext()).load(url.trim()).apply(OPTIONS_LOCAL).into(this);
     }
 }

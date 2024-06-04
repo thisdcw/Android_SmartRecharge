@@ -10,128 +10,357 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context=".ui.activity.ManualRechargeActivity">
+        android:background="#C1F3F3"
+        android:orientation="vertical">
 
         <com.mxsella.smartrecharge.view.widget.CustomerNavBar
             android:id="@+id/nav_bar"
             android:layout_width="match_parent"
             android:layout_height="48dp"
+            app:navBackground="#C1F3F3"
             app:navTitle="手动充值"
-            app:navTitleColor="@color/white"
+            app:navTitleColor="@color/black"
             app:showBack="true" />
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="mac码:" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="193dp"
+                    android:layout_weight="1">
 
-                <TextView
-                    android:id="@+id/mac_address"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="40dp"
+                        android:layout_marginTop="90dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="剩余次数"
+                            android:textColor="#1A1A1A"
+                            android:textSize="14sp" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:src="@mipmap/manual_times" />
+
+                            <TextView
+                                android:id="@+id/remain_times"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="2dp"
+                                android:text="0000"
+                                android:textColor="#1A1A1A"
+                                android:textSize="24sp" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="193dp"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:layout_width="193dp"
+                        android:layout_height="193dp"
+                        android:src="@mipmap/manual_top" />
+                </LinearLayout>
+
             </LinearLayout>
-
-            <Button
-                android:id="@+id/mac"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="mac"
-                android:text="获取mac码" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="80dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="请输入充值次数" />
-
-                <EditText
-                    android:id="@+id/charge"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="3"
-                    android:gravity="bottom"
-                    android:text="0" />
-
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/pay"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="charge"
-                android:text="支付(点击支付后等待三秒)" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="40dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="剩余次数" />
-
-                <TextView
-                    android:id="@+id/read_remain_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical" />
+                android:layout_height="match_parent"
+                android:layout_marginTop="180dp"
+                android:background="@drawable/manual_bkg"
+                android:orientation="vertical"
+                android:paddingStart="28dp"
+                android:paddingTop="28dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="工作时间" />
+                    android:text="充值次数"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/read_work_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical" />
+
+                <GridLayout
+                    android:layout_width="332dp"
+                    android:layout_height="240dp"
+                    android:layout_marginTop="20dp"
+                    android:columnCount="3"
+                    android:rowCount="3">
+
+                    <LinearLayout
+                        android:id="@+id/card_1_1"
+                        android:layout_width="100dp"
+                        android:layout_height="64dp"
+                        android:background="@drawable/recharge_card_selector"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="10"
+                            android:textColor="#1A1A1A"
+                            android:textSize="24dp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_marginStart="7dp"
+                            android:background="@drawable/recharge_times_bkg"
+                            android:gravity="center"
+                            android:text="次"
+                            android:textColor="#F1F1F1" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/card_1_2"
+                        android:layout_width="100dp"
+                        android:layout_height="64dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="@drawable/recharge_card_selector"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="30"
+                            android:textColor="#1A1A1A"
+                            android:textSize="24dp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_marginStart="7dp"
+                            android:background="@drawable/recharge_times_bkg"
+                            android:gravity="center"
+                            android:text="次"
+                            android:textColor="#F1F1F1" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/card_1_3"
+                        android:layout_width="100dp"
+                        android:layout_height="64dp"
+                        android:background="@drawable/recharge_card_selector"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="50"
+                            android:textColor="#1A1A1A"
+                            android:textSize="24dp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_marginStart="7dp"
+                            android:background="@drawable/recharge_times_bkg"
+                            android:gravity="center"
+                            android:text="次"
+                            android:textColor="#F1F1F1" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/card_2_1"
+                        android:layout_width="100dp"
+                        android:layout_height="64dp"
+                        android:layout_marginTop="24dp"
+                        android:layout_marginBottom="24dp"
+                        android:background="@drawable/recharge_card_selector"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="100"
+                            android:textColor="#1A1A1A"
+                            android:textSize="24dp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_marginStart="7dp"
+                            android:background="@drawable/recharge_times_bkg"
+                            android:gravity="center"
+                            android:text="次"
+                            android:textColor="#F1F1F1" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/card_2_2"
+                        android:layout_width="100dp"
+                        android:layout_height="64dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginTop="24dp"
+                        android:layout_marginBottom="24dp"
+                        android:background="@drawable/recharge_card_selector"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="200"
+                            android:textColor="#1A1A1A"
+                            android:textSize="24dp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_marginStart="7dp"
+                            android:background="@drawable/recharge_times_bkg"
+                            android:gravity="center"
+                            android:text="次"
+                            android:textColor="#F1F1F1" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/card_2_3"
+                        android:layout_width="100dp"
+                        android:layout_height="64dp"
+                        android:layout_marginTop="24dp"
+                        android:layout_marginBottom="24dp"
+                        android:background="@drawable/recharge_card_selector"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="300"
+                            android:textColor="#1A1A1A"
+                            android:textSize="24dp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_marginStart="7dp"
+                            android:background="@drawable/recharge_times_bkg"
+                            android:gravity="center"
+                            android:text="次"
+                            android:textColor="#F1F1F1" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/card_3_1"
+                        android:layout_width="100dp"
+                        android:layout_height="64dp"
+                        android:background="@drawable/recharge_card_selector"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="500"
+                            android:textColor="#1A1A1A"
+                            android:textSize="24dp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_marginStart="7dp"
+                            android:background="@drawable/recharge_times_bkg"
+                            android:gravity="center"
+                            android:text="次"
+                            android:textColor="#F1F1F1" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/card_3_2"
+                        android:layout_width="100dp"
+                        android:layout_height="64dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="@drawable/recharge_card_selector"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="800"
+                            android:textColor="#1A1A1A"
+                            android:textSize="24dp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_marginStart="7dp"
+                            android:background="@drawable/recharge_times_bkg"
+                            android:gravity="center"
+                            android:text="次"
+                            android:textColor="#F1F1F1" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/diy"
+                        android:layout_width="100dp"
+                        android:layout_height="64dp"
+                        android:background="@drawable/recharge_card_selector"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/diy_times"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="自定义"
+                            android:textColor="#1A1A1A"
+                            android:textSize="24sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                </GridLayout>
+
+
+                <Button
+                    android:id="@+id/pay"
+                    android:layout_width="339dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="40dp"
+                    android:background="@drawable/primary_btn"
+                    android:gravity="center"
+                    android:onClick="charge"
+                    android:text="充值"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+
+
             </LinearLayout>
 
-            <Button
-                android:id="@+id/info"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="info"
-                android:text="读取支付信息" />
-
-            <TextView
-                android:id="@+id/pay_status"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical" />
-
-            <Button
-                android:id="@+id/reset"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="reset"
-                android:text="重置次数" />
-        </LinearLayout>
+        </FrameLayout>
     </LinearLayout>
 </layout>

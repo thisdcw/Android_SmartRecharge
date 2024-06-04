@@ -26,13 +26,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="24dp"
                 android:gravity="center"
-                android:textColor="@color/black"
+                android:textColor="@color/dialog_input_title"
                 android:textSize="18sp" />
             <TextView
                 android:id="@+id/tv_prompt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/red" />
+                android:textColor="@color/dialog_input_prompt"
+                android:textSize="14sp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -49,7 +50,8 @@
                 android:layout_marginTop="4dp"
                 android:background="@drawable/primary_input_bkg"
                 android:gravity="center"
-                android:textColorHint="@color/text_gray" />
+                android:textSize="16sp"
+                android:textColorHint="@color/dialog_input_hint" />
         </LinearLayout>
 
         <LinearLayout
@@ -66,7 +68,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="取消"
-                android:textColor="@color/black"
+                android:textColor="@color/dialog_input_cancle"
                 android:textSize="16sp" />
 
             <TextView
@@ -76,7 +78,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="确认"
-                android:textColor="@color/primary"
+                android:textColor="@color/dialog_input_confirm"
                 android:textSize="16sp" />
         </LinearLayout>
     </LinearLayout>

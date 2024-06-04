@@ -9,7 +9,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/bkg_settings_top"
         android:clickable="true"
         android:focusable="true"
         android:focusableInTouchMode="true"
@@ -18,24 +17,25 @@
         <LinearLayout
             android:id="@+id/llt_user_info"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_marginTop="40dp"
+            android:layout_height="226dp"
+            android:background="@mipmap/settings_top"
             android:gravity="center"
+            android:orientation="vertical"
             android:paddingHorizontal="20dp">
+
 
             <com.mxsella.smartrecharge.view.CustomerImageView
                 android:id="@+id/civ"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:layout_marginStart="10dp"
-                android:background="@drawable/ic_default_avatar"
+                android:background="@mipmap/ic_default_avatar"
                 app:shapeAppearanceOverlay="@style/circleImageStyle" />
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="13dp"
-                android:layout_weight="1"
+                android:layout_marginTop="11dp"
+                android:gravity="center"
                 android:orientation="vertical">
 
                 <TextView
@@ -51,15 +51,10 @@
                     android:id="@+id/role"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:textColor="@color/red"
                     android:textSize="14sp" />
             </LinearLayout>
-
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/edit" />
 
         </LinearLayout>
 
@@ -77,14 +72,14 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
                     android:gravity="center_horizontal"
                     android:orientation="vertical">
 
                     <LinearLayout
                         android:id="@+id/llt_my_product"
                         android:layout_width="match_parent"
-                        android:layout_height="62dp"
-                        android:layout_marginTop="40dp"
+                        android:layout_height="52dp"
                         android:clickable="true"
                         android:focusable="true"
                         android:gravity="center_vertical"
@@ -95,7 +90,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="当前管理产品"
-                            android:textColor="@color/black"
+                            android:textColor="@color/settings_item_title"
                             android:textSize="15sp" />
 
                         <TextView
@@ -104,14 +99,21 @@
                             android:layout_height="24dp"
                             android:layout_marginStart="10dp"
                             android:gravity="end|center_vertical"
-                            android:text="" />
+                            android:text=""
+                            android:textColor="@color/settings_item_value" />
 
+                        <ImageView
+                            android:id="@+id/edit_product_name"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_marginStart="10dp"
+                            android:src="@mipmap/edit_product" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/llt_remain_times"
                         android:layout_width="match_parent"
-                        android:layout_height="62dp"
+                        android:layout_height="52dp"
                         android:clickable="true"
                         android:focusable="true"
                         android:gravity="center_vertical"
@@ -122,7 +124,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="剩余次数"
-                            android:textColor="@color/black"
+                            android:textColor="@color/settings_item_title"
                             android:textSize="15sp" />
 
                         <TextView
@@ -131,14 +133,21 @@
                             android:layout_height="24dp"
                             android:layout_marginStart="10dp"
                             android:gravity="end|center_vertical"
-                            android:text="0" />
+                            android:text="0"
+                            android:textColor="@color/settings_item_value" />
 
+                        <ImageView
+                            android:id="@+id/get_remain_times"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_marginStart="10dp"
+                            android:src="@mipmap/loading" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/llt_invite_record"
                         android:layout_width="match_parent"
-                        android:layout_height="62dp"
+                        android:layout_height="52dp"
                         android:clickable="true"
                         android:focusable="true"
                         android:gravity="center_vertical"
@@ -149,21 +158,21 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="我的邀请码"
-                            android:textColor="@color/black"
+                            android:textColor="@color/settings_item_title"
                             android:textSize="15sp" />
 
                         <ImageView
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:layout_marginStart="10dp"
-                            android:src="@drawable/vector" />
+                            android:src="@mipmap/vector" />
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/llt_children_user"
                         android:layout_width="match_parent"
-                        android:layout_height="62dp"
+                        android:layout_height="52dp"
                         android:clickable="true"
                         android:focusable="true"
                         android:gravity="center_vertical"
@@ -174,21 +183,21 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:textColor="@color/black"
+                            android:textColor="@color/settings_item_title"
                             android:textSize="15sp" />
 
                         <ImageView
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:layout_marginStart="10dp"
-                            android:src="@drawable/vector" />
+                            android:src="@mipmap/vector" />
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/llt_device"
                         android:layout_width="match_parent"
-                        android:layout_height="62dp"
+                        android:layout_height="52dp"
                         android:clickable="true"
                         android:focusable="true"
                         android:gravity="center_vertical"
@@ -199,30 +208,42 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="我的设备"
-                            android:textColor="@color/black"
+                            android:textColor="@color/settings_item_title"
                             android:textSize="15sp" />
 
                         <ImageView
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:layout_marginStart="10dp"
-                            android:src="@drawable/vector" />
+                            android:src="@mipmap/vector" />
 
                     </LinearLayout>
 
-                    <Button
-                        android:id="@+id/btn_logout"
-                        android:layout_width="335dp"
-                        android:layout_height="50dp"
-                        android:layout_marginTop="120dp"
-                        android:layout_marginBottom="40dp"
-                        android:background="@drawable/bkg_round_gray"
-                        android:onClick="logout"
-                        android:text="@string/settings_log_out"
-                        android:textAllCaps="false"
-                        android:textColor="@color/white"
-                        android:textSize="20sp" />
+                    <LinearLayout
+                        android:id="@+id/llt_logout"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center_vertical"
+                        android:paddingHorizontal="20dp">
 
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="退出登录"
+                            android:textColor="@color/settings_item_title"
+                            android:textSize="15sp" />
+
+                        <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_marginStart="10dp"
+                            android:onClick="logout"
+                            android:src="@mipmap/logout" />
+
+                    </LinearLayout>
                 </LinearLayout>
 
                 <com.wang.avi.AVLoadingIndicatorView

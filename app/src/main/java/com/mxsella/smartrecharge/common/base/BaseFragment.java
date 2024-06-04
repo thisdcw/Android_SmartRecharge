@@ -2,6 +2,8 @@ package com.mxsella.smartrecharge.common.base;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +28,12 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment {
 
     public abstract int getLayoutId();
 
+    public void createView() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getActivity().getWindow().setStatusBarColor(Color.TRANSPARENT);
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -35,6 +43,7 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment {
             LogUtil.e("error layout -> " + e.getMessage());
             return null;
         }
+        createView();
         return binding.getRoot();
     }
 

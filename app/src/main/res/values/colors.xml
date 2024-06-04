@@ -21,4 +21,19 @@
     <color name="primary">#31D6D6</color>
     <color name="red">#F44336</color>
     <color name="default_color">#999999</color>
+
+
+    <color name="settings_item_title">#333333</color>
+    <color name="settings_item_value">#9E9E9E</color>
+    <color name="dialog_input_title">#1A1A1A</color>
+    <color name="dialog_input_prompt">#EA0000</color>
+    <color name="dialog_input_hint">#AAAAAA</color>
+    <color name="dialog_input_cancle">#000000</color>
+    <color name="dialog_input_confirm">@color/primary</color>
+    <color name="settings_code_list_item_head">#3D3D3D</color>
+    <color name="settings_code_list_item_text">#767676</color>
+    <color name="list_item_state_pass">@color/primary</color>
+    <color name="list_item_state_refuse">#EA0000</color>
+    <color name="list_item_state_pending">#FF8C5A</color>
+
 </resources>

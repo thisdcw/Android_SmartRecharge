@@ -1,6 +1,7 @@
 package com.mxsella.smartrecharge.ui.activity;
 
 import android.content.Intent;
+import android.view.View;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -48,7 +49,7 @@ public class BleActivity extends BaseActivity<ActivityBleBinding> {
             bleDeviceInfo.setDeviceName(curDevice.getName());
             bleAdapter.add(bleDeviceInfo);
         }
-        binding.scan.setOnClickListener(v -> {
+        binding.navBar.getRightTextView().setOnClickListener(v -> {
             scanBle();
         });
         bleAdapter.setOnItemClickListener((baseQuickAdapter, view, i) -> {
@@ -60,9 +61,6 @@ public class BleActivity extends BaseActivity<ActivityBleBinding> {
             } else {
                 disConnect();
             }
-        });
-        binding.back.setOnClickListener(v -> {
-            this.finish();
         });
     }
 
@@ -113,6 +111,8 @@ public class BleActivity extends BaseActivity<ActivityBleBinding> {
         boolean enable = BleManager.getInstance().isBlueEnable();
         if (enable) {
             LogUtil.d("扫描中...");
+            binding.empty.setVisibility(View.GONE);
+            binding.avi.smoothToShow();
             BleManager.getInstance().scan(bleScanCallback);
         } else {
             ToastUtils.showToast("蓝牙未启用");
@@ -123,6 +123,7 @@ public class BleActivity extends BaseActivity<ActivityBleBinding> {
     private BleScanCallback bleScanCallback = new BleScanCallback() {
         @Override
         public void onScanFinished(List<BleDevice> scanResultList) {
+            binding.avi.smoothToHide();
             List<BleDeviceInfo> deviceInfoList = new ArrayList<>();
             BleDevice curDevice = BleService.getInstance().getCurDevice();
             if (curDevice != null) {
@@ -134,6 +135,7 @@ public class BleActivity extends BaseActivity<ActivityBleBinding> {
             }
             if (curDevice == null && scanResultList.size() == 0) {
                 ToastUtils.showToast("没有设备");
+                binding.empty.setVisibility(View.VISIBLE);
             } else {
                 for (int i = 0; i < scanResultList.size(); i++) {
                     BleDeviceInfo bleDeviceInfo = new BleDeviceInfo();

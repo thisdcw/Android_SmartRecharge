@@ -1,5 +1,9 @@
 package com.mxsella.smartrecharge.common.net.service;
 
+import com.mxsella.smartrecharge.model.domain.RechargeCode;
+import com.mxsella.smartrecharge.model.domain.UserHistory;
+import com.mxsella.smartrecharge.model.request.ModifyUserRequestBody;
+import com.mxsella.smartrecharge.model.request.UseRechargeCodeRequest;
 import com.mxsella.smartrecharge.model.response.BaseResponse;
 import com.mxsella.smartrecharge.model.domain.ApplyTimes;
 import com.mxsella.smartrecharge.model.domain.Brand;
@@ -18,6 +22,7 @@ import com.mxsella.smartrecharge.model.response.ListResponse;
 import io.reactivex.rxjava3.core.Observable;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -104,6 +109,84 @@ public interface ApiService {
     @POST("user/sub/list/{current}/{size}")
     Observable<BaseResponse<ListResponse<User>>> getChildrenUser(@Path("current") int current, @Path("size") int size);
 
+    /**
+     * 验证码修改密码
+     *
+     * @param telephone
+     * @param verify
+     * @param password
+     * @return
+     */
+    @POST("user/password/verify_change")
+    Observable<BaseResponse<ListResponse<String>>> changePasswordWithCode(@Query("telephone") String telephone, @Query("verifyCode") String verify, @Query("password") String password);
+
+
+    /**
+     * 修改密码
+     *
+     * @param oldPassword 旧密码
+     * @param newPassword 新密码
+     * @return
+     */
+    @POST("user/password/change")
+    Observable<BaseResponse<ListResponse<String>>> changePassword(@Query("oldPassword") String oldPassword, @Query("newPassword") String newPassword);
+
+    /**
+     * 修改用户信息
+     *
+     * @param userRequestBody
+     * @return
+     */
+    @POST("user/user_info/change")
+    Observable<BaseResponse<User>> changeUser(@Body ModifyUserRequestBody userRequestBody);
+
+
+    /**
+     * 修改下级信息
+     *
+     * @param userRequestBody
+     * @return
+     */
+    @POST("user/user_info/sub_name/change")
+    Observable<BaseResponse<User>> changeSub(@Body ModifyUserRequestBody userRequestBody);
+    //================================================================================================================================
+
+
+    /**
+     * 获取用户次数历史
+     *
+     * @param current
+     * @param size
+     * @param productName
+     * @return
+     */
+    @POST("device/times/history/list/{current}/{size}")
+    Observable<ListResponse<UserHistory>> getHistoryList(@Path("current") int current,
+                                                         @Path("size") int size,
+                                                         @Query("productName") String productName);
+
+
+    /**
+     * 获取用户充值码列表
+     *
+     * @param current
+     * @param size
+     * @param productName
+     * @return
+     */
+    @POST("device/times/recharge_code/list/{current}/{size}")
+    Observable<ListResponse<RechargeCode>> getRechargeCodeList(@Path("current") int current,
+                                                               @Path("size") int size,
+                                                               @Query("productName") String productName);
+
+
+    /**
+     * 使用充值码
+     *
+     * @param useRechargeCodeRequest
+     * @return
+     */
+    Observable<BaseResponse<String>> useRechargeCode(@Body UseRechargeCodeRequest useRechargeCodeRequest);
 
     /**
      * 添加设备
@@ -188,6 +271,14 @@ public interface ApiService {
     @POST("device/times/recharge/apply_list/{current}/{size}")
     Observable<BaseResponse<ListResponse<ApplyTimes>>> getApplyList(@Path("current") int current, @Path("size") int size, @Query("productName") String productName);
 
+    /**
+     * 获取子级充值申请记录
+     *
+     * @param current
+     * @param size
+     * @param productName
+     * @return
+     */
     @POST("device/times/recharge/sub_apply_list/{current}/{size}")
     Observable<BaseResponse<ListResponse<ApplyTimes>>> getChildApplyList(@Path("current") int current, @Path("size") int size, @Query("productName") String productName);
 }

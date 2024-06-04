@@ -8,9 +8,9 @@
 
 
     <FrameLayout
-
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
+
 
         <com.mxsella.smartrecharge.view.ClipView
             android:id="@+id/viewGroup"
@@ -20,25 +20,37 @@
 
         </com.mxsella.smartrecharge.view.ClipView>
 
-        <Button
+        <ImageView
             android:id="@+id/cover"
-            android:layout_width="335dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center_horizontal|bottom"
-            android:layout_marginBottom="100dp"
-            android:background="@drawable/btn_bkg"
-            android:text="取消"
-            android:textColor="@color/white" />
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="right"
+            android:layout_marginTop="87dp"
+            android:layout_marginEnd="32dp"
+            android:src="@mipmap/close" />
 
-        <Button
+        <LinearLayout
             android:id="@+id/picture"
-            android:layout_width="335dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="100dp"
-            android:layout_gravity="center_horizontal|top"
-            android:layout_marginBottom="100dp"
+            android:layout_width="300dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginBottom="80dp"
             android:background="@drawable/btn_bkg"
-            android:text="从相册中扫描图片"
-            android:textColor="@color/white" />
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@mipmap/picture_select" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:text="我的相册"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
     </FrameLayout>
 </layout>

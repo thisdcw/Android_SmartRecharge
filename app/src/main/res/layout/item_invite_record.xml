@@ -10,7 +10,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="38dp"
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
@@ -26,8 +26,8 @@
                 android:layout_weight="2"
                 android:gravity="center"
                 android:text="@{inviteRecord.createTime}"
-                android:textColor="#767676"
-                android:textSize="14sp" />
+                android:textColor="@color/settings_code_list_item_text"
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/code"
@@ -36,8 +36,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@{inviteRecord.code}"
-                android:textColor="#767676"
-                android:textSize="14sp" />
+                android:textColor="@color/settings_code_list_item_text"
+                android:textSize="12sp" />
 
             <TextView
                 android:layout_width="0dp"
@@ -45,8 +45,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@{inviteRecord.codeState == 1 ?`已使用`:inviteRecord.codeState ==2? `已过期`:`未使用`}"
-                android:textColor="#767676"
-                android:textSize="14sp" />
+                android:textColor="@color/settings_code_list_item_text"
+                android:textSize="12sp" />
 
         </LinearLayout>
 

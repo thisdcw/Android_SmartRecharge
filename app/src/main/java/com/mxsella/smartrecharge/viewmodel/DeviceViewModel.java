@@ -13,6 +13,7 @@ import com.mxsella.smartrecharge.model.domain.ApplyTimes;
 import com.mxsella.smartrecharge.model.domain.Brand;
 import com.mxsella.smartrecharge.model.domain.Device;
 import com.mxsella.smartrecharge.model.response.ListResponse;
+import com.mxsella.smartrecharge.utils.LogUtil;
 
 public class DeviceViewModel extends BaseViewModel {
     private final DeviceRepository net;
@@ -35,6 +36,9 @@ public class DeviceViewModel extends BaseViewModel {
         return updateBrandResult;
     }
 
+    public MutableLiveData<NetWorkResult<Integer>> getDeviceRechargeResult() {
+        return deviceRechargeResult;
+    }
 
     public LiveData<NetWorkResult<ListResponse<ApplyTimes>>> getGetChildApplyListResult() {
         return getChildApplyListResult;
@@ -73,11 +77,13 @@ public class DeviceViewModel extends BaseViewModel {
         net = new DeviceRepository(new HandlerLoading() {
             @Override
             public void loading() {
+                LogUtil.d("加载开始");
                 loadingSate.setValue(true);
             }
 
             @Override
             public void complete() {
+                LogUtil.d("加载完成");
                 loadingSate.setValue(false);
             }
         });
@@ -124,7 +130,8 @@ public class DeviceViewModel extends BaseViewModel {
         net.userRecharge(productName, targetUid, times, createHandler(userRechargeResult));
     }
 
-    public void getUserTimes(String productName) {
+    public void getUserTimes() {
+        String productName = getProductName();
         net.getUserTimes(productName, createHandler(getUserTimesResult));
     }
 

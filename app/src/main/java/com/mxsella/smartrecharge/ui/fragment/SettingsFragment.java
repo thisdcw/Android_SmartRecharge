@@ -30,7 +30,7 @@ public class SettingsFragment extends BaseFragment<FragmentSettingsBinding> {
 
     @Override
     public void initEventAndData() {
-
+        binding.remainTimes.setText(String.valueOf(Config.getRemainTimes()));
         binding.lltInviteRecord.setOnClickListener(v -> {
             LogUtil.d("1");
             navTo(InviteCodeListActivity.class);
@@ -44,18 +44,19 @@ public class SettingsFragment extends BaseFragment<FragmentSettingsBinding> {
             navTo(DeviceListActivity.class);
         });
 
-        binding.lltMyProduct.setOnClickListener(v -> {
+        binding.editProductName.setOnClickListener(v -> {
             showSetProductNameDialog();
         });
-        binding.lltRemainTimes.setOnClickListener(v -> {
-            deviceViewModel.getUserTimes(binding.productName.getText().toString().trim());
+        binding.getRemainTimes.setOnClickListener(v -> {
+            deviceViewModel.getUserTimes();
         });
         deviceViewModel.getGetUserTimesResult().observe(this, result -> {
             if (result.getResultCode() == ResultCode.SUCCESS) {
-                binding.remainTimes.setText(result.getMessage());
-                ToastUtils.showToast(result.getMessage());
+                binding.remainTimes.setText(String.valueOf(result.getData()));
+                Config.saveRemainTimes(result.getData());
+                ToastUtils.showToast(result.getResultCode().getMessage());
             } else {
-                ToastUtils.showToast(result.getMessage());
+                ToastUtils.showToast(result.getResultCode().getMessage());
             }
         });
         binding.productName.setText(Config.getProductName());
@@ -74,10 +75,10 @@ public class SettingsFragment extends BaseFragment<FragmentSettingsBinding> {
             binding.username.setText(currentUser.getUserName());
             binding.civ.setImageUrl(currentUser.getAvatar());
         }
-        deviceViewModel.getLoadingSate().observe(this,loading->{
-            if (loading){
+        deviceViewModel.getLoadingSate().observe(this, loading -> {
+            if (loading) {
                 binding.avi.show();
-            }else {
+            } else {
                 binding.avi.hide();
             }
         });
@@ -85,7 +86,7 @@ public class SettingsFragment extends BaseFragment<FragmentSettingsBinding> {
 
     private void showSetProductNameDialog() {
 
-        productDialog = new InputDialog("当前管理的产品名",null,"请输入产品名称");
+        productDialog = new InputDialog("当前管理的产品名", null, "请输入产品名称");
         productDialog.setDialogListener(new DialogClickListener() {
             @Override
             public void onConfirm() {

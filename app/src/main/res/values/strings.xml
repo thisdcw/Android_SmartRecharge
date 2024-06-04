@@ -13,7 +13,7 @@
     <string name="settings_check_update">检查更新</string>
     <string name="settings_feedback">问题反馈</string>
     <string name="settings_hardware_version">固件版本</string>
-    <string name="product_id">产品id: %s</string>
+    <string name="product_id"> %s</string>
     <string name="login_enter_telephone">请输入手机号</string>
     <string name="login_enter_verify">请输入验证码</string>
     <string name="login_send_verify">发送验证码</string>
@@ -23,12 +23,16 @@
     <string name="login_way_password">密码登录</string>
     <string name="login_way_verifyCode">验证码登录</string>
     <string name="login">登录</string>
+    <string name="pass">已批准</string>
+    <string name="refuse">已拒绝</string>
+    <string name="pending">待批准</string>
     <string name="register">注册</string>
     <string name="to_register">还没有账号,去注册?</string>
     <string name="to_login">已有账号,去登录?</string>
     <string name="login_privacy">点击注册即代表您已经同意《隐私政策》</string>
     <string name="device_info">设备信息</string>
     <string name="seconds">%s s</string>
+    <string name="remainTimes">%s 次</string>
     <string name="device_info_device_id">设备id:%s</string>
     <string name="device_info_product_id">产品id:%s</string>
     <string name="device_info_brand">品牌商:%s</string>

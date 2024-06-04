@@ -2,9 +2,6 @@ package com.mxsella.smartrecharge.view.dialog;
 
 import android.app.Dialog;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,30 +9,30 @@ import androidx.annotation.Nullable;
 import com.mxsella.smartrecharge.R;
 import com.mxsella.smartrecharge.common.base.BaseDialog;
 import com.mxsella.smartrecharge.databinding.DialogDealApplyBinding;
+import com.mxsella.smartrecharge.inter.DialogClickListener;
 
 public class DealApplyDialog extends BaseDialog<DialogDealApplyBinding> {
 
+    private DialogClickListener dialogListener;
 
-    public static final String PASS = "pass";
-    public static final String REFUSE = "refuse";
-    public static final String DO_CANCLE = "do_cancle";
+    private Integer rechargeTimes;
 
-    private boolean isPass;
-
-    public boolean isPass() {
-        return isPass;
+    public DealApplyDialog(Integer productId) {
+        this.rechargeTimes = productId;
     }
 
-    public void setPass(boolean pass) {
-        isPass = pass;
+    @Override
+    public void initView() {
+        super.initView();
+        binding.tvPrompt.setText(getString(R.string.remainTimes, String.valueOf(getRechargeTimes())));
     }
 
-    private DialogListener dialogListener;
+    public Integer getRechargeTimes() {
+        return rechargeTimes;
+    }
 
-    public interface DialogListener {
-        void onConfirmClick();
-
-        void onCancelClick();
+    public void setRechargeTimes(Integer productId) {
+        this.rechargeTimes = productId;
     }
 
     @NonNull
@@ -46,60 +43,26 @@ public class DealApplyDialog extends BaseDialog<DialogDealApplyBinding> {
 
     @Override
     public void initEventAndData() {
-
-        setDefault(PASS);
         binding.cancel.setOnClickListener(v -> {
             if (dialogListener != null) {
-                dialogListener.onCancelClick();
+                dialogListener.onCancel();
             }
             dismiss();
         });
         binding.confirm.setOnClickListener(v -> {
             if (dialogListener != null) {
-                dialogListener.onConfirmClick();
+                dialogListener.onConfirm();
             }
             dismiss();
         });
-        binding.pass.setOnClickListener(v -> {
-            setDefault(PASS);
-        });
-        binding.refuse.setOnClickListener(v -> {
-            setDefault(REFUSE);
-        });
-        binding.doCancle.setOnClickListener(v -> {
-            setDefault(DO_CANCLE);
-        });
 
     }
 
-    private void setDefault(String lan) {
-        // 先重置所有选项的选择状态
-        binding.pass.setSelected(false);
-        binding.refuse.setSelected(false);
-        binding.doCancle.setSelected(false);
-
-        // 根据传入的参数设置是否通过
-        switch (lan) {
-            case PASS:
-                binding.pass.setSelected(true);
-                setPass(true);
-                break;
-            case REFUSE:
-                binding.refuse.setSelected(true);
-                setPass(false);
-                break;
-            case DO_CANCLE:
-                binding.doCancle.setSelected(true);
-                setPass(false);
-                break;
-        }
-    }
-
-    public void setDialogListener(DialogListener dialogListener) {
+    public void setDialogListener(DialogClickListener dialogListener) {
         this.dialogListener = dialogListener;
     }
 
-    public DialogListener getDialogListener() {
+    public DialogClickListener getDialogListener() {
         return dialogListener;
     }
 

@@ -70,7 +70,7 @@ public class CustomerNavBar extends FrameLayout {
             mLeftSrc = typedArray.getResourceId(R.styleable.NavBar_leftIcon, 0);
             mRightSrc = typedArray.getResourceId(R.styleable.NavBar_rightIcon, 0);
             mBackgroundColor = typedArray.getColor(R.styleable.NavBar_navBackground,
-                    ContextCompat.getColor(context, R.color.primary));
+                    ContextCompat.getColor(context, R.color.white));
             textRight = typedArray.getString(R.styleable.NavBar_navRightText);
             typedArray.recycle();
         }
@@ -96,7 +96,7 @@ public class CustomerNavBar extends FrameLayout {
 
         if (mShowBack) {
             mIvLeft.setVisibility(VISIBLE);
-            mIvLeft.setImageResource(R.drawable.ic_return_white);
+            mIvLeft.setImageResource(R.mipmap.back_access);
             mIvLeft.setOnClickListener((view) -> {
                 ((Activity) context).onBackPressed();
             });

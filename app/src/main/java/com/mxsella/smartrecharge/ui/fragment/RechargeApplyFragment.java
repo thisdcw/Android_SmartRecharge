@@ -1,5 +1,7 @@
 package com.mxsella.smartrecharge.ui.fragment;
 
+import android.view.View;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.mxsella.smartrecharge.R;
@@ -9,6 +11,7 @@ import com.mxsella.smartrecharge.model.domain.ApplyTimes;
 import com.mxsella.smartrecharge.model.enums.ResultCode;
 import com.mxsella.smartrecharge.model.response.ListResponse;
 import com.mxsella.smartrecharge.ui.adapter.ApplyHistoryListAdapter;
+import com.mxsella.smartrecharge.utils.SortUtil;
 import com.mxsella.smartrecharge.viewmodel.DeviceViewModel;
 import com.scwang.smart.refresh.footer.ClassicsFooter;
 import com.scwang.smart.refresh.header.ClassicsHeader;
@@ -55,19 +58,24 @@ public class RechargeApplyFragment extends BaseFragment<FragmentRechargeApplyBin
             refreshlayout.finishLoadMore(LOAD_DELAY);//传入false表示加载失败
         });
         deviceViewModel.getGetApplyListResult().observe(this, result -> {
-            if (result.getResultCode()== ResultCode.SUCCESS){
+            if (result.getResultCode() == ResultCode.SUCCESS) {
                 ListResponse<ApplyTimes> data = result.getData();
                 List<ApplyTimes> records = data.getRecords();
                 if (!records.isEmpty()) {
+                    SortUtil.sortByDescending(records);
                     applyHistoryListAdapter.submitList(records);
+                } else {
+                    binding.empty.setVisibility(View.VISIBLE);
                 }
+            } else {
+                binding.empty.setVisibility(View.VISIBLE);
             }
 
         });
-        deviceViewModel.getLoadingSate().observe(this,loading->{
-            if (loading){
+        deviceViewModel.getLoadingSate().observe(this, loading -> {
+            if (loading) {
                 binding.avi.show();
-            }else {
+            } else {
                 binding.avi.hide();
             }
         });

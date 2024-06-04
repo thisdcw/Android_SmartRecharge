@@ -18,14 +18,24 @@ public class Config {
     private static final String BLE = "ble";
     private static final String SECRET_KEY = "secret_key";
     private static final String DEVICE_MAC = "device_mac";
+    private static final String DEVICE_ID = "device_id";
     private static final String PASSWORD = "password";
     private static final String CURRENT_USER = "current_user";
     private static final String IS_LOGIN = "is_login";
     private static final String CURRENT_PRODUCT_NAME = "current_product_name";
+    private static final String REMAIN_TIMES = "remainTimes";
+
+
+    public static int getRemainTimes() {
+        return mainSP.getInt(REMAIN_TIMES, 0);
+    }
+
+    public static void saveRemainTimes(int times) {
+        mainSP.edit().putInt(REMAIN_TIMES, times).apply();
+    }
 
     public static boolean isLogin() {
-        boolean b = mainSP.getBoolean(IS_LOGIN, false);
-        return b;
+        return mainSP.getBoolean(IS_LOGIN, false);
     }
 
     public static void setLogin(boolean isLogin) {
@@ -77,6 +87,14 @@ public class Config {
 
     public static void saveDeviceMac(String deviceMac) {
         save(DEVICE_MAC, deviceMac);
+    }
+
+    public static String getDeviceId() {
+        return mainSP.getString(DEVICE_ID, "123456");
+    }
+
+    public static void saveDeviceId(String deviceId) {
+        save(DEVICE_ID, deviceId);
     }
 
     public static int getSecretKey() {

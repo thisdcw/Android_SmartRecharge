@@ -21,16 +21,19 @@ public class ClipView extends FrameLayout {
     private int scanSize = 300;
     private Paint paint;
     Context context;
+
     public ClipView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
     }
+
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         mHeight = h;
         mWight = w;
     }
+
     @Override
     protected void dispatchDraw(Canvas canvas) {
         DisplayMetrics dm = context.getResources().getDisplayMetrics();
@@ -68,7 +71,7 @@ public class ClipView extends FrameLayout {
             paint = new Paint();
             paint.setColor(Color.WHITE); // 设置边框颜色
             paint.setStyle(Paint.Style.STROKE); // 设置绘制样式为边框
-            paint.setStrokeWidth(5); // 设置边框宽度
+            paint.setStrokeWidth(2); // 设置边框宽度
         }
         return paint;
     }

@@ -33,8 +33,9 @@
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="53dp"
-                android:background="@drawable/ic_ble_disconnect"
-                android:onClick="connectBle" />
+                android:background="@mipmap/ic_ble_disconnect"
+                android:onClick="connectBle"
+                android:visibility="gone" />
 
             <com.google.android.material.bottomnavigation.BottomNavigationView
                 android:id="@+id/bottom_navigation"

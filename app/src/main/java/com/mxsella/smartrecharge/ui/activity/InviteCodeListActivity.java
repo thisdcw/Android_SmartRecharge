@@ -3,6 +3,7 @@ package com.mxsella.smartrecharge.ui.activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.view.View;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -66,6 +67,8 @@ public class InviteCodeListActivity extends BaseActivity<ActivityInviteCodeListB
                 List<InviteRecord> records = response.getData().getRecords();
                 if (!records.isEmpty()) {
                     adapter.submitList(records);
+                }else {
+                    binding.empty.setVisibility(View.VISIBLE);
                 }
             }
 

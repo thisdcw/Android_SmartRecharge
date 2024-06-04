@@ -8,36 +8,222 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:background="#F0F5F7"
+        android:fitsSystemWindows="true"
+        android:gravity="center_horizontal"
         android:orientation="vertical">
 
-        <Button
-            android:id="@+id/manual"
+        <LinearLayout
+            android:layout_width="343dp"
+            android:layout_height="160dp"
+            android:layout_marginVertical="20dp"
+            android:background="@mipmap/device_top"
+            android:orientation="vertical"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="14dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="64dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="26dp"
+                    android:text="剩余次数"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="38dp"
+                    android:layout_marginTop="2dp">
+
+                    <TextView
+                        android:id="@+id/remain_times"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/remainTimes"
+                        android:textColor="@color/white"
+                        android:textSize="26sp"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/update"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="6dp"
+                        android:background="@mipmap/update" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/work_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/seconds"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="工作时间"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/last_recharge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0000-00-00"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="上次充值"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ble"
+            android:layout_width="342dp"
+            android:layout_height="60dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="12dp">
+
+            <ImageView
+                android:layout_width="37dp"
+                android:layout_height="37dp"
+                android:src="@mipmap/ic_ble" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="22dp"
+                android:text="蓝牙连接" />
+
+            <ImageView
+                android:layout_width="42dp"
+                android:layout_height="31dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginStart="158dp"
+                android:background="@drawable/ble_selector" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="manualRecharge"
-            android:text="手动充值" />
+            android:layout_marginTop="24dp"
+            android:gravity="center"
+            android:paddingHorizontal="18dp">
+
+            <TextView
+                android:id="@+id/manual"
+                android:layout_width="102dp"
+                android:layout_height="102dp"
+                android:background="@mipmap/manual_recharge"
+                android:gravity="center_horizontal"
+                android:onClick="manualRecharge"
+                android:paddingTop="10dp"
+                android:text="手动充值"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/scan"
+                android:layout_width="102dp"
+                android:layout_height="102dp"
+                android:layout_marginHorizontal="16dp"
+                android:background="@mipmap/scan_input"
+                android:gravity="center_horizontal"
+                android:onClick="scanRecharge"
+                android:paddingTop="10dp"
+                android:text="扫码充值"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/product_entry"
+                android:layout_width="102dp"
+                android:layout_height="102dp"
+                android:background="@mipmap/product_input"
+                android:gravity="center_horizontal"
+                android:onClick="entry"
+                android:paddingTop="10dp"
+                android:text="产品录入"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="343dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:padding="12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="设备信息"
+                android:textColor="#1A1A1A"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="11dp"
+                android:text="mac码: F724C9D500AD"
+                android:textColor="#767676"
+                android:textSize="14sp" />
+        </LinearLayout>
 
         <Button
-            android:id="@+id/scan"
-            android:layout_width="match_parent"
+            android:id="@+id/reset"
+            android:layout_width="339dp"
             android:layout_height="wrap_content"
-            android:onClick="scanRecharge"
-            android:text="扫码充值" />
-
-        <Button
-            android:id="@+id/info"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="info"
-            android:text="设备信息" />
-
-        <Button
-            android:id="@+id/product_entry"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="entry"
-            android:text="产品录入" />
-
+            android:layout_marginTop="10dp"
+            android:background="@drawable/primary_btn"
+            android:onClick="reset"
+            android:text="重置设备次数(调试用)"
+            android:textColor="@color/red"
+            android:textSize="18sp" />
     </LinearLayout>
 </layout>

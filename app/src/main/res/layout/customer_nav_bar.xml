@@ -17,7 +17,7 @@
         android:layout_height="35dp"
         android:layout_centerVertical="true"
         android:scaleType="centerInside"
-        android:src="@drawable/ic_return_white" />
+        android:src="@mipmap/ic_return_white" />
 
     <TextView
         android:id="@+id/tv_left"

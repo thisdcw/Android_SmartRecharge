@@ -27,17 +27,10 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
         navTo(BleActivity.class);
     }
 
-    public void scanRecharge(View view) {
-        navTo(ScanRechargeActivity.class);
-    }
-
     public void manualRecharge(View view) {
         navTo(ManualRechargeActivity.class);
     }
 
-    public void info(View view) {
-        navTo(DeviceInfoActivity.class);
-    }
 
     public void entry(View view) {
         navTo(ProductEntryActivity.class);
@@ -45,6 +38,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
 
     public void logout(View view) {
         Config.setLogin(false);
+        Config.saveRemainTimes(0);
         navToFinishAll(WelcomeActivity.class);
     }
 
