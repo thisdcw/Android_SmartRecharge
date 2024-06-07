@@ -43,7 +43,7 @@ public class InviteCodeListActivity extends BaseActivity<ActivityInviteCodeListB
 
     @Override
     public void initView() {
-        RefreshLayout refreshLayout = binding.refreshLayout;
+        RefreshLayout refreshLayout = binding.rvRefresh.refreshLayout;
         refreshLayout.setRefreshHeader(new ClassicsHeader(mContext));
         refreshLayout.setRefreshFooter(new ClassicsFooter(mContext));
         refreshLayout.setOnRefreshListener(refreshlayout -> {
@@ -58,8 +58,8 @@ public class InviteCodeListActivity extends BaseActivity<ActivityInviteCodeListB
             refreshlayout.finishLoadMore(LOAD_DELAY);//传入false表示加载失败
         });
         adapter = new InviteRecodeAdapter();
-        binding.rv.setLayoutManager(new LinearLayoutManager(mContext));
-        binding.rv.setAdapter(adapter);
+        binding.rvRefresh.rv.setLayoutManager(new LinearLayoutManager(mContext));
+        binding.rvRefresh.rv.setAdapter(adapter);
 
         userViewModel.getInviteCodeList().observe(this, response -> {
             if (response.getResultCode() == ResultCode.SUCCESS) {
@@ -68,7 +68,7 @@ public class InviteCodeListActivity extends BaseActivity<ActivityInviteCodeListB
                 if (!records.isEmpty()) {
                     adapter.submitList(records);
                 }else {
-                    binding.empty.setVisibility(View.VISIBLE);
+                    binding.rvRefresh.empty.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -96,9 +96,9 @@ public class InviteCodeListActivity extends BaseActivity<ActivityInviteCodeListB
         });
         userViewModel.getLoadingSate().observe(this,loading->{
             if (loading){
-                binding.avi.show();
+                binding.rvRefresh.avi.show();
             }else {
-                binding.avi.hide();
+                binding.rvRefresh.avi.hide();
             }
         });
     }

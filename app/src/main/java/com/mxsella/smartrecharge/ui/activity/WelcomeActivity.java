@@ -1,6 +1,7 @@
 package com.mxsella.smartrecharge.ui.activity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -31,7 +32,9 @@ public class WelcomeActivity extends BaseActivity<ActivityWelcomeBinding> {
 
     @Override
     public void initView() {
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            this.getWindow().setStatusBarColor(getResources().getColor(R.color.primary));
+        }
         Runnable navRunnable = this::navTo;
         // 在1秒后跳转
         new Handler().postDelayed(navRunnable, DELAY_TIME);

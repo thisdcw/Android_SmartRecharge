@@ -14,6 +14,7 @@ import com.mxsella.smartrecharge.comm.executor.SendSerialExecutor;
 import com.mxsella.smartrecharge.comm.executor.SerialExecutor;
 import com.mxsella.smartrecharge.common.Config;
 import com.mxsella.smartrecharge.utils.LogUtil;
+import com.mxsella.smartrecharge.utils.PayUtils;
 import com.mxsella.smartrecharge.utils.StringUtils;
 
 import java.io.ByteArrayInputStream;
@@ -266,7 +267,7 @@ public class BleService implements ICommunicateService {
 
         @Override
         public void run() {
-            LogUtil.test("收到 => "+ Arrays.toString(data));
+            LogUtil.test("收到 => " + Arrays.toString(data));
             DataInputStream inputStream = null;
             int readLength = 0;
             try {
@@ -306,7 +307,8 @@ public class BleService implements ICommunicateService {
                             inputStream.readFully(bytes, 2, len + 1);
                             readLength += (len + 1);
                             int sum = address + len;
-                            int key = Config.getSecretKey();
+                            int key = PayUtils.secretKey();
+                            LogUtil.test("key => " + key);
                             for (int i = 2; i < bytes.length - 1; i++) {
                                 if (bytes[0] == (byte) Protocol.ADDR_INFO) {
                                     sum = bytes[i] + key + sum;
@@ -318,6 +320,9 @@ public class BleService implements ICommunicateService {
                                     sum += bytes[i];
                                 }
                             }
+                            LogUtil.test("k => "+ StringUtils.bytesToHex(Protocol.command(PayUtils.encode(100))));
+                            LogUtil.test("sum => " + sum);
+                            LogUtil.test("old => " + (bytes[bytes.length - 1]));
                             if ((byte) sum == bytes[bytes.length - 1]) {
                                 ReceivePacket packet = new ReceivePacket(bytes);
                                 for (int i = listenerList.size() - 1; i >= 0; i--) {
@@ -365,6 +370,7 @@ public class BleService implements ICommunicateService {
             BleManager.getInstance().disconnect(curDevice);
         }
     }
+
     public void reconnect() {
         if (curDevice != null) {
             BleManager.getInstance().connect(curDevice.getMac(), connectCallback);

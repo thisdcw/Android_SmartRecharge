@@ -1,6 +1,14 @@
 package com.mxsella.smartrecharge.ui.fragment;
 
+import android.graphics.Color;
+import android.os.Build;
+import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.google.gson.Gson;
 import com.mxsella.smartrecharge.R;
@@ -42,6 +50,9 @@ public class SettingsFragment extends BaseFragment<FragmentSettingsBinding> {
 
     @Override
     public void initEventAndData() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            context.getWindow().setStatusBarColor(getResources().getColor(R.color.primary));
+        }
         currentUser = userViewModel.getCurrentUser();
         if (currentUser != null) {
             binding.username.setText(currentUser.getUserName());
@@ -69,7 +80,7 @@ public class SettingsFragment extends BaseFragment<FragmentSettingsBinding> {
             navTo(ChildUserListActivity.class);
         });
 
-        binding.lltRechargeCode.setOnClickListener(v->{
+        binding.lltRechargeCode.setOnClickListener(v -> {
             navTo(RechargeCodeListActivity.class);
         });
         binding.lltDevice.setOnClickListener(v -> {

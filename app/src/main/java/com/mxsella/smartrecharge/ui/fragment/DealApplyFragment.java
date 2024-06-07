@@ -41,10 +41,10 @@ public class DealApplyFragment extends BaseFragment<FragmentDealApplyBinding> {
     public void initEventAndData() {
         productName = deviceViewModel.getProductName();
         getApplyList();
-        binding.rv.setLayoutManager(new LinearLayoutManager(context));
-        binding.rv.setAdapter(adapter);
+        binding.rvRefresh.rv.setLayoutManager(new LinearLayoutManager(context));
+        binding.rvRefresh.rv.setAdapter(adapter);
 
-        RefreshLayout refreshLayout = binding.refreshLayout;
+        RefreshLayout refreshLayout = binding.rvRefresh.refreshLayout;
         refreshLayout.setRefreshHeader(new ClassicsHeader(context));
         refreshLayout.setRefreshFooter(new ClassicsFooter(context));
         refreshLayout.setOnRefreshListener(refreshlayout -> {
@@ -72,11 +72,11 @@ public class DealApplyFragment extends BaseFragment<FragmentDealApplyBinding> {
                     SortUtil.sortByDescending(records);
                     adapter.submitList(records);
                 } else {
-                    binding.empty.setVisibility(View.VISIBLE);
+                    binding.rvRefresh.empty.setVisibility(View.VISIBLE);
                 }
             } else {
-                binding.text.setText(result.getMessage());
-                binding.empty.setVisibility(View.VISIBLE);
+                binding.rvRefresh.text.setText(result.getMessage());
+                binding.rvRefresh.empty.setVisibility(View.VISIBLE);
             }
         });
         adapter.setOnItemClickListener((baseQuickAdapter, view, i) -> {
@@ -101,9 +101,9 @@ public class DealApplyFragment extends BaseFragment<FragmentDealApplyBinding> {
         });
         deviceViewModel.getLoadingSate().observe(this, loading -> {
             if (loading) {
-                binding.avi.show();
+                binding.rvRefresh.avi.show();
             } else {
-                binding.avi.hide();
+                binding.rvRefresh.avi.hide();
             }
         });
     }

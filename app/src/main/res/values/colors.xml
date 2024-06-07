@@ -35,5 +35,6 @@
     <color name="list_item_state_pass">@color/primary</color>
     <color name="list_item_state_refuse">#EA0000</color>
     <color name="list_item_state_pending">#FF8C5A</color>
+    <color name="device_fragment_bkg">#F0F5F7</color>
 
 </resources>

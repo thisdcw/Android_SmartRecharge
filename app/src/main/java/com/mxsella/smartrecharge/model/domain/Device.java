@@ -13,6 +13,12 @@ public class Device {
 
     private String createTime;
 
+    private String brandName;
+
+    private String agentName;
+
+    private String storeName;
+
     public Integer getId() {
         return id;
     }
@@ -69,6 +75,31 @@ public class Device {
         this.createTime = createTime;
     }
 
+
+    public String getBrandName() {
+        return brandName;
+    }
+
+    public void setBrandName(String brandName) {
+        this.brandName = brandName;
+    }
+
+    public String getAgentName() {
+        return agentName;
+    }
+
+    public void setAgentName(String agentName) {
+        this.agentName = agentName;
+    }
+
+    public String getStoreName() {
+        return storeName;
+    }
+
+    public void setStoreName(String storeName) {
+        this.storeName = storeName;
+    }
+
     @Override
     public String toString() {
         return "Device{" +
@@ -79,6 +110,9 @@ public class Device {
                 ", agent='" + agent + '\'' +
                 ", store='" + store + '\'' +
                 ", createTime='" + createTime + '\'' +
+                ", brandName='" + brandName + '\'' +
+                ", agentName='" + agentName + '\'' +
+                ", storeName='" + storeName + '\'' +
                 '}';
     }
 }

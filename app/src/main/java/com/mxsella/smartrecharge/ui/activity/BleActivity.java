@@ -12,24 +12,32 @@ import com.mxsella.smartrecharge.MyApplication;
 import com.mxsella.smartrecharge.R;
 import com.mxsella.smartrecharge.comm.BleService;
 import com.mxsella.smartrecharge.comm.IBleConnectStateCallback;
+import com.mxsella.smartrecharge.comm.ICommunicateService;
+import com.mxsella.smartrecharge.comm.Protocol;
+import com.mxsella.smartrecharge.comm.ReceivePacket;
 import com.mxsella.smartrecharge.common.Config;
 import com.mxsella.smartrecharge.common.Constants;
 import com.mxsella.smartrecharge.common.base.BaseActivity;
 import com.mxsella.smartrecharge.databinding.ActivityBleBinding;
 import com.mxsella.smartrecharge.entity.BleDeviceInfo;
+import com.mxsella.smartrecharge.model.enums.ResultCode;
 import com.mxsella.smartrecharge.ui.adapter.BleAdapter;
 import com.mxsella.smartrecharge.utils.LogUtil;
 import com.mxsella.smartrecharge.utils.ToastUtils;
+import com.mxsella.smartrecharge.viewmodel.DeviceViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class BleActivity extends BaseActivity<ActivityBleBinding> {
 
-
+    private ICommunicateService iCommunicateService;
     private List<BleDeviceInfo> bleList = new ArrayList<>();
     private BleAdapter bleAdapter;
     private int position;
+    private BleDeviceInfo connectDevice;
+
+    private final DeviceViewModel deviceViewModel = new DeviceViewModel();
 
     @Override
     public int layoutId() {
@@ -38,6 +46,8 @@ public class BleActivity extends BaseActivity<ActivityBleBinding> {
 
     @Override
     public void initView() {
+        iCommunicateService = BleService.getInstance();
+        iCommunicateService.setListener(this::handlePacket);
         bleAdapter = new BleAdapter();
         binding.rcvBle.setLayoutManager(new LinearLayoutManager(this));
         binding.rcvBle.setAdapter(bleAdapter);
@@ -54,18 +64,35 @@ public class BleActivity extends BaseActivity<ActivityBleBinding> {
         });
         bleAdapter.setOnItemClickListener((baseQuickAdapter, view, i) -> {
             position = i;
-            BleDeviceInfo item = bleAdapter.getItem(i);
+            connectDevice = bleAdapter.getItem(i);
             if (!BleService.getInstance().isConnected()) {
                 LogUtil.d("未连接点击");
-                connect(item.getDeviceAddress());
+                connect();
             } else {
+                disConnect();
+            }
+        });
+        deviceViewModel.getDeviceState().observe(this, result -> {
+            if (result.getResultCode() == ResultCode.SUCCESS) {
+                dealBle();
+            } else {
+                ToastUtils.showToast("无权限");
                 disConnect();
             }
         });
     }
 
-    public void connect(String mac) {
-        BleService.getInstance().connect(mac, new IBleConnectStateCallback() {
+    private void handlePacket(ReceivePacket packet) {
+        if (packet.getType().equals(ReceivePacket.TYPE_MAC)) {
+            String mac = packet.getMac();
+            deviceViewModel.getDeviceSate(mac);
+            LogUtil.test("mac码 -> " + mac);
+        }
+
+    }
+
+    public void connect() {
+        BleService.getInstance().connect(connectDevice.getDeviceAddress(), new IBleConnectStateCallback() {
             @Override
             public void startConnect() {
                 LogUtil.d("开始连接");
@@ -75,13 +102,9 @@ public class BleActivity extends BaseActivity<ActivityBleBinding> {
             public void connectSuccess() {
                 sendBroadcast(new Intent(Constants.BLE_CONNECT));
                 LogUtil.d("连接成功");
-                BleDeviceInfo item = bleAdapter.getItem(position);
-                item.setConnectState(true);
-                bleAdapter.notifyDataSetChanged();
-                Config.saveBle(item);
-                Config.saveBleName(item.getDeviceName());
-                Config.saveBleAddress(item.getDeviceAddress());
-                MyApplication.getInstance().setConnected(true);
+                connectDevice.setConnectState(true);
+                iCommunicateService.send(Protocol.MAC);
+                bleAdapter.set(position, connectDevice);
             }
 
             @Override
@@ -93,14 +116,17 @@ public class BleActivity extends BaseActivity<ActivityBleBinding> {
             public void disConnect() {
                 sendBroadcast(new Intent(Constants.BLE_DISCONNECT));
                 LogUtil.d("断开连接");
-                BleDeviceInfo item = bleAdapter.getItem(position);
-                item.setConnectState(false);
-                bleAdapter.set(position, item);
-                bleAdapter.notifyDataSetChanged();
-                Config.saveBle(null);
+                connectDevice.setConnectState(false);
+                bleAdapter.set(position, connectDevice);
+                Config.saveBle(new BleDeviceInfo());
                 MyApplication.getInstance().setConnected(false);
             }
         });
+    }
+
+    public void dealBle() {
+        Config.saveBle(connectDevice);
+        MyApplication.getInstance().setConnected(true);
     }
 
     void disConnect() {
@@ -127,9 +153,10 @@ public class BleActivity extends BaseActivity<ActivityBleBinding> {
             List<BleDeviceInfo> deviceInfoList = new ArrayList<>();
             BleDevice curDevice = BleService.getInstance().getCurDevice();
             if (curDevice != null) {
+                BleDeviceInfo ble = Config.getBle();
                 BleDeviceInfo bleDeviceInfo = new BleDeviceInfo();
-                bleDeviceInfo.setDeviceName(Config.getBleName());
-                bleDeviceInfo.setDeviceAddress(Config.getBleAddress());
+                bleDeviceInfo.setDeviceName(ble.getDeviceName());
+                bleDeviceInfo.setDeviceAddress(ble.getDeviceAddress());
                 bleDeviceInfo.setConnectState(true);
                 deviceInfoList.add(bleDeviceInfo);
             }

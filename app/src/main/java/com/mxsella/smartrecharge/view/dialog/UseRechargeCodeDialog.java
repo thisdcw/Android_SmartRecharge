@@ -24,7 +24,7 @@ public class UseRechargeCodeDialog extends BaseDialog<DialogUseCodeBinding> {
     @Override
     public void initView() {
         super.initView();
-        binding.tvPrompt.setText(getString(R.string.device_info_product_name, String.valueOf(getProductName())));
+        binding.tvPrompt.setText(getString(R.string.device_info_device_id, String.valueOf(getProductName())));
     }
 
     public String getProductName() {

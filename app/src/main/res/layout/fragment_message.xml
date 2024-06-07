@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tl="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -17,6 +16,16 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <com.mxsella.smartrecharge.view.widget.CustomerNavBar
+                android:id="@+id/nav_bar"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                app:navRightText="次数历史"
+                app:navRightTextColor="@color/primary"
+                app:navTitle=""
+                app:navTitleColor="@color/black"
+                app:showBack="false" />
+
             <com.flyco.tablayout.SlidingTabLayout
                 android:id="@+id/st"
                 android:layout_width="match_parent"
@@ -30,7 +39,7 @@
             <com.mxsella.smartrecharge.view.widget.CustomerViewPager
                 android:id="@+id/vp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent" />
 
         </LinearLayout>
 

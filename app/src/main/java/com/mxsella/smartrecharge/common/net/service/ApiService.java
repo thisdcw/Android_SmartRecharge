@@ -2,6 +2,7 @@ package com.mxsella.smartrecharge.common.net.service;
 
 import com.mxsella.smartrecharge.model.domain.RechargeCode;
 import com.mxsella.smartrecharge.model.domain.UserHistory;
+import com.mxsella.smartrecharge.model.request.DeviceStateRequestBody;
 import com.mxsella.smartrecharge.model.request.ModifySubRequestBody;
 import com.mxsella.smartrecharge.model.request.ModifyUserRequestBody;
 import com.mxsella.smartrecharge.model.request.UseRechargeCodeRequest;
@@ -184,6 +185,19 @@ public interface ApiService {
                                                                              @Path("size") int size,
                                                                              @Query("productName") String productName);
 
+    /**
+     * 获取用户充值码列表
+     *
+     * @param current
+     * @param size
+     * @param productName
+     * @return
+     */
+    @POST("device/times/recharge_code/list/{current}/{size}")
+    Observable<BaseResponse<ListResponse<RechargeCode>>> getRechargeCodeList(@Path("current") int current,
+                                                                             @Path("size") int size,
+                                                                             @Query("productName") String productName,
+                                                                             @Query("deviceId") String deviceId);
 
     /**
      * 使用充值码
@@ -287,4 +301,14 @@ public interface ApiService {
      */
     @POST("device/times/recharge/sub_apply_list/{current}/{size}")
     Observable<BaseResponse<ListResponse<ApplyTimes>>> getChildApplyList(@Path("current") int current, @Path("size") int size, @Query("productName") String productName);
+
+    /**
+     * 获取设备状态
+     *
+     * @param deviceStateRequestBody
+     * @return
+     */
+    @POST("device/device/status")
+    Observable<BaseResponse<Device>> getDeviceSate(@Body DeviceStateRequestBody deviceStateRequestBody);
+
 }

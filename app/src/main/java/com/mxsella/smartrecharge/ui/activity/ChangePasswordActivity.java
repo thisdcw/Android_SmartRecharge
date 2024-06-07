@@ -18,6 +18,7 @@ public class ChangePasswordActivity extends BaseActivity<ActivityChangePasswordB
     private boolean usePwd = false;
 
     private boolean isGetCode = false;
+    private boolean isGetting = false;
 
     private CountDownTimer countDownTimer;
 
@@ -45,7 +46,7 @@ public class ChangePasswordActivity extends BaseActivity<ActivityChangePasswordB
         userViewModel.getVerifyChangePwd().observe(this, result -> {
             ToastUtils.showToast(result.getMessage());
             if (result.getResultCode() == ResultCode.SUCCESS) {
-                if (countDownTimer!=null){
+                if (countDownTimer != null) {
                     countDownTimer.cancel();
                 }
                 navTo(LoginActivity.class);
@@ -69,13 +70,19 @@ public class ChangePasswordActivity extends BaseActivity<ActivityChangePasswordB
 
             @Override
             public void onFinish() {
+                isGetting = false;
                 binding.tvGetVerifyCode.setText("再次获取");
             }
         };
         countDownTimer.start();
+        isGetting = true;
     }
 
     public void getCode(View view) {
+        if (isGetting) {
+            ToastUtils.showToast("请勿重复点击!");
+            return;
+        }
         String telephone = binding.telephone.getText().toString().trim();
         userViewModel.getVerifyCode(telephone, CodeType.MODIFY.getType());
 
@@ -114,7 +121,7 @@ public class ChangePasswordActivity extends BaseActivity<ActivityChangePasswordB
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (countDownTimer!=null){
+        if (countDownTimer != null) {
             countDownTimer.cancel();
         }
     }

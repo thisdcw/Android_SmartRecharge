@@ -74,7 +74,7 @@ public class Config {
     }
 
     public static String getPassword() {
-        return mainSP.getString(PASSWORD, "111100");
+        return mainSP.getString(PASSWORD, "000000000000");
     }
 
     public static void savePassword(String password) {
@@ -106,21 +106,7 @@ public class Config {
         save(SECRET_KEY, key);
     }
 
-    public static String getBleName() {
-        return mainSP.getString(BLE_NAME, "");
-    }
 
-    public static void saveBleName(String name) {
-        save(BLE_NAME, name);
-    }
-
-    public static String getBleAddress() {
-        return mainSP.getString(BLE_ADDRESS, "");
-    }
-
-    public static void saveBleAddress(String address) {
-        save(BLE_ADDRESS, address);
-    }
 
     public static void save(String key, Object value) {
         mainSP.edit().putString(key, String.valueOf(value)).apply();

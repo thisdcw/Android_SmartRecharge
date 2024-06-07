@@ -12,6 +12,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.viewbinding.ViewBinding;
 
+import com.mxsella.smartrecharge.R;
 import com.mxsella.smartrecharge.utils.LogUtil;
 import com.mxsella.smartrecharge.view.dialog.LoadingDialog;
 import com.mxsella.smartrecharge.viewmodel.DeviceViewModel;
@@ -39,9 +40,6 @@ public abstract class BaseActivity<DB extends ViewDataBinding> extends AppCompat
             binding = DataBindingUtil.setContentView(this, layoutId());
         } catch (Exception e) {
             LogUtil.e("error layout -> " + e.getMessage());
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            this.getWindow().setStatusBarColor(Color.TRANSPARENT);
         }
         initView();
     }

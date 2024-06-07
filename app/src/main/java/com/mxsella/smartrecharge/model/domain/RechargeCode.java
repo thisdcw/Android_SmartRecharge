@@ -7,6 +7,8 @@ public class RechargeCode {
     private String deviceId;
 
     private String rechargeCode;
+    private String rechargePassword;
+
 
     private int rechargeState;
 
@@ -62,12 +64,21 @@ public class RechargeCode {
         this.times = times;
     }
 
+    public String getRechargePassword() {
+        return rechargePassword;
+    }
+
+    public void setRechargePassword(String rechargePassword) {
+        this.rechargePassword = rechargePassword;
+    }
+
     @Override
     public String toString() {
         return "RechargeCode{" +
                 "historyId='" + historyId + '\'' +
                 ", deviceId='" + deviceId + '\'' +
                 ", rechargeCode='" + rechargeCode + '\'' +
+                ", rechargePassword='" + rechargePassword + '\'' +
                 ", rechargeState=" + rechargeState +
                 ", createTime='" + createTime + '\'' +
                 ", times=" + times +

@@ -37,3 +37,35 @@
   public static * inflate(android.view.LayoutInflater, android.view.ViewGroup, boolean);
   public static * bind(android.view.View);
 }
+
+# 保留应用程序入口点
+-keep class com.mxsella.smartrecharge.ui.activity.WelcomeActivity
+
+# 保留Android框架类和方法
+-keep class android.**
+-keep interface android.**
+-keep enum android.**
+-keepattributes Signature
+
+# 保留自定义类和方法
+-keep class com.mxsella.smartrecharge.model.** { *; }
+-keep class com.mxsella.smartrecharge.util.** { *; }
+
+# 保留用于反射和依赖注入的类和方法
+-keepclassmembers class * {
+    @javax.inject.* *;
+    @dagger.* *;
+    @com.google.inject.* *;
+    @javax.annotation.* *;
+    @com.squareup.inject.* *;
+}
+
+# 保留用于序列化的类和方法
+-keepclassmembers class * implements java.io.Serializable {
+    static final long serialVersionUID;
+    private static final java.io.ObjectStreamField[] serialPersistentFields;
+    private void writeObject(java.io.ObjectOutputStream);
+    private void readObject(java.io.ObjectInputStream);
+    java.lang.Object writeReplace();
+    java.lang.Object readResolve();
+}

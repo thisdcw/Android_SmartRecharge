@@ -67,9 +67,9 @@ public class ChildUserListActivity extends BaseActivity<ActivityChildUserBinding
             binding.navBar.getTitleTextView().setText(userEnum.getChildRole());
         }
         childUserAdapter = new ChildUserAdapter();
-        binding.rv.setLayoutManager(new LinearLayoutManager(mContext));
-        binding.rv.setAdapter(childUserAdapter);
-        RefreshLayout refreshLayout = binding.refreshLayout;
+        binding.rvRefresh.rv.setLayoutManager(new LinearLayoutManager(mContext));
+        binding.rvRefresh.rv.setAdapter(childUserAdapter);
+        RefreshLayout refreshLayout = binding.rvRefresh.refreshLayout;
         refreshLayout.setRefreshHeader(new ClassicsHeader(mContext));
         refreshLayout.setRefreshFooter(new ClassicsFooter(mContext));
         refreshLayout.setOnRefreshListener(refreshlayout -> {
@@ -88,14 +88,14 @@ public class ChildUserListActivity extends BaseActivity<ActivityChildUserBinding
         userViewModel.getListChildUserResult().observe(this, result -> {
             ListResponse<User> data = result.getData();
             if (data == null) {
-                binding.empty.setVisibility(View.VISIBLE);
+                binding.rvRefresh.empty.setVisibility(View.VISIBLE);
                 return;
             }
             List<User> records = data.getRecords();
             if (!records.isEmpty()) {
                 childUserAdapter.submitList(records);
             } else {
-                binding.empty.setVisibility(View.VISIBLE);
+                binding.rvRefresh.empty.setVisibility(View.VISIBLE);
             }
         });
         childUserAdapter.setOnClickListener(user -> {
@@ -137,10 +137,10 @@ public class ChildUserListActivity extends BaseActivity<ActivityChildUserBinding
         deviceViewModel.getLoadingSate().observe(this, loading -> {
             if (loading) {
 
-//                binding.avi.smoothToShow();
+                binding.rvRefresh.avi.smoothToShow();
             } else {
 
-//                binding.avi.smoothToHide();
+                binding.rvRefresh.avi.smoothToHide();
             }
         });
         userViewModel.getChangeSubInfo().observe(this, result -> {

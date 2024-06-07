@@ -1,5 +1,6 @@
 package com.mxsella.smartrecharge.ui.activity;
 
+import android.os.Build;
 import android.os.CountDownTimer;
 import android.view.View;
 
@@ -17,6 +18,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
     private UserViewModel userViewModel;
 
     private boolean usePwd = false;
+    private boolean isGetting = false;
     private CountDownTimer countDownTimer;
 
     @Override
@@ -26,11 +28,14 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
 
     @Override
     public void initView() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            this.getWindow().setStatusBarColor(getResources().getColor(R.color.primary));
+        }
         userViewModel = new UserViewModel();
 
         userViewModel.getLoginResult().observe(this, result -> {
             if (result.getResultCode() == ResultCode.SUCCESS) {
-                if (countDownTimer!=null){
+                if (countDownTimer != null) {
                     countDownTimer.cancel();
                 }
                 Config.setLogin(true);
@@ -69,10 +74,12 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
 
             @Override
             public void onFinish() {
+                isGetting = false;
                 binding.tvGetVerifyCode.setText("再次获取");
             }
         };
         countDownTimer.start();
+        isGetting = true;
     }
 
     public void usePassword(View view) {
@@ -94,6 +101,10 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
     }
 
     public void getVerifyCode(View view) {
+        if (isGetting) {
+            ToastUtils.showToast("请勿重复点击!");
+            return;
+        }
         String phone = binding.edtTelephone.getText().toString().trim();
         userViewModel.getVerifyCode(phone, CodeType.LOGIN.getType());
     }
@@ -101,7 +112,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (countDownTimer!=null){
+        if (countDownTimer != null) {
             countDownTimer.cancel();
         }
     }

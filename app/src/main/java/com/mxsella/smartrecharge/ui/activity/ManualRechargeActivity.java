@@ -70,7 +70,6 @@ public class ManualRechargeActivity extends BaseActivity<ActivityManualRechargeB
             }
         });
         initCardOnClick();
-
     }
 
     private void initCardOnClick() {

@@ -8,6 +8,7 @@ import com.mxsella.smartrecharge.common.base.BaseViewModel;
 import com.mxsella.smartrecharge.common.net.HandlerLoading;
 import com.mxsella.smartrecharge.model.domain.RechargeCode;
 import com.mxsella.smartrecharge.model.domain.UserHistory;
+import com.mxsella.smartrecharge.model.request.DeviceStateRequestBody;
 import com.mxsella.smartrecharge.model.request.UseRechargeCodeRequest;
 import com.mxsella.smartrecharge.model.response.handler.NetWorkResult;
 import com.mxsella.smartrecharge.model.response.handler.ResultUtil;
@@ -34,6 +35,11 @@ public class DeviceViewModel extends BaseViewModel {
     protected final MutableLiveData<NetWorkResult<ListResponse<UserHistory>>> getUserTimesHistoryListResult = new MutableLiveData<>();
     protected final MutableLiveData<NetWorkResult<ListResponse<RechargeCode>>> getRechargeCodeListResult = new MutableLiveData<>();
     protected final MutableLiveData<NetWorkResult<String>> useRechargeCodeResult = new MutableLiveData<>();
+    protected final MutableLiveData<NetWorkResult<Device>> deviceState = new MutableLiveData<>();
+
+    public LiveData<NetWorkResult<Device>> getDeviceState() {
+        return deviceState;
+    }
 
     public MutableLiveData<NetWorkResult<String>> getUseRechargeCodeResult() {
         return useRechargeCodeResult;
@@ -113,6 +119,18 @@ public class DeviceViewModel extends BaseViewModel {
         return productName.isEmpty() ? null : productName;
     }
 
+
+    /**
+     * 获取设备状态
+     *
+     * @param deviceId
+     */
+    public void getDeviceSate(String deviceId) {
+        String productName = getProductName();
+        DeviceStateRequestBody deviceStateRequestBody = new DeviceStateRequestBody(productName, deviceId);
+        net.getDeviceSate(deviceStateRequestBody, createHandler(deviceState));
+    }
+
     /**
      * 使用充值码
      *
@@ -133,6 +151,17 @@ public class DeviceViewModel extends BaseViewModel {
     public void getRechargeCodeList(int current, int size) {
         String productName = getProductName();
         net.getRechargeCodeList(current, size, productName, createHandler(getRechargeCodeListResult));
+    }
+
+    /**
+     * 获取充值码列表
+     *
+     * @param current
+     * @param size
+     */
+    public void getRechargeCodeList(int current, int size, String deviceId) {
+        String productName = getProductName();
+        net.getRechargeCodeList(current, size, productName, deviceId, createHandler(getRechargeCodeListResult));
     }
 
     /**

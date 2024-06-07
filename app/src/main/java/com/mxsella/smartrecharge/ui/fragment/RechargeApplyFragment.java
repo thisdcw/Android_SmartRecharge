@@ -35,9 +35,9 @@ public class RechargeApplyFragment extends BaseFragment<FragmentRechargeApplyBin
     public void initEventAndData() {
         productName = deviceViewModel.getProductName();
 
-        binding.rv.setLayoutManager(new LinearLayoutManager(context));
-        binding.rv.setAdapter(applyHistoryListAdapter);
-        RefreshLayout refreshLayout = binding.refreshLayout;
+        binding.rvRefresh.rv.setLayoutManager(new LinearLayoutManager(context));
+        binding.rvRefresh.rv.setAdapter(applyHistoryListAdapter);
+        RefreshLayout refreshLayout = binding.rvRefresh.refreshLayout;
         refreshLayout.setRefreshHeader(new ClassicsHeader(context));
         refreshLayout.setRefreshFooter(new ClassicsFooter(context));
         refreshLayout.setOnRefreshListener(refreshlayout -> {
@@ -65,18 +65,18 @@ public class RechargeApplyFragment extends BaseFragment<FragmentRechargeApplyBin
                     SortUtil.sortByDescending(records);
                     applyHistoryListAdapter.submitList(records);
                 } else {
-                    binding.empty.setVisibility(View.VISIBLE);
+                    binding.rvRefresh.empty.setVisibility(View.VISIBLE);
                 }
             } else {
-                binding.empty.setVisibility(View.VISIBLE);
+                binding.rvRefresh.empty.setVisibility(View.VISIBLE);
             }
 
         });
         deviceViewModel.getLoadingSate().observe(this, loading -> {
             if (loading) {
-                binding.avi.show();
+                binding.rvRefresh.avi.show();
             } else {
-                binding.avi.hide();
+                binding.rvRefresh.avi.hide();
             }
         });
         getApplyList();

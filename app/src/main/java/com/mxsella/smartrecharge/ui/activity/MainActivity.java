@@ -19,8 +19,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
         PermissionUtil.getInstance(this).requestBlePermission().requestExternalPermission().requestCameraPermission();
 
         initEvent();
-
-
     }
 
     public void connectBle(View view) {

@@ -58,8 +58,8 @@ public class DeviceListActivity extends BaseActivity<ActivityDeviceListBinding> 
     @Override
     public void initView() {
         adapter = new DeviceListAdapter();
-        binding.rv.setLayoutManager(new LinearLayoutManager(mContext));
-        binding.rv.setAdapter(adapter);
+        binding.rvRefresh.rv.setLayoutManager(new LinearLayoutManager(mContext));
+        binding.rvRefresh.rv.setAdapter(adapter);
         productName = deviceViewModel.getProductName();
         currentUser = userViewModel.getCurrentUser();
         if (currentUser != null) {
@@ -72,7 +72,7 @@ public class DeviceListActivity extends BaseActivity<ActivityDeviceListBinding> 
             }
         }
         getDeviceList();
-        RefreshLayout refreshLayout = binding.refreshLayout;
+        RefreshLayout refreshLayout = binding.rvRefresh.refreshLayout;
         refreshLayout.setRefreshHeader(new ClassicsHeader(mContext));
         refreshLayout.setRefreshFooter(new ClassicsFooter(mContext));
         refreshLayout.setOnRefreshListener(refreshlayout -> {
@@ -101,7 +101,7 @@ public class DeviceListActivity extends BaseActivity<ActivityDeviceListBinding> 
                     SortUtil.sortByTimeDescending(records);
                     adapter.submitList(records);
                 }else {
-                    binding.empty.setVisibility(View.VISIBLE);
+                    binding.rvRefresh.empty.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -164,9 +164,9 @@ public class DeviceListActivity extends BaseActivity<ActivityDeviceListBinding> 
         });
         deviceViewModel.getLoadingSate().observe(this, loading -> {
             if (loading) {
-                binding.avi.show();
+                binding.rvRefresh.avi.show();
             } else {
-                binding.avi.hide();
+                binding.rvRefresh.avi.hide();
             }
         });
         binding.navBar.getRightImageView().setOnClickListener(v -> {

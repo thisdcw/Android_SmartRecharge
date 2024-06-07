@@ -1,5 +1,7 @@
 package com.mxsella.smartrecharge.ui.fragment;
 
+import android.os.Build;
+
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
@@ -9,6 +11,7 @@ import com.mxsella.smartrecharge.common.base.BaseFragment;
 import com.mxsella.smartrecharge.databinding.FragmentMessageBinding;
 import com.mxsella.smartrecharge.inter.DialogClickListener;
 import com.mxsella.smartrecharge.model.enums.ResultCode;
+import com.mxsella.smartrecharge.ui.activity.TimesHistoryActivity;
 import com.mxsella.smartrecharge.utils.ToastUtils;
 import com.mxsella.smartrecharge.view.MessageViewPageAdapter;
 import com.mxsella.smartrecharge.view.dialog.InputDialog;
@@ -32,6 +35,9 @@ public class MessageFragment extends BaseFragment<FragmentMessageBinding> {
 
     @Override
     public void initEventAndData() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            context.getWindow().setStatusBarColor(getResources().getColor(R.color.white));
+        }
         MessageViewPageAdapter adapter = new MessageViewPageAdapter(getChildFragmentManager(), fragments, titles);
         fragments.add(new RechargeApplyFragment());
         fragments.add(new DealApplyFragment());
@@ -61,6 +67,10 @@ public class MessageFragment extends BaseFragment<FragmentMessageBinding> {
             } else {
                 ToastUtils.showToast(result.getMessage());
             }
+        });
+
+        binding.navBar.getRightTextView().setOnClickListener(v->{
+            navTo(TimesHistoryActivity.class);
         });
     }
 

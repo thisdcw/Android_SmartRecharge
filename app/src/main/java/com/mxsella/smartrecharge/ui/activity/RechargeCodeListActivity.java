@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.chad.library.adapter4.BaseQuickAdapter;
 import com.mxsella.smartrecharge.R;
+import com.mxsella.smartrecharge.common.Config;
 import com.mxsella.smartrecharge.common.base.BaseActivity;
 import com.mxsella.smartrecharge.databinding.ActivityRechargeCodeListBinding;
 import com.mxsella.smartrecharge.inter.DialogClickListener;
@@ -29,7 +30,7 @@ public class RechargeCodeListActivity extends BaseActivity<ActivityRechargeCodeL
     private static final int FRESH_DELAY = 2000;
     private final int LOAD_DELAY = 2000;
     private int cur = 1;
-
+    private boolean isCur = false;
     private int size = 20;
     private UseRechargeCodeDialog useRechargeCodeDialog;
     private final DeviceViewModel deviceViewModel = new DeviceViewModel();
@@ -41,10 +42,10 @@ public class RechargeCodeListActivity extends BaseActivity<ActivityRechargeCodeL
 
     @Override
     public void initView() {
-        binding.rv.setLayoutManager(new LinearLayoutManager(this));
-        binding.rv.setAdapter(rechargeCodeAdapter);
+        binding.rvRefresh.rv.setLayoutManager(new LinearLayoutManager(this));
+        binding.rvRefresh.rv.setAdapter(rechargeCodeAdapter);
         getCodeList();
-        RefreshLayout refreshLayout = binding.refreshLayout;
+        RefreshLayout refreshLayout = binding.rvRefresh.refreshLayout;
         refreshLayout.setRefreshHeader(new ClassicsHeader(mContext));
         refreshLayout.setRefreshFooter(new ClassicsFooter(mContext));
         refreshLayout.setOnRefreshListener(refreshlayout -> {
@@ -65,16 +66,16 @@ public class RechargeCodeListActivity extends BaseActivity<ActivityRechargeCodeL
                 if (!records.isEmpty()) {
                     rechargeCodeAdapter.submitList(records);
                 } else {
-                    binding.empty.setVisibility(View.VISIBLE);
+                    binding.rvRefresh.empty.setVisibility(View.VISIBLE);
                 }
             }
             ToastUtils.showToast(result.getMessage());
         });
         deviceViewModel.getLoadingSate().observe(this, isLoading -> {
             if (isLoading) {
-                binding.avi.smoothToShow();
+                binding.rvRefresh.avi.smoothToShow();
             } else {
-                binding.avi.smoothToHide();
+                binding.rvRefresh.avi.smoothToHide();
             }
         });
         rechargeCodeAdapter.setOnItemClickListener((baseQuickAdapter, view, i) -> {
@@ -84,16 +85,32 @@ public class RechargeCodeListActivity extends BaseActivity<ActivityRechargeCodeL
             }
             showUseRechargeDialog(rechargeCode);
         });
-        deviceViewModel.getUseRechargeCodeResult().observe(this,result -> {
+        deviceViewModel.getUseRechargeCodeResult().observe(this, result -> {
             ToastUtils.showToast(result.getMessage());
-            if (result.getResultCode()==ResultCode.SUCCESS){
-               getCodeList();
+            if (result.getResultCode() == ResultCode.SUCCESS) {
+                getCodeList();
             }
+        });
+        binding.navBar.getRightTextView().setText("当前设备");
+        binding.navBar.getRightTextView().setOnClickListener(v -> {
+            if (isCur) {
+                binding.navBar.getRightTextView().setText("当前设备");
+            } else {
+                binding.navBar.getRightTextView().setText("所有设备");
+            }
+            rechargeCodeAdapter.submitList(null);
+            isCur = !isCur;
+            getCodeList();
         });
     }
 
     private void showUseRechargeDialog(RechargeCode rechargeCode) {
-        useRechargeCodeDialog = new UseRechargeCodeDialog(deviceViewModel.getProductName());
+        String deviceMac = Config.getDeviceMac();
+        if (!rechargeCode.getDeviceId().equals(deviceMac)){
+            ToastUtils.showToast("连接设备不对");
+            return;
+        }
+        useRechargeCodeDialog = new UseRechargeCodeDialog(deviceMac);
 
         useRechargeCodeDialog.setDialogListener(new DialogClickListener() {
             @Override
@@ -111,6 +128,15 @@ public class RechargeCodeListActivity extends BaseActivity<ActivityRechargeCodeL
     }
 
     private void getCodeList() {
-        deviceViewModel.getRechargeCodeList(cur, size);
+        if (isCur) {
+            getCurCodeList();
+        } else {
+            deviceViewModel.getRechargeCodeList(cur, size);
+        }
+    }
+
+    private void getCurCodeList() {
+        String deviceMac = Config.getDeviceMac();
+        deviceViewModel.getRechargeCodeList(cur, size, deviceMac);
     }
 }

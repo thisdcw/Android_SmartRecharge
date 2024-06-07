@@ -1,5 +1,7 @@
 package com.mxsella.smartrecharge.ui.fragment;
 
+import android.os.Build;
+import android.os.CountDownTimer;
 import android.view.View;
 
 import com.huawei.hms.ml.scan.HmsScan;
@@ -29,11 +31,13 @@ public class DeviceFragment extends BaseFragment<FragmentDeviceBinding> {
     private int workTime = 0;
     private ScanDialog scanDialog;
 
+    private boolean isPay = false;
+
     private int scanValue = 0;
 
     private DealRechargeDialog dealRechargeDialog;
     private final DeviceViewModel deviceViewModel = new DeviceViewModel();
-
+    private CountDownTimer countDownTimer;
     private String deviceId;
 
     @Override
@@ -50,6 +54,9 @@ public class DeviceFragment extends BaseFragment<FragmentDeviceBinding> {
 
     @Override
     public void initEventAndData() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            context.getWindow().setStatusBarColor(getResources().getColor(R.color.device_fragment_bkg));
+        }
         deviceId = Config.getDeviceId();
         binding.remainTimes.setText(getString(R.string.remainTimes, String.valueOf(remainTimes)));
         binding.workTime.setText(getString(R.string.seconds, String.valueOf(workTime)));
@@ -93,11 +100,34 @@ public class DeviceFragment extends BaseFragment<FragmentDeviceBinding> {
     }
 
     public void reset() {
-        if (!BleService.getInstance().isConnected()) {
-            ToastUtils.showToast("请先连接设备");
-            return;
-        }
-        iCommunicateService.send(Protocol.command(PayUtils.encode(0)));
+//        if (!BleService.getInstance().isConnected()) {
+//            ToastUtils.showToast("请先连接设备");
+//            return;
+//        }
+//        iCommunicateService.send(Protocol.command(PayUtils.encode(0)));
+        countDown();
+        iCommunicateService.imitateReceive(Protocol.test);
+    }
+
+    private void countDown() {
+        countDownTimer = new CountDownTimer(3 * 1000L, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+
+
+            }
+
+            @Override
+            public void onFinish() {
+                if (isPay){
+                    //TODO 充值
+                    deviceViewModel.deviceRecharge(deviceId, scanValue);
+                }else {
+                    LogUtil.test("充值失败");
+                }
+            }
+        };
+        countDownTimer.start();
     }
 
     private void handleScanData(HmsScan data) {
@@ -150,8 +180,8 @@ public class DeviceFragment extends BaseFragment<FragmentDeviceBinding> {
             remainTimes = packet.getRemainTimes();
             workTime = packet.getWorkTime();
             LogUtil.test("支付成功! remainTimes => " + remainTimes + " work time => " + workTime);
-            //TODO 充值
-            deviceViewModel.deviceRecharge(deviceId, scanValue);
+            isPay = true;
+
         }
         if (packet.getType().equals(ReceivePacket.TYPE_MAC)) {
             String mac = packet.getMac();
@@ -170,5 +200,13 @@ public class DeviceFragment extends BaseFragment<FragmentDeviceBinding> {
         }
         iCommunicateService.send(Protocol.command(PayUtils.encode()));
         iCommunicateService.send(Protocol.MAC);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+        }
     }
 }

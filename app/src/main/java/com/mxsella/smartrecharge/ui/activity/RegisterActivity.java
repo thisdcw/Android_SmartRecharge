@@ -1,5 +1,6 @@
 package com.mxsella.smartrecharge.ui.activity;
 
+import android.os.Build;
 import android.os.CountDownTimer;
 import android.view.View;
 
@@ -16,7 +17,7 @@ public class RegisterActivity extends BaseActivity<ActivityRegisterBinding> {
 
     private UserViewModel userViewModel;
     private CountDownTimer countDownTimer;
-
+    private boolean isGetting = false;
     @Override
     public int layoutId() {
         return R.layout.activity_register;
@@ -24,6 +25,9 @@ public class RegisterActivity extends BaseActivity<ActivityRegisterBinding> {
 
     @Override
     public void initView() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            this.getWindow().setStatusBarColor(getResources().getColor(R.color.primary));
+        }
         userViewModel = new UserViewModel();
 
         userViewModel.getVerifyResult().observe(this, result -> {
@@ -59,10 +63,12 @@ public class RegisterActivity extends BaseActivity<ActivityRegisterBinding> {
 
             @Override
             public void onFinish() {
+                isGetting  =false;
                 binding.tvGetVerifyCode.setText("再次获取");
             }
         };
         countDownTimer.start();
+        isGetting = true;
     }
 
     public void toLogin(View view) {
@@ -77,6 +83,10 @@ public class RegisterActivity extends BaseActivity<ActivityRegisterBinding> {
     }
 
     public void getVerifyCode(View view) {
+        if (isGetting){
+            ToastUtils.showToast("请勿重复点击!");
+            return;
+        }
         String phone = binding.edtTelephone.getText().toString().trim();
         userViewModel.getVerifyCode(phone, CodeType.REGISTER.getType());
     }
