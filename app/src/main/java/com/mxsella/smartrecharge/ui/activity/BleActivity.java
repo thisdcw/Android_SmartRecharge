@@ -86,6 +86,7 @@ public class BleActivity extends BaseActivity<ActivityBleBinding> {
         if (packet.getType().equals(ReceivePacket.TYPE_MAC)) {
             String mac = packet.getMac();
             deviceViewModel.getDeviceSate(mac);
+            Config.saveDeviceMac(mac);
             LogUtil.test("mac码 -> " + mac);
         }
 

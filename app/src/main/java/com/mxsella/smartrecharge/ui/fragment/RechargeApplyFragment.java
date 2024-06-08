@@ -12,6 +12,7 @@ import com.mxsella.smartrecharge.model.enums.ResultCode;
 import com.mxsella.smartrecharge.model.response.ListResponse;
 import com.mxsella.smartrecharge.ui.adapter.ApplyHistoryListAdapter;
 import com.mxsella.smartrecharge.utils.SortUtil;
+import com.mxsella.smartrecharge.utils.ToastUtils;
 import com.mxsella.smartrecharge.viewmodel.DeviceViewModel;
 import com.scwang.smart.refresh.footer.ClassicsFooter;
 import com.scwang.smart.refresh.header.ClassicsHeader;
@@ -80,6 +81,7 @@ public class RechargeApplyFragment extends BaseFragment<FragmentRechargeApplyBin
             }
         });
         getApplyList();
+
     }
 
     private void getApplyList() {

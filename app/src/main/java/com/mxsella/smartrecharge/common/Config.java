@@ -74,7 +74,7 @@ public class Config {
     }
 
     public static String getPassword() {
-        return mainSP.getString(PASSWORD, "000000000000");
+        return mainSP.getString(PASSWORD, "");
     }
 
     public static void savePassword(String password) {
@@ -82,19 +82,11 @@ public class Config {
     }
 
     public static String getDeviceMac() {
-        return mainSP.getString(DEVICE_MAC, "F724C9D500AD");
+        return mainSP.getString(DEVICE_MAC, "");
     }
 
     public static void saveDeviceMac(String deviceMac) {
         save(DEVICE_MAC, deviceMac);
-    }
-
-    public static String getDeviceId() {
-        return mainSP.getString(DEVICE_ID, "123456");
-    }
-
-    public static void saveDeviceId(String deviceId) {
-        save(DEVICE_ID, deviceId);
     }
 
     public static int getSecretKey() {

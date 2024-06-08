@@ -10,23 +10,30 @@ import com.mxsella.smartrecharge.R;
 import com.mxsella.smartrecharge.common.base.BaseFragment;
 import com.mxsella.smartrecharge.databinding.FragmentMessageBinding;
 import com.mxsella.smartrecharge.inter.DialogClickListener;
+import com.mxsella.smartrecharge.model.domain.User;
 import com.mxsella.smartrecharge.model.enums.ResultCode;
+import com.mxsella.smartrecharge.model.enums.UserEnum;
 import com.mxsella.smartrecharge.ui.activity.TimesHistoryActivity;
 import com.mxsella.smartrecharge.utils.ToastUtils;
 import com.mxsella.smartrecharge.view.MessageViewPageAdapter;
 import com.mxsella.smartrecharge.view.dialog.InputDialog;
 import com.mxsella.smartrecharge.viewmodel.DeviceViewModel;
+import com.mxsella.smartrecharge.viewmodel.UserViewModel;
 
 import java.util.ArrayList;
 
 public class MessageFragment extends BaseFragment<FragmentMessageBinding> {
 
     private final String[] titles = {"我的", "消息"};
+    private final String[] storeTitles = {"我的申请"};
+    private final String[] adminTitles = {"我的消息"};
 
     private final ArrayList<Fragment> fragments = new ArrayList<>();
     private InputDialog applyAddDialog;
+    private MessageViewPageAdapter adapter;
 
     private final DeviceViewModel deviceViewModel = new DeviceViewModel();
+    private final UserViewModel userViewModel = new UserViewModel();
 
     @Override
     public int getLayoutId() {
@@ -38,12 +45,22 @@ public class MessageFragment extends BaseFragment<FragmentMessageBinding> {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             context.getWindow().setStatusBarColor(getResources().getColor(R.color.white));
         }
-        MessageViewPageAdapter adapter = new MessageViewPageAdapter(getChildFragmentManager(), fragments, titles);
-        fragments.add(new RechargeApplyFragment());
-        fragments.add(new DealApplyFragment());
+        User user = userViewModel.getCurrentUser();
 
+        String[] title = titles;
+        if (user.getRole().equals(UserEnum.STORE.getRole())) {
+            fragments.add(new RechargeApplyFragment());
+            title = storeTitles;
+        } else if (user.getRole().equals(UserEnum.ADMIN.getRole())) {
+            fragments.add(new DealApplyFragment());
+            title = adminTitles;
+        } else {
+            fragments.add(new RechargeApplyFragment());
+            fragments.add(new DealApplyFragment());
+        }
+        adapter = new MessageViewPageAdapter(getChildFragmentManager(), fragments, titles);
         binding.vp.setAdapter(adapter);
-        binding.st.setViewPager(binding.vp, titles);
+        binding.st.setViewPager(binding.vp, title);
 
         binding.st.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
@@ -62,16 +79,17 @@ public class MessageFragment extends BaseFragment<FragmentMessageBinding> {
         });
 
         deviceViewModel.getApplyTimesResult().observe(this, result -> {
-            if (result.getResultCode() == ResultCode.SUCCESS) {
-                ToastUtils.showToast(result.getMessage());
-            } else {
-                ToastUtils.showToast(result.getMessage());
-            }
+            ToastUtils.showToast(result.getMessage());
         });
 
-        binding.navBar.getRightTextView().setOnClickListener(v->{
-            navTo(TimesHistoryActivity.class);
-        });
+    }
+
+    public void success() {
+
+    }
+
+    public void failed() {
+
     }
 
     private void showAddApplyDialog() {

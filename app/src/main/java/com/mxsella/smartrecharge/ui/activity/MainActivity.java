@@ -8,17 +8,44 @@ import androidx.navigation.Navigation;
 import com.mxsella.smartrecharge.R;
 import com.mxsella.smartrecharge.common.Config;
 import com.mxsella.smartrecharge.common.base.BaseActivity;
+import com.mxsella.smartrecharge.common.db.RechargeHistory;
+import com.mxsella.smartrecharge.common.db.RechargeHistoryManager;
 import com.mxsella.smartrecharge.databinding.ActivityMainBinding;
+import com.mxsella.smartrecharge.model.domain.RechargeCode;
+import com.mxsella.smartrecharge.model.enums.ResultCode;
+import com.mxsella.smartrecharge.utils.LogUtil;
 import com.mxsella.smartrecharge.utils.PermissionUtil;
+import com.mxsella.smartrecharge.utils.ToastUtils;
+import com.mxsella.smartrecharge.viewmodel.DeviceViewModel;
+import com.mxsella.smartrecharge.viewmodel.UserViewModel;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class MainActivity extends BaseActivity<ActivityMainBinding> {
 
+    DeviceViewModel deviceViewModel = new DeviceViewModel();
+    UserViewModel userViewModel = new UserViewModel();
+    List<RechargeHistory> collect;
+
+    private RechargeHistoryManager historyManager;
 
     @Override
     public void initView() {
         PermissionUtil.getInstance(this).requestBlePermission().requestExternalPermission().requestCameraPermission();
-
+        historyManager = RechargeHistoryManager.getInstance();
         initEvent();
+
+        checkData();
+        deviceViewModel.getUseRechargeCodeResult().observe(this, result -> {
+            if (result.getResultCode() == ResultCode.SUCCESS) {
+                //更新状态
+                RechargeCode data = result.getData();
+                RechargeHistory historyById = historyManager.getHistoryById(data.getHistoryId());
+                historyById.setCheck(true);
+                historyManager.saveOrUpdate(historyById);
+            }
+        });
     }
 
     public void connectBle(View view) {
@@ -56,6 +83,25 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
                 return false;
             }
         });
+    }
+
+    private void checkData() {
+        String uid = userViewModel.getCurrentUser().getUid();
+        String productName = deviceViewModel.getProductName();
+        if (uid == null || productName == null) {
+            ToastUtils.showToast("请先设置产品名称");
+            return;
+        }
+        List<RechargeHistory> history = historyManager.getAllRechargeHistoryByKeyword(uid, productName);
+        if (history != null) {
+            collect = history.stream().filter(h -> h.isPay() && !h.isCheck()).collect(Collectors.toList());
+            for (int i = 0; i < collect.size(); i++) {
+                RechargeHistory rechargeHistory = collect.get(i);
+                deviceViewModel.useRechargeCode(rechargeHistory.getHistoryId());
+            }
+            LogUtil.test(collect.toString());
+        }
+
     }
 
     @Override

@@ -2,21 +2,16 @@ package com.mxsella.smartrecharge.ui.activity;
 
 import android.view.View;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.chad.library.adapter4.BaseQuickAdapter;
 import com.mxsella.smartrecharge.R;
 import com.mxsella.smartrecharge.common.Config;
 import com.mxsella.smartrecharge.common.base.BaseActivity;
 import com.mxsella.smartrecharge.databinding.ActivityRechargeCodeListBinding;
-import com.mxsella.smartrecharge.inter.DialogClickListener;
 import com.mxsella.smartrecharge.model.domain.RechargeCode;
 import com.mxsella.smartrecharge.model.enums.ResultCode;
 import com.mxsella.smartrecharge.ui.adapter.RechargeCodeAdapter;
 import com.mxsella.smartrecharge.utils.ToastUtils;
-import com.mxsella.smartrecharge.view.dialog.DealApplyDialog;
-import com.mxsella.smartrecharge.view.dialog.UseRechargeCodeDialog;
 import com.mxsella.smartrecharge.viewmodel.DeviceViewModel;
 import com.scwang.smart.refresh.footer.ClassicsFooter;
 import com.scwang.smart.refresh.header.ClassicsHeader;
@@ -32,7 +27,6 @@ public class RechargeCodeListActivity extends BaseActivity<ActivityRechargeCodeL
     private int cur = 1;
     private boolean isCur = false;
     private int size = 20;
-    private UseRechargeCodeDialog useRechargeCodeDialog;
     private final DeviceViewModel deviceViewModel = new DeviceViewModel();
 
     @Override
@@ -60,7 +54,7 @@ public class RechargeCodeListActivity extends BaseActivity<ActivityRechargeCodeL
             refreshlayout.finishLoadMore(LOAD_DELAY);//传入false表示加载失败
         });
 
-        deviceViewModel.getGetRechargeCodeListResult().observe(this, result -> {
+        deviceViewModel.getRechargeCodeListResult().observe(this, result -> {
             if (result.getResultCode() == ResultCode.SUCCESS) {
                 List<RechargeCode> records = result.getData().getRecords();
                 if (!records.isEmpty()) {
@@ -77,13 +71,6 @@ public class RechargeCodeListActivity extends BaseActivity<ActivityRechargeCodeL
             } else {
                 binding.rvRefresh.avi.smoothToHide();
             }
-        });
-        rechargeCodeAdapter.setOnItemClickListener((baseQuickAdapter, view, i) -> {
-            RechargeCode rechargeCode = rechargeCodeAdapter.getItem(i);
-            if (rechargeCode == null) {
-                return;
-            }
-            showUseRechargeDialog(rechargeCode);
         });
         deviceViewModel.getUseRechargeCodeResult().observe(this, result -> {
             ToastUtils.showToast(result.getMessage());
@@ -102,29 +89,6 @@ public class RechargeCodeListActivity extends BaseActivity<ActivityRechargeCodeL
             isCur = !isCur;
             getCodeList();
         });
-    }
-
-    private void showUseRechargeDialog(RechargeCode rechargeCode) {
-        String deviceMac = Config.getDeviceMac();
-        if (!rechargeCode.getDeviceId().equals(deviceMac)){
-            ToastUtils.showToast("连接设备不对");
-            return;
-        }
-        useRechargeCodeDialog = new UseRechargeCodeDialog(deviceMac);
-
-        useRechargeCodeDialog.setDialogListener(new DialogClickListener() {
-            @Override
-            public void onConfirm() {
-                deviceViewModel.useRechargeCode(rechargeCode.getHistoryId());
-            }
-
-            @Override
-            public void onCancel() {
-
-            }
-        });
-
-        useRechargeCodeDialog.show(getSupportFragmentManager(), "use_recharge_code");
     }
 
     private void getCodeList() {

@@ -26,27 +26,27 @@ public class DeviceViewModel extends BaseViewModel {
     private final MutableLiveData<NetWorkResult<Brand>> updateBrandResult = new MutableLiveData<>();
     private final MutableLiveData<NetWorkResult<Integer>> getUserTimesResult = new MutableLiveData<>();
     private final MutableLiveData<NetWorkResult<Integer>> userRechargeResult = new MutableLiveData<>();
-    private final MutableLiveData<NetWorkResult<Integer>> deviceRechargeResult = new MutableLiveData<>();
+    private final MutableLiveData<NetWorkResult<RechargeCode>> deviceRechargeResult = new MutableLiveData<>();
     private final MutableLiveData<NetWorkResult<ApplyTimes>> applyTimesResult = new MutableLiveData<>();
     private final MutableLiveData<NetWorkResult<ApplyTimes>> dealApplyResult = new MutableLiveData<>();
     private final MutableLiveData<NetWorkResult<ListResponse<ApplyTimes>>> getApplyListResult = new MutableLiveData<>();
     private final MutableLiveData<NetWorkResult<ListResponse<ApplyTimes>>> getChildApplyListResult = new MutableLiveData<>();
     protected final MutableLiveData<Boolean> loadingSate = new MutableLiveData<>();
     protected final MutableLiveData<NetWorkResult<ListResponse<UserHistory>>> getUserTimesHistoryListResult = new MutableLiveData<>();
-    protected final MutableLiveData<NetWorkResult<ListResponse<RechargeCode>>> getRechargeCodeListResult = new MutableLiveData<>();
-    protected final MutableLiveData<NetWorkResult<String>> useRechargeCodeResult = new MutableLiveData<>();
+    protected final MutableLiveData<NetWorkResult<ListResponse<RechargeCode>>> rechargeCodeListResult = new MutableLiveData<>();
+    protected final MutableLiveData<NetWorkResult<RechargeCode>> useRechargeCodeResult = new MutableLiveData<>();
     protected final MutableLiveData<NetWorkResult<Device>> deviceState = new MutableLiveData<>();
 
     public LiveData<NetWorkResult<Device>> getDeviceState() {
         return deviceState;
     }
 
-    public MutableLiveData<NetWorkResult<String>> getUseRechargeCodeResult() {
+    public MutableLiveData<NetWorkResult<RechargeCode>> getUseRechargeCodeResult() {
         return useRechargeCodeResult;
     }
 
-    public LiveData<NetWorkResult<ListResponse<RechargeCode>>> getGetRechargeCodeListResult() {
-        return getRechargeCodeListResult;
+    public LiveData<NetWorkResult<ListResponse<RechargeCode>>> getRechargeCodeListResult() {
+        return rechargeCodeListResult;
     }
 
     public LiveData<NetWorkResult<ListResponse<UserHistory>>> getGetUserTimesHistoryListResult() {
@@ -61,7 +61,7 @@ public class DeviceViewModel extends BaseViewModel {
         return updateBrandResult;
     }
 
-    public MutableLiveData<NetWorkResult<Integer>> getDeviceRechargeResult() {
+    public MutableLiveData<NetWorkResult<RechargeCode>> getDeviceRechargeResult() {
         return deviceRechargeResult;
     }
 
@@ -150,7 +150,7 @@ public class DeviceViewModel extends BaseViewModel {
      */
     public void getRechargeCodeList(int current, int size) {
         String productName = getProductName();
-        net.getRechargeCodeList(current, size, productName, createHandler(getRechargeCodeListResult));
+        net.getRechargeCodeList(current, size, productName, createHandler(rechargeCodeListResult));
     }
 
     /**
@@ -161,7 +161,7 @@ public class DeviceViewModel extends BaseViewModel {
      */
     public void getRechargeCodeList(int current, int size, String deviceId) {
         String productName = getProductName();
-        net.getRechargeCodeList(current, size, productName, deviceId, createHandler(getRechargeCodeListResult));
+        net.getRechargeCodeList(current, size, productName, deviceId, createHandler(rechargeCodeListResult));
     }
 
     /**

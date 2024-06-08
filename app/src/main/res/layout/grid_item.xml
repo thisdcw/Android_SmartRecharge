@@ -1,0 +1,29 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="recharge"
+            type="com.mxsella.smartrecharge.model.domain.RechargeCode" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:background="@drawable/primary_input_bkg"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="@{String.valueOf(recharge.times)+`次`}"
+            android:textSize="18sp"
+            android:textColor="#1A1A1A"
+            android:textStyle="bold"/>
+    </LinearLayout>
+</layout>

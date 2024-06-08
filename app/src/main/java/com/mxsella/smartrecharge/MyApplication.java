@@ -14,6 +14,8 @@ import com.scwang.smart.refresh.footer.ClassicsFooter;
 import com.scwang.smart.refresh.header.ClassicsHeader;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 
+import org.litepal.LitePal;
+
 import java.util.Objects;
 
 import me.jessyan.autosize.AutoSizeConfig;
@@ -50,8 +52,10 @@ public class MyApplication extends Application {
         AutoSizeConfig.getInstance().setExcludeFontScale(true).setUseDeviceSize(true);
         registerGlobalBroadcastReceiver();
         BleService.getInstance().init(instance);
+        LitePal.initialize(this);
         Config.mainSP = this.getSharedPreferences("main", 0);
     }
+
     private void registerGlobalBroadcastReceiver() {
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Constants.BLE_CONNECT);
@@ -59,12 +63,14 @@ public class MyApplication extends Application {
         timeBroadcastReceiver = new TimeBroadcastReceiver();
         registerReceiver(timeBroadcastReceiver, intentFilter);
     }
+
     private void unregisterGlobalBroadcastReceiver() {
         if (timeBroadcastReceiver != null) {
             unregisterReceiver(timeBroadcastReceiver);
             timeBroadcastReceiver = null;
         }
     }
+
     class TimeBroadcastReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {

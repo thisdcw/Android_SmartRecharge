@@ -26,6 +26,7 @@ import com.mxsella.smartrecharge.ui.activity.DeviceListActivity;
 import com.mxsella.smartrecharge.ui.activity.InviteCodeListActivity;
 import com.mxsella.smartrecharge.ui.activity.ModifyUserActivity;
 import com.mxsella.smartrecharge.ui.activity.RechargeCodeListActivity;
+import com.mxsella.smartrecharge.ui.activity.TimesHistoryActivity;
 import com.mxsella.smartrecharge.utils.LogUtil;
 import com.mxsella.smartrecharge.utils.ToastUtils;
 import com.mxsella.smartrecharge.view.dialog.InputDialog;
@@ -125,6 +126,10 @@ public class SettingsFragment extends BaseFragment<FragmentSettingsBinding> {
                 binding.civ.setImageUrl(currentUser.getAvatar());
 
             }
+        });
+
+        binding.lltHistory.setOnClickListener(v -> {
+            navTo(TimesHistoryActivity.class);
         });
     }
 

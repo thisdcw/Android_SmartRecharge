@@ -45,6 +45,12 @@
         android:theme="@style/Theme.Android_SmartRecharge"
         tools:targetApi="31">
         <activity
+            android:name=".ui.activity.UseHistoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.UseRechargeCodeActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.activity.TimesHistoryActivity"
             android:exported="false" />
         <activity

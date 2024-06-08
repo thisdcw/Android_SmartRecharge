@@ -22,16 +22,12 @@ import com.mxsella.smartrecharge.viewmodel.UserViewModel;
 
 public class ManualRechargeActivity extends BaseActivity<ActivityManualRechargeBinding> {
 
-    private ICommunicateService iCommunicateService;
     private int remainTimes = 0;
     private int rechargeTimes = 0;
-    private int workTime = 0;
     private String deviceId;
     private final DeviceViewModel deviceViewModel = new DeviceViewModel();
     private final UserViewModel userViewModel = new UserViewModel();
-
     private InputDialog diyRechargeDialog;
-
     private final int[][] card_time = {
             {10, 30, 50},
             {100, 200, 300},
@@ -40,28 +36,29 @@ public class ManualRechargeActivity extends BaseActivity<ActivityManualRechargeB
 
     @Override
     public void initView() {
-        //TODO 此处要获取到设备id
-        deviceId = Config.getDeviceId();
-        iCommunicateService = BleService.getInstance();
-        iCommunicateService.setListener(this::handlePacket);
+        //此处要获取到设备mac
+        if (BleService.getInstance().isConnected()) {
+            deviceId = Config.getDeviceMac();
+            binding.deviceMac.setText(deviceId);
+        }
 
         if (userViewModel.getCurrentUser().getRole().equals(UserEnum.ADMIN.getRole())) {
             binding.remainTimes.setText("∞");
         } else {
+            remainTimes = Config.getRemainTimes();
             binding.remainTimes.setText(String.valueOf(Config.getRemainTimes()));
         }
 
         deviceViewModel.getDeviceRechargeResult().observe(this, result -> {
             if (result.getResultCode() == ResultCode.SUCCESS) {
-                ToastUtils.showToast(result.getMessage());
                 //充值成功之后查询用户剩余次数
                 deviceViewModel.getUserTimes();
-            } else {
-                ToastUtils.showToast(result.getMessage());
             }
+            ToastUtils.showToast(result.getMessage());
         });
         deviceViewModel.getGetUserTimesResult().observe(this, result -> {
             if (result.getResultCode() == ResultCode.SUCCESS) {
+                remainTimes = result.getData();
                 binding.remainTimes.setText(String.valueOf(result.getData()));
                 Config.saveRemainTimes(result.getData());
                 ToastUtils.showToast(result.getResultCode().getMessage());
@@ -152,28 +149,14 @@ public class ManualRechargeActivity extends BaseActivity<ActivityManualRechargeB
 
     }
 
-    private void handlePacket(ReceivePacket packet) {
-        if (packet.getType().equals(ReceivePacket.TYPE_PAY)) {
-            remainTimes = packet.getRemainTimes();
-            workTime = packet.getWorkTime();
-            LogUtil.test("支付成功! remainTimes => " + remainTimes + " work time => " + workTime);
-            //TODO 充值
-            deviceViewModel.deviceRecharge(deviceId, rechargeTimes);
-        } else {
-            LogUtil.test("Unknown packet type received");
-        }
-    }
-
 
     public void charge(View view) {
-        LogUtil.d("要充值的次数: " + rechargeTimes);
-        if (!BleService.getInstance().isConnected()) {
-            ToastUtils.showToast("请先连接设备");
+        String deviceMac = binding.deviceMac.getText().toString().trim();
+        if (rechargeTimes > remainTimes) {
+            ToastUtils.showToast("剩余可用次数不足");
             return;
         }
-        //TODO 获取要充值的次数 + remainTimes
-        int times = rechargeTimes + remainTimes;
-        iCommunicateService.send(Protocol.command(PayUtils.encode(times)));
+        deviceViewModel.deviceRecharge(deviceMac, rechargeTimes);
     }
 
 

@@ -16,7 +16,7 @@ public class Protocol {
     public static final short DATA_LENGTH = 0x06;
     public static final byte[] INFO = Protocol.hexToByteArray("BFFBF2069E9E9E9E9E4BA5");
     public static final byte[] MAC = Protocol.hexToByteArray("BFFBF006010101010000FA");
-    public static final byte[] test = Protocol.hexToByteArray("BFFBF1064EB25556C4DF71");
+    public static final byte[] test = Protocol.hexToByteArray("BFFBF1069E02A5A6FCBDE7");
 
     public static byte[] encode(short address, short command) {
         StringBuilder sb = new StringBuilder();

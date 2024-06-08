@@ -31,7 +31,7 @@ public class DeviceRepository extends NetworkRepository {
         subscribeWithHandler(apiService.getDeviceSate(deviceStateRequestBody), handler);
     }
 
-    public void useRechargeCode(UseRechargeCodeRequest useRechargeCodeRequest, ApiResponseHandler<BaseResponse<String>> handler) {
+    public void useRechargeCode(UseRechargeCodeRequest useRechargeCodeRequest, ApiResponseHandler<BaseResponse<RechargeCode>> handler) {
         subscribeWithHandler(apiService.useRechargeCode(useRechargeCodeRequest), handler);
     }
 
@@ -65,7 +65,7 @@ public class DeviceRepository extends NetworkRepository {
         subscribeWithHandler(apiService.applyTimes(applyTimesRequestBody), handler);
     }
 
-    public void deviceRecharge(String productName, String targetDeviceId, Integer times, ApiResponseHandler<BaseResponse<Integer>> handler) {
+    public void deviceRecharge(String productName, String targetDeviceId, Integer times, ApiResponseHandler<BaseResponse<RechargeCode>> handler) {
         DeviceRechargeRequestBody deviceRechargeRequestBody = new DeviceRechargeRequestBody(productName, targetDeviceId, times);
         subscribeWithHandler(apiService.deviceRecharge(deviceRechargeRequestBody), handler);
     }

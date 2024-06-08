@@ -109,7 +109,7 @@ public class DealApplyFragment extends BaseFragment<FragmentDealApplyBinding> {
     }
 
     private void showDealDialog(ApplyTimes applyTimes) {
-        dealApplyDialog = new DealApplyDialog(applyTimes.getProductId());
+        dealApplyDialog = new DealApplyDialog(applyTimes.getApplyTimes());
         dealApplyDialog.setDialogListener(new DialogClickListener() {
             @Override
             public void onConfirm() {

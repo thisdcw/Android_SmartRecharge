@@ -11,6 +11,15 @@ public class ApplyTimes {
     private int applyState;
     private String operatorUid;
     private String operateTime;
+    private String subName;
+
+    public String getSubName() {
+        return subName;
+    }
+
+    public void setSubName(String subName) {
+        this.subName = subName;
+    }
 
     public String getApplyId() {
         return applyId;
@@ -96,6 +105,7 @@ public class ApplyTimes {
                 ", applyState=" + applyState +
                 ", operatorUid='" + operatorUid + '\'' +
                 ", operateTime='" + operateTime + '\'' +
+                ", subName='" + subName + '\'' +
                 '}';
     }
 }

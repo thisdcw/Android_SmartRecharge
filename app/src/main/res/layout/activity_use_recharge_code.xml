@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.mxsella.smartrecharge.view.widget.CustomerNavBar
+            android:id="@+id/nav_bar"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            app:navRightText="充值记录"
+            app:navRightTextColor="@color/primary"
+            app:navTitle="使用充值码"
+            app:navTitleColor="@color/black"
+            app:showBack="true" />
+
+        <LinearLayout
+            android:layout_width="343dp"
+            android:layout_height="44dp"
+            android:layout_gravity="center_horizontal"
+            android:background="#DDF1F3"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@mipmap/prompt" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:gravity="center"
+                android:text="注意! 现在是测试充值,点击后等待3秒"
+                android:textColor="#767676"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <include
+            android:id="@+id/rv"
+            layout="@layout/layout_rv" />
+
+    </LinearLayout>
+</layout>

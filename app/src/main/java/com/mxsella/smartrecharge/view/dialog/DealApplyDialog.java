@@ -15,10 +15,10 @@ public class DealApplyDialog extends BaseDialog<DialogDealApplyBinding> {
 
     private DialogClickListener dialogListener;
 
-    private Integer rechargeTimes;
+    private int rechargeTimes;
 
-    public DealApplyDialog(Integer productId) {
-        this.rechargeTimes = productId;
+    public DealApplyDialog(int rechargeTimes) {
+        this.rechargeTimes = rechargeTimes;
     }
 
     @Override
@@ -27,7 +27,7 @@ public class DealApplyDialog extends BaseDialog<DialogDealApplyBinding> {
         binding.tvPrompt.setText(getString(R.string.remainTimes, String.valueOf(getRechargeTimes())));
     }
 
-    public Integer getRechargeTimes() {
+    public int getRechargeTimes() {
         return rechargeTimes;
     }
 

@@ -206,7 +206,7 @@ public interface ApiService {
      * @return
      */
     @POST("device/times/recharge_code/use")
-    Observable<BaseResponse<String>> useRechargeCode(@Body UseRechargeCodeRequest useRechargeCodeRequest);
+    Observable<BaseResponse<RechargeCode>> useRechargeCode(@Body UseRechargeCodeRequest useRechargeCodeRequest);
 
     /**
      * 添加设备
@@ -260,7 +260,7 @@ public interface ApiService {
      * @return
      */
     @POST("device/times/recharge/device")
-    Observable<BaseResponse<Integer>> deviceRecharge(@Body DeviceRechargeRequestBody deviceRechargeRequestBody);
+    Observable<BaseResponse<RechargeCode>> deviceRecharge(@Body DeviceRechargeRequestBody deviceRechargeRequestBody);
 
     /**
      * 充值次数申请

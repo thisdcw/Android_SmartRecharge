@@ -8,9 +8,9 @@ public class DeviceRechargeRequestBody {
     @SerializedName("targetDeviceId")
     private String targetDeviceId;
     @SerializedName("times")
-    private Integer times;
+    private int times;
 
-    public DeviceRechargeRequestBody(String productName, String targetDeviceId, Integer times) {
+    public DeviceRechargeRequestBody(String productName, String targetDeviceId, int times) {
         this.productName = productName;
         this.targetDeviceId = targetDeviceId;
         this.times = times;
