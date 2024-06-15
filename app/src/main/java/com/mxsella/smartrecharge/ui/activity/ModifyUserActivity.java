@@ -19,7 +19,6 @@ import com.mxsella.smartrecharge.viewmodel.UserViewModel;
 
 public class ModifyUserActivity extends BaseActivity<ActivityModifyUserBinding> {
 
-    private final UserViewModel userViewModel = new UserViewModel();
     private static final int PICK_IMAGE = 1;
 
     @Override
@@ -29,14 +28,15 @@ public class ModifyUserActivity extends BaseActivity<ActivityModifyUserBinding> 
 
     @Override
     public void initView() {
-
         User user = userViewModel.getCurrentUser();
         binding.avatar.setImageUrl(user.getAvatar());
         binding.username.setText(user.getUserName());
         binding.username.requestFocus();
         binding.username.requestFocus(binding.username.getText().length());
+    }
 
-
+    @Override
+    public void initObserve() {
         userViewModel.getChangeUserInfo().observe(this, result -> {
             if (result.getResultCode() == ResultCode.SUCCESS) {
                 ToastUtils.showToast(result.getMessage());
@@ -45,7 +45,10 @@ public class ModifyUserActivity extends BaseActivity<ActivityModifyUserBinding> 
                 ToastUtils.showToast(result.getMessage());
             }
         });
+    }
 
+    @Override
+    public void initListener() {
         binding.avatar.setOnClickListener(v -> {
             openGallery();
         });

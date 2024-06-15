@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.gson.Gson;
 import com.mxsella.smartrecharge.R;
@@ -39,10 +40,6 @@ public class SettingsFragment extends BaseFragment<FragmentSettingsBinding> {
 
     private InputDialog productDialog;
 
-    private final DeviceViewModel deviceViewModel = new DeviceViewModel();
-
-    private final UserViewModel userViewModel = new UserViewModel();
-
     @Override
     public void onResume() {
         super.onResume();
@@ -50,28 +47,43 @@ public class SettingsFragment extends BaseFragment<FragmentSettingsBinding> {
     }
 
     @Override
-    public void initEventAndData() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            context.getWindow().setStatusBarColor(getResources().getColor(R.color.primary));
-        }
-        currentUser = userViewModel.getCurrentUser();
-        if (currentUser != null) {
-            binding.username.setText(currentUser.getUserName());
-            binding.civ.setImageUrl(currentUser.getAvatar());
-            if (currentUser.getRole().equals(Constants.ROLE_STORE)) {
-                binding.lltChildrenUser.setVisibility(View.GONE);
-                binding.lltInviteRecord.setVisibility(View.GONE);
-            }
-            UserEnum userEnum = Constants.roleMap.get(currentUser.getRole());
-            if (userEnum != null) {
-                binding.group.setText(userEnum.getChildRole());
-                binding.role.setText(userEnum.getCn());
-            }
-        }
+    public void initObserve() {
 
-        binding.remainTimes.setText(String.valueOf(Config.getRemainTimes()));
+        deviceViewModel.getGetUserTimesResult().observe(this, result -> {
+            if (result.getResultCode() == ResultCode.SUCCESS) {
+                binding.remainTimes.setText(String.valueOf(result.getData()));
+                Config.saveRemainTimes(result.getData());
+                ToastUtils.showToast(result.getResultCode().getMessage());
+            } else {
+                ToastUtils.showToast(result.getResultCode().getMessage());
+            }
+        });
+        binding.productName.setText(Config.getProductName());
+
+
+        deviceViewModel.getLoadingSate().observe(this, loading -> {
+            if (loading) {
+                binding.avi.show();
+            } else {
+                binding.avi.hide();
+            }
+        });
+
+
+        userViewModel.getUserInfoResult().observe(this, result -> {
+            if (result.getResultCode() == ResultCode.SUCCESS) {
+                Config.saveUser(result.getData());
+                currentUser = userViewModel.getCurrentUser();
+                binding.username.setText(currentUser.getUserName());
+                binding.civ.setImageUrl(currentUser.getAvatar());
+
+            }
+        });
+    }
+
+    @Override
+    public void initOnClick() {
         binding.lltInviteRecord.setOnClickListener(v -> {
-            LogUtil.d("1");
             navTo(InviteCodeListActivity.class);
         });
         binding.lltPwd.setOnClickListener(v -> {
@@ -94,40 +106,32 @@ public class SettingsFragment extends BaseFragment<FragmentSettingsBinding> {
         binding.getRemainTimes.setOnClickListener(v -> {
             deviceViewModel.getUserTimes();
         });
-        deviceViewModel.getGetUserTimesResult().observe(this, result -> {
-            if (result.getResultCode() == ResultCode.SUCCESS) {
-                binding.remainTimes.setText(String.valueOf(result.getData()));
-                Config.saveRemainTimes(result.getData());
-                ToastUtils.showToast(result.getResultCode().getMessage());
-            } else {
-                ToastUtils.showToast(result.getResultCode().getMessage());
-            }
-        });
-        binding.productName.setText(Config.getProductName());
-
-
-        deviceViewModel.getLoadingSate().observe(this, loading -> {
-            if (loading) {
-                binding.avi.show();
-            } else {
-                binding.avi.hide();
-            }
-        });
 
         binding.civ.setOnClickListener(v -> {
             navTo(ModifyUserActivity.class);
         });
+    }
 
-        userViewModel.getUserInfoResult().observe(this, result -> {
-            if (result.getResultCode() == ResultCode.SUCCESS) {
-                Config.saveUser(result.getData());
-                currentUser = userViewModel.getCurrentUser();
-                binding.username.setText(currentUser.getUserName());
-                binding.civ.setImageUrl(currentUser.getAvatar());
-
+    @Override
+    public void initView() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            context.getWindow().setStatusBarColor(getResources().getColor(R.color.primary));
+        }
+        currentUser = userViewModel.getCurrentUser();
+        if (currentUser != null) {
+            binding.username.setText(currentUser.getUserName());
+            binding.civ.setImageUrl(currentUser.getAvatar());
+            if (currentUser.getRole().equals(Constants.ROLE_STORE)) {
+                binding.lltChildrenUser.setVisibility(View.GONE);
+                binding.lltInviteRecord.setVisibility(View.GONE);
             }
-        });
-
+            UserEnum userEnum = Constants.roleMap.get(currentUser.getRole());
+            if (userEnum != null) {
+                binding.group.setText(userEnum.getChildRole());
+                binding.role.setText(userEnum.getCn());
+            }
+        }
+        binding.remainTimes.setText(String.valueOf(Config.getRemainTimes()));
         binding.lltHistory.setOnClickListener(v -> {
             navTo(TimesHistoryActivity.class);
         });

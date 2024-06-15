@@ -55,7 +55,6 @@ public class UseRechargeCodeDialog extends BaseDialog<DialogUseCodeBinding> {
             }
             dismiss();
         });
-
     }
 
     public void setDialogListener(DialogClickListener dialogListener) {

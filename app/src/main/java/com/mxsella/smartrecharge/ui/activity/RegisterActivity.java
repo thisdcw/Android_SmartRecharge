@@ -15,9 +15,9 @@ import com.mxsella.smartrecharge.viewmodel.UserViewModel;
 
 public class RegisterActivity extends BaseActivity<ActivityRegisterBinding> {
 
-    private UserViewModel userViewModel;
     private CountDownTimer countDownTimer;
     private boolean isGetting = false;
+
     @Override
     public int layoutId() {
         return R.layout.activity_register;
@@ -28,8 +28,10 @@ public class RegisterActivity extends BaseActivity<ActivityRegisterBinding> {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             this.getWindow().setStatusBarColor(getResources().getColor(R.color.primary));
         }
-        userViewModel = new UserViewModel();
+    }
 
+    @Override
+    public void initObserve() {
         userViewModel.getVerifyResult().observe(this, result -> {
             if (result.getResultCode() == ResultCode.SUCCESS) {
                 countDown();
@@ -52,6 +54,11 @@ public class RegisterActivity extends BaseActivity<ActivityRegisterBinding> {
         });
     }
 
+    @Override
+    public void initListener() {
+
+    }
+
     private void countDown() {
         countDownTimer = new CountDownTimer(60 * 1000L, 1000) {
             @Override
@@ -63,7 +70,7 @@ public class RegisterActivity extends BaseActivity<ActivityRegisterBinding> {
 
             @Override
             public void onFinish() {
-                isGetting  =false;
+                isGetting = false;
                 binding.tvGetVerifyCode.setText("再次获取");
             }
         };
@@ -83,7 +90,7 @@ public class RegisterActivity extends BaseActivity<ActivityRegisterBinding> {
     }
 
     public void getVerifyCode(View view) {
-        if (isGetting){
+        if (isGetting) {
             ToastUtils.showToast("请勿重复点击!");
             return;
         }

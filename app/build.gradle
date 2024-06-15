@@ -99,4 +99,8 @@ dependencies {
     // 应用更新
     implementation 'com.azhon:appupdate:2.9.0'
 
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
+    implementation 'org.apache.commons:commons-lang3:3.14.0'
+
+
 }

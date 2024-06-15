@@ -10,21 +10,37 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
+import com.mxsella.smartrecharge.common.manager.ActivityStackManager;
+import com.mxsella.smartrecharge.common.manager.ObserverManager;
 import com.mxsella.smartrecharge.utils.LogUtil;
+import com.mxsella.smartrecharge.viewmodel.DeviceViewModel;
+import com.mxsella.smartrecharge.viewmodel.UserViewModel;
 
 public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment {
 
     public AppCompatActivity context;
     protected T binding = null;
+    public ObserverManager observerManager;
 
-    public abstract void initEventAndData();
+    protected DeviceViewModel deviceViewModel;
+
+    protected UserViewModel userViewModel;
+
+    public abstract void initObserve();
+
+    public abstract void initOnClick();
+
+    public abstract void initView();
 
     public abstract int getLayoutId();
 
@@ -39,6 +55,7 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         try {
             binding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false);
+            observerManager = new ObserverManager(getViewLifecycleOwner());
         } catch (Exception e) {
             LogUtil.e("error layout -> " + e.getMessage());
             return null;
@@ -51,7 +68,11 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (binding != null) {
-            initEventAndData();
+            deviceViewModel = new ViewModelProvider(this).get(DeviceViewModel.class);
+            userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+            initObserve();
+            initView();
+            initOnClick();
         }
     }
 

@@ -22,8 +22,6 @@ public class ChangePasswordActivity extends BaseActivity<ActivityChangePasswordB
 
     private CountDownTimer countDownTimer;
 
-    private final UserViewModel userViewModel = new UserViewModel();
-
     @Override
     public int layoutId() {
         return R.layout.activity_change_password;
@@ -32,10 +30,10 @@ public class ChangePasswordActivity extends BaseActivity<ActivityChangePasswordB
     @Override
     public void initView() {
         initLayout();
-        binding.changeMode.setOnClickListener(v -> {
-            usePwd = !usePwd;
-            initLayout();
-        });
+    }
+
+    @Override
+    public void initObserve() {
         userViewModel.getVerifyResult().observe(this, result -> {
             if (result.getResultCode() == ResultCode.SUCCESS) {
                 isGetCode = true;
@@ -57,6 +55,14 @@ public class ChangePasswordActivity extends BaseActivity<ActivityChangePasswordB
             if (result.getResultCode() == ResultCode.SUCCESS) {
                 navTo(LoginActivity.class);
             }
+        });
+    }
+
+    @Override
+    public void initListener() {
+        binding.changeMode.setOnClickListener(v -> {
+            usePwd = !usePwd;
+            initLayout();
         });
     }
 
@@ -106,7 +112,6 @@ public class ChangePasswordActivity extends BaseActivity<ActivityChangePasswordB
     }
 
     private void initLayout() {
-
         if (usePwd) {
             binding.useVerifyCode.setVisibility(View.GONE);
             binding.usePwd.setVisibility(View.VISIBLE);

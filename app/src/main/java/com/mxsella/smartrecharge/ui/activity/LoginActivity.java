@@ -15,8 +15,6 @@ import com.mxsella.smartrecharge.viewmodel.UserViewModel;
 
 public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
 
-    private UserViewModel userViewModel;
-
     private boolean usePwd = false;
     private boolean isGetting = false;
     private CountDownTimer countDownTimer;
@@ -31,8 +29,10 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             this.getWindow().setStatusBarColor(getResources().getColor(R.color.primary));
         }
-        userViewModel = new UserViewModel();
+    }
 
+    @Override
+    public void initObserve() {
         userViewModel.getLoginResult().observe(this, result -> {
             if (result.getResultCode() == ResultCode.SUCCESS) {
                 if (countDownTimer != null) {
@@ -50,6 +50,11 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
             }
             ToastUtils.showToast(result.getMessage());
         });
+    }
+
+    @Override
+    public void initListener() {
+
     }
 
     public void doLogin(View view) {

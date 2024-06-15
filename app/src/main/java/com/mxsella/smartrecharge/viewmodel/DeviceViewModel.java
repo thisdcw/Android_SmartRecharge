@@ -18,6 +18,7 @@ import com.mxsella.smartrecharge.model.domain.Brand;
 import com.mxsella.smartrecharge.model.domain.Device;
 import com.mxsella.smartrecharge.model.response.ListResponse;
 import com.mxsella.smartrecharge.utils.LogUtil;
+import com.mxsella.smartrecharge.utils.ToastUtils;
 
 public class DeviceViewModel extends BaseViewModel {
     private final DeviceRepository net;
@@ -36,6 +37,11 @@ public class DeviceViewModel extends BaseViewModel {
     protected final MutableLiveData<NetWorkResult<ListResponse<RechargeCode>>> rechargeCodeListResult = new MutableLiveData<>();
     protected final MutableLiveData<NetWorkResult<RechargeCode>> useRechargeCodeResult = new MutableLiveData<>();
     protected final MutableLiveData<NetWorkResult<Device>> deviceState = new MutableLiveData<>();
+    protected final MutableLiveData<NetWorkResult<String>> bindDeviceState = new MutableLiveData<>();
+
+    public MutableLiveData<NetWorkResult<String>> getBindDeviceState() {
+        return bindDeviceState;
+    }
 
     public LiveData<NetWorkResult<Device>> getDeviceState() {
         return deviceState;
@@ -114,9 +120,10 @@ public class DeviceViewModel extends BaseViewModel {
         });
     }
 
-    public String getProductName() {
-        String productName = Config.getProductName();
-        return productName.isEmpty() ? null : productName;
+
+    public void bindDevice(String deviceId) {
+        String productName = getProductName();
+        net.bindDevice(productName, deviceId, createHandler(bindDeviceState));
     }
 
 
@@ -127,8 +134,7 @@ public class DeviceViewModel extends BaseViewModel {
      */
     public void getDeviceSate(String deviceId) {
         String productName = getProductName();
-        DeviceStateRequestBody deviceStateRequestBody = new DeviceStateRequestBody(productName, deviceId);
-        net.getDeviceSate(deviceStateRequestBody, createHandler(deviceState));
+        net.getDeviceSate(productName,deviceId, createHandler(deviceState));
     }
 
     /**

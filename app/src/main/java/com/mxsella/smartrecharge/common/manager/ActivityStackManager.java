@@ -1,4 +1,4 @@
-package com.mxsella.smartrecharge.common.base;
+package com.mxsella.smartrecharge.common.manager;
 
 import android.app.Activity;
 import android.content.Intent;

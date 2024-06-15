@@ -2,6 +2,7 @@ package com.mxsella.smartrecharge.view.dialog;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -9,7 +10,13 @@ import androidx.annotation.Nullable;
 import com.mxsella.smartrecharge.R;
 import com.mxsella.smartrecharge.common.base.BaseDialog;
 import com.mxsella.smartrecharge.databinding.DialogDeviceInfoBinding;
+import com.mxsella.smartrecharge.inter.DialogClickListener;
 import com.mxsella.smartrecharge.model.domain.Device;
+import com.mxsella.smartrecharge.model.domain.User;
+import com.mxsella.smartrecharge.model.enums.UserEnum;
+import com.mxsella.smartrecharge.viewmodel.UserViewModel;
+
+import org.apache.commons.lang3.StringUtils;
 
 public class DeviceInfoDialog extends BaseDialog<DialogDeviceInfoBinding> {
 
@@ -19,6 +26,18 @@ public class DeviceInfoDialog extends BaseDialog<DialogDeviceInfoBinding> {
     private String brand;
     private String agent;
     private String store;
+
+    private final UserViewModel userViewModel = new UserViewModel();
+
+    private DialogClickListener unbindListener;
+
+    public DialogClickListener getUnbindListener() {
+        return unbindListener;
+    }
+
+    public void setUnbindListener(DialogClickListener unbindListener) {
+        this.unbindListener = unbindListener;
+    }
 
     public Integer getProductId() {
         return productId;
@@ -63,9 +82,9 @@ public class DeviceInfoDialog extends BaseDialog<DialogDeviceInfoBinding> {
     public DeviceInfoDialog(Device device) {
         this.deviceId = device.getDeviceId();
         this.productId = device.getProductId();
-        this.brand = device.getBrand();
-        this.agent = device.getAgent();
-        this.store = device.getStore();
+        this.brand = device.getBrandName();
+        this.agent = device.getAgentName();
+        this.store = device.getStoreName();
     }
 
     @NonNull
@@ -76,11 +95,37 @@ public class DeviceInfoDialog extends BaseDialog<DialogDeviceInfoBinding> {
 
     @Override
     public void initEventAndData() {
+
+        binding.unbind.setOnClickListener(v -> {
+            if (unbindListener != null) {
+                unbindListener.onConfirm();
+            }
+            dismiss();
+        });
+        initUI();
+    }
+
+    private void initUI() {
         binding.deviceId.setText(getString(R.string.device_info_device_id, getDeviceId()));
         binding.productId.setText(getString(R.string.device_info_product_id, String.valueOf(getProductId())));
-        binding.brand.setText(getString(R.string.device_info_brand, (getBrand().isEmpty() ? "暂无" : getBrand())));
-        binding.agent.setText(getString(R.string.device_info_agent, (getAgent().isEmpty() ? "暂无" : getAgent())));
-        binding.store.setText(getString(R.string.device_info_store, (getStore().isEmpty() ? "暂无" : getStore())));
+
+        if (!StringUtils.isAnyBlank(getBrand())) {
+            binding.unbind.setVisibility(View.VISIBLE);
+            binding.brand.setVisibility(View.VISIBLE);
+            binding.brand.setText(getString(R.string.device_info_brand, getBrand()));
+        }
+        if (!StringUtils.isAnyBlank(getAgent())) {
+            binding.agent.setVisibility(View.VISIBLE);
+            binding.agent.setText(getString(R.string.device_info_agent, getAgent()));
+        }
+        if (!StringUtils.isAnyBlank(getStore())) {
+            binding.store.setVisibility(View.VISIBLE);
+            binding.store.setText(getString(R.string.device_info_store, getStore()));
+        }
+        User user = userViewModel.getCurrentUser();
+        if (user.getRole().equals(UserEnum.STORE.getRole())){
+            binding.unbind.setVisibility(View.GONE);
+        }
     }
 
     @Override

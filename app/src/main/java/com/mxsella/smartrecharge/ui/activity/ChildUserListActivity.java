@@ -16,6 +16,7 @@ import com.mxsella.smartrecharge.common.Constants;
 import com.mxsella.smartrecharge.common.base.BaseActivity;
 import com.mxsella.smartrecharge.databinding.ActivityChildUserBinding;
 import com.mxsella.smartrecharge.inter.DialogClickListener;
+import com.mxsella.smartrecharge.model.domain.ChildUser;
 import com.mxsella.smartrecharge.model.domain.User;
 import com.mxsella.smartrecharge.model.enums.ResultCode;
 import com.mxsella.smartrecharge.model.enums.UserEnum;
@@ -36,19 +37,13 @@ import java.util.List;
 public class ChildUserListActivity extends BaseActivity<ActivityChildUserBinding> {
 
     private User currentUser = new User();
-
-    private final UserViewModel userViewModel = new UserViewModel();
-    private static final int FRESH_DELAY = 2000;
-    private final int LOAD_DELAY = 2000;
     private int cur = 1;
-
     private int size = 20;
-
     private ChildUserAdapter childUserAdapter;
-
-    private final DeviceViewModel deviceViewModel = new DeviceViewModel();
     private InputDialog userRechargeDialog;
     private InputDialog userModifyDialog;
+    private InputDialog changeUserRemarkDialog;
+    private RefreshLayout refreshLayout;
 
     @Override
     public int layoutId() {
@@ -69,64 +64,27 @@ public class ChildUserListActivity extends BaseActivity<ActivityChildUserBinding
         childUserAdapter = new ChildUserAdapter();
         binding.rvRefresh.rv.setLayoutManager(new LinearLayoutManager(mContext));
         binding.rvRefresh.rv.setAdapter(childUserAdapter);
-        RefreshLayout refreshLayout = binding.rvRefresh.refreshLayout;
+        refreshLayout = binding.rvRefresh.refreshLayout;
         refreshLayout.setRefreshHeader(new ClassicsHeader(mContext));
         refreshLayout.setRefreshFooter(new ClassicsFooter(mContext));
-        refreshLayout.setOnRefreshListener(refreshlayout -> {
-            cur = 1;
-            size = 20;
-            getUserList();
-            refreshlayout.finishRefresh(FRESH_DELAY);//传入false表示刷新失败
-        });
-        refreshLayout.setOnLoadMoreListener(refreshlayout -> {
-            size += 20;
-            getUserList();
-            refreshlayout.finishLoadMore(LOAD_DELAY);//传入false表示加载失败
-        });
         getUserList();
+    }
 
+    @Override
+    public void initObserve() {
         userViewModel.getListChildUserResult().observe(this, result -> {
-            ListResponse<User> data = result.getData();
+            ListResponse<ChildUser> data = result.getData();
             if (data == null) {
                 binding.rvRefresh.empty.setVisibility(View.VISIBLE);
                 return;
             }
-            List<User> records = data.getRecords();
+            List<ChildUser> records = data.getRecords();
             if (!records.isEmpty()) {
                 childUserAdapter.submitList(records);
             } else {
                 binding.rvRefresh.empty.setVisibility(View.VISIBLE);
             }
         });
-        childUserAdapter.setOnClickListener(user -> {
-            LogUtil.d("点击");
-            if (user == null) {
-                return;
-            }
-            showUserModifyDialog(user);
-        });
-
-        childUserAdapter.setClickClip(value -> {
-            // 复制文本到剪贴板
-            ClipboardManager clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-            ClipData clipData = ClipData.newPlainText("inviteCode", value);
-            clipboardManager.setPrimaryClip(clipData);
-
-            ToastUtils.showToast("已复制用户ID到剪切板");
-        });
-
-
-        childUserAdapter.setOnItemLongClickListener((baseQuickAdapter, view, i) -> {
-            User item = childUserAdapter.getItem(i);
-            if (item == null) {
-                return false;
-            }
-            showUserRechargeDialog(item);
-            return true;
-        });
-
-
-
         deviceViewModel.getUserRechargeResult().observe(this, result -> {
             if (result.getResultCode() == ResultCode.SUCCESS) {
                 ToastUtils.showToast(result.getMessage());
@@ -151,17 +109,83 @@ public class ChildUserListActivity extends BaseActivity<ActivityChildUserBinding
         });
     }
 
+    @Override
+    public void initListener() {
+        refreshLayout.setOnRefreshListener(refreshlayout -> {
+            cur = 1;
+            size = 20;
+            getUserList();
+            refreshlayout.finishRefresh(Constants.FRESH_DELAY);//传入false表示刷新失败
+        });
+        refreshLayout.setOnLoadMoreListener(refreshlayout -> {
+            size += 20;
+            getUserList();
+            refreshlayout.finishLoadMore(Constants.LOAD_DELAY);//传入false表示加载失败
+        });
+        childUserAdapter.setOnClickListener(user -> {
+            LogUtil.d("点击");
+            if (user == null) {
+                return;
+            }
+            showUserModifyDialog(user);
+        });
+        childUserAdapter.setChangeRemarkListener(user -> {
+            if (user == null) {
+                return;
+            }
+            showUserRemarkModifyDialog(user);
+        });
+
+        childUserAdapter.setClickClip(value -> {
+            // 复制文本到剪贴板
+            ClipboardManager clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+            ClipData clipData = ClipData.newPlainText("inviteCode", value);
+            clipboardManager.setPrimaryClip(clipData);
+
+            ToastUtils.showToast("已复制用户ID到剪切板");
+        });
+
+
+        childUserAdapter.setOnItemLongClickListener((baseQuickAdapter, view, i) -> {
+            ChildUser item = childUserAdapter.getItem(i);
+            if (item == null) {
+                return false;
+            }
+            showUserRechargeDialog(item);
+            return true;
+        });
+
+
+    }
+
+    private void showUserRemarkModifyDialog(ChildUser childUser) {
+        changeUserRemarkDialog = new InputDialog("请输入备注", getString(R.string.user_remark_modify_username, childUser.getRemark()), "请输入备注");
+        changeUserRemarkDialog.setDialogListener(new DialogClickListener() {
+            @Override
+            public void onConfirm() {
+                String new_remark = changeUserRemarkDialog.getInput();
+                userViewModel.changeSub(childUser.getUid(), childUser.getSubName(), new_remark);
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+        });
+        changeUserRemarkDialog.show(getSupportFragmentManager(), "remark_modify");
+    }
+
     private void getUserList() {
         userViewModel.getChildUser(cur, size);
     }
 
-    private void showUserModifyDialog(User item) {
+    private void showUserModifyDialog(ChildUser item) {
         userModifyDialog = new InputDialog("请输入新名称", getString(R.string.user_modify_username, item.getSubName()), null);
         userModifyDialog.setDialogListener(new DialogClickListener() {
             @Override
             public void onConfirm() {
                 String new_name = userModifyDialog.getInput();
-                userViewModel.changeSub(item.getUid(), new_name);
+                userViewModel.changeSub(item.getUid(), new_name, item.getRemark());
             }
 
             @Override
@@ -172,7 +196,7 @@ public class ChildUserListActivity extends BaseActivity<ActivityChildUserBinding
         userModifyDialog.show(getSupportFragmentManager(), "sub_modify");
     }
 
-    private void showUserRechargeDialog(User user) {
+    private void showUserRechargeDialog(ChildUser user) {
         userRechargeDialog = new InputDialog("请输入你要充值的次数", getString(R.string.device_user_recharge_user, user.getUserName()), "请输入次数");
         userRechargeDialog.setDialogListener(new DialogClickListener() {
             @Override

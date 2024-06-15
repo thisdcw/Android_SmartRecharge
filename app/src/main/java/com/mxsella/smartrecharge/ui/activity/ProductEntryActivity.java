@@ -6,6 +6,7 @@ import android.view.KeyEvent;
 import com.mxsella.smartrecharge.R;
 import com.mxsella.smartrecharge.common.base.BaseActivity;
 import com.mxsella.smartrecharge.databinding.ActivityProductEntryBinding;
+import com.mxsella.smartrecharge.inter.DialogClickListener;
 import com.mxsella.smartrecharge.utils.LogUtil;
 import com.mxsella.smartrecharge.view.dialog.ProductInputDialog;
 
@@ -24,6 +25,16 @@ public class ProductEntryActivity extends BaseActivity<ActivityProductEntryBindi
     @Override
     public void initView() {
         binding.res.setText(getString(R.string.product_id, "test"));
+    }
+
+    @Override
+    public void initObserve() {
+
+    }
+
+    @Override
+    public void initListener() {
+
     }
 
     private void startScan() {
@@ -79,9 +90,9 @@ public class ProductEntryActivity extends BaseActivity<ActivityProductEntryBindi
         String productId = id.toString();
         productInputDialog = new ProductInputDialog();
         productInputDialog.setProductId(id.toString());
-        productInputDialog.setDialogListener(new ProductInputDialog.DialogListener() {
+        productInputDialog.setDialogListener(new DialogClickListener() {
             @Override
-            public void onConfirmClick() {
+            public void onConfirm() {
                 LogUtil.d("确认上传id: " + productId);
                 runOnUiThread(() -> {
                     binding.res.setText(getString(R.string.product_id, productId));
@@ -90,7 +101,7 @@ public class ProductEntryActivity extends BaseActivity<ActivityProductEntryBindi
             }
 
             @Override
-            public void onCancelClick() {
+            public void onCancel() {
                 LogUtil.d("取消上传id: " + productId);
                 isShow = false;
             }

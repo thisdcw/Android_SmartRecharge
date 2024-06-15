@@ -2,34 +2,36 @@ package com.mxsella.smartrecharge.common.base;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
-import androidx.viewbinding.ViewBinding;
+import androidx.lifecycle.ViewModelProvider;
 
-import com.mxsella.smartrecharge.R;
+import com.mxsella.smartrecharge.common.manager.ActivityStackManager;
+import com.mxsella.smartrecharge.common.manager.ObserverManager;
 import com.mxsella.smartrecharge.utils.LogUtil;
-import com.mxsella.smartrecharge.view.dialog.LoadingDialog;
 import com.mxsella.smartrecharge.viewmodel.DeviceViewModel;
-
-import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
+import com.mxsella.smartrecharge.viewmodel.UserViewModel;
 
 public abstract class BaseActivity<DB extends ViewDataBinding> extends AppCompatActivity {
 
     public Context mContext;
 
     public DB binding;
+    public ObserverManager observerManager;
+    protected DeviceViewModel deviceViewModel;
+
+    protected UserViewModel userViewModel;
 
     public abstract int layoutId();
 
     public abstract void initView();
+
+    public abstract void initObserve();
+
+    public abstract void initListener();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +43,12 @@ public abstract class BaseActivity<DB extends ViewDataBinding> extends AppCompat
         } catch (Exception e) {
             LogUtil.e("error layout -> " + e.getMessage());
         }
+        observerManager = new ObserverManager(this);
+        deviceViewModel = new ViewModelProvider(this).get(DeviceViewModel.class);
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        initObserve();
         initView();
+        initListener();
     }
 
 

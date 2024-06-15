@@ -18,16 +18,6 @@ public class ApplyHistoryListAdapter extends BaseQuickAdapter<ApplyTimes, DataBi
 
     private ItemApplyHistoryBinding binding;
 
-    private ClickClip clickClip;
-
-    public void setClickClip(ClickClip clickClip) {
-        this.clickClip = clickClip;
-    }
-
-    public interface ClickClip {
-        void toClipBoard(String value);
-    }
-
     @Override
     protected void onBindViewHolder(@NonNull DataBindingHolder<ItemApplyHistoryBinding> itemInviteRecordBindingDataBindingHolder, int i, @Nullable ApplyTimes applyTimes) {
         binding = itemInviteRecordBindingDataBindingHolder.getBinding();

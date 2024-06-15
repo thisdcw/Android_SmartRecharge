@@ -22,6 +22,16 @@ public class ScanRechargeActivity extends BaseActivity<ActivityScanRechargeBindi
     }
 
     @Override
+    public void initObserve() {
+
+    }
+
+    @Override
+    public void initListener() {
+
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }

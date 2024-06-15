@@ -82,7 +82,7 @@ public class Config {
     }
 
     public static String getDeviceMac() {
-        return mainSP.getString(DEVICE_MAC, "");
+        return mainSP.getString(DEVICE_MAC, "F724C9D500AD");
     }
 
     public static void saveDeviceMac(String deviceMac) {

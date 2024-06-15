@@ -1,26 +1,24 @@
 package com.mxsella.smartrecharge.model.domain;
 
-public class User {
+public class ChildUser {
     private String uid;
 
     private String userName;
+
+    private String subName;
+
+    private String remark;
 
     private String telephone;
 
     private String avatar;
 
+    private String createTime;
+
     private String role;
 
-    private String token;
+    private int times;
 
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
 
     public String getUid() {
         return uid;
@@ -38,6 +36,21 @@ public class User {
         this.userName = userName;
     }
 
+    public String getSubName() {
+        return subName;
+    }
+
+    public void setSubName(String subName) {
+        this.subName = subName;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
 
     public String getTelephone() {
         return telephone;
@@ -55,6 +68,14 @@ public class User {
         this.avatar = avatar;
     }
 
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+
     public String getRole() {
         return role;
     }
@@ -63,15 +84,26 @@ public class User {
         this.role = role;
     }
 
+    public int getTimes() {
+        return times;
+    }
+
+    public void setTimes(int times) {
+        this.times = times;
+    }
 
     @Override
     public String toString() {
-        return "User{" +
+        return "ChildUser{" +
                 "uid='" + uid + '\'' +
                 ", userName='" + userName + '\'' +
+                ", subName='" + subName + '\'' +
+                ", remark='" + remark + '\'' +
                 ", telephone='" + telephone + '\'' +
                 ", avatar='" + avatar + '\'' +
+                ", createTime='" + createTime + '\'' +
                 ", role='" + role + '\'' +
+                ", times=" + times +
                 '}';
     }
 }

@@ -8,8 +8,12 @@ public class ModifySubRequestBody {
     @SerializedName("subName")
     private String subName;
 
-    public ModifySubRequestBody(String subUid, String subName) {
+    @SerializedName("remark")
+    private String remark;
+
+    public ModifySubRequestBody(String subUid, String subName, String remark) {
         this.subUid = subUid;
         this.subName = subName;
+        this.remark = remark;
     }
 }

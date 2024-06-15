@@ -45,6 +45,7 @@
     <string name="device_update_product_role_hint">请输入%s id</string>
     <string name="device_user_recharge_user">当前用户:%s</string>
     <string name="user_modify_username">当前名称:%s</string>
+    <string name="user_remark_modify_username">当前名称:%s</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>

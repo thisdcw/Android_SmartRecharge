@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import com.mxsella.smartrecharge.common.Config;
 import com.mxsella.smartrecharge.common.base.BaseViewModel;
 import com.mxsella.smartrecharge.common.net.HandlerLoading;
+import com.mxsella.smartrecharge.model.domain.ChildUser;
 import com.mxsella.smartrecharge.model.domain.InviteRecord;
 import com.mxsella.smartrecharge.model.domain.User;
 import com.mxsella.smartrecharge.model.request.ModifySubRequestBody;
@@ -26,19 +27,19 @@ public class UserViewModel extends BaseViewModel {
     private final MutableLiveData<NetWorkResult<String>> verifyResult = new MutableLiveData<>();
     private final MutableLiveData<NetWorkResult<ListResponse<InviteRecord>>> inviteCodeList = new MutableLiveData<>();
     private final MutableLiveData<NetWorkResult<String>> createCodeResult = new MutableLiveData<>();
-    private final MutableLiveData<NetWorkResult<ListResponse<User>>> listChildUserResult = new MutableLiveData<>();
+    private final MutableLiveData<NetWorkResult<ListResponse<ChildUser>>> listChildUserResult = new MutableLiveData<>();
     protected final MutableLiveData<Boolean> loadingSate = new MutableLiveData<>();
     protected final MutableLiveData<NetWorkResult<String>> verifyChangePwd = new MutableLiveData<>();
     protected final MutableLiveData<NetWorkResult<String>> changePwd = new MutableLiveData<>();
     protected final MutableLiveData<NetWorkResult<User>> changeUserInfo = new MutableLiveData<>();
-    protected final MutableLiveData<NetWorkResult<User>> changeSubInfo = new MutableLiveData<>();
+    protected final MutableLiveData<NetWorkResult<ChildUser>> changeSubInfo = new MutableLiveData<>();
     protected final MutableLiveData<NetWorkResult<User>> userInfoResult = new MutableLiveData<>();
 
     public LiveData<NetWorkResult<User>> getUserInfoResult() {
         return userInfoResult;
     }
 
-    public LiveData<NetWorkResult<User>> getChangeSubInfo() {
+    public LiveData<NetWorkResult<ChildUser>> getChangeSubInfo() {
         return changeSubInfo;
     }
 
@@ -58,7 +59,7 @@ public class UserViewModel extends BaseViewModel {
         return loadingSate;
     }
 
-    public LiveData<NetWorkResult<ListResponse<User>>> getListChildUserResult() {
+    public LiveData<NetWorkResult<ListResponse<ChildUser>>> getListChildUserResult() {
         return listChildUserResult;
     }
 
@@ -97,22 +98,12 @@ public class UserViewModel extends BaseViewModel {
         });
     }
 
-    /**
-     * 获取当前用户
-     *
-     * @return
-     */
-    public User getCurrentUser() {
-        String json = Config.getCurrentUser();
-        return new Gson().fromJson(json, User.class);
-    }
-
     public void getUserInfo() {
         net.getUserInfo(createHandler(userInfoResult));
     }
 
-    public void changeSub(String subUid, String subName) {
-        ModifySubRequestBody subRequestBody = new ModifySubRequestBody(subUid, subName);
+    public void changeSub(String subUid, String subName, String remark) {
+        ModifySubRequestBody subRequestBody = new ModifySubRequestBody(subUid, subName, remark);
         net.changeSub(subRequestBody, createHandler(changeSubInfo));
     }
 
@@ -155,7 +146,8 @@ public class UserViewModel extends BaseViewModel {
      * @param size
      */
     public void getChildUser(int cur, int size) {
-        net.getChildrenUser(cur, size, createHandler(listChildUserResult));
+        String productName = getProductName();
+        net.getChildrenUser(cur, size, productName, createHandler(listChildUserResult));
     }
 
     /**

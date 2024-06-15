@@ -9,19 +9,15 @@ import androidx.annotation.Nullable;
 import com.mxsella.smartrecharge.R;
 import com.mxsella.smartrecharge.common.base.BaseDialog;
 import com.mxsella.smartrecharge.databinding.DialogProductInputBinding;
+import com.mxsella.smartrecharge.inter.DialogClickListener;
 
 public class ProductInputDialog extends BaseDialog<DialogProductInputBinding> {
 
 
     private String productId;
 
-    private DialogListener dialogListener;
+    private DialogClickListener dialogListener;
 
-    public interface DialogListener {
-        void onConfirmClick();
-
-        void onCancelClick();
-    }
 
 
     @NonNull
@@ -35,13 +31,13 @@ public class ProductInputDialog extends BaseDialog<DialogProductInputBinding> {
         binding.productId.setText(getString(R.string.product_id, getProductId()));
         binding.cancel.setOnClickListener(v -> {
             if (dialogListener != null) {
-                dialogListener.onCancelClick();
+                dialogListener.onCancel();
             }
             dismiss();
         });
         binding.confirm.setOnClickListener(v -> {
             if (dialogListener != null) {
-                dialogListener.onConfirmClick();
+                dialogListener.onConfirm();
             }
             dismiss();
         });
@@ -55,7 +51,7 @@ public class ProductInputDialog extends BaseDialog<DialogProductInputBinding> {
         this.productId = productId;
     }
 
-    public void setDialogListener(DialogListener dialogListener) {
+    public void setDialogListener(DialogClickListener dialogListener) {
         this.dialogListener = dialogListener;
     }
 

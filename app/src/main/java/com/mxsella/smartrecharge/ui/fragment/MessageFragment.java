@@ -27,13 +27,9 @@ public class MessageFragment extends BaseFragment<FragmentMessageBinding> {
     private final String[] titles = {"我的", "消息"};
     private final String[] storeTitles = {"我的申请"};
     private final String[] adminTitles = {"我的消息"};
-
     private final ArrayList<Fragment> fragments = new ArrayList<>();
     private InputDialog applyAddDialog;
     private MessageViewPageAdapter adapter;
-
-    private final DeviceViewModel deviceViewModel = new DeviceViewModel();
-    private final UserViewModel userViewModel = new UserViewModel();
 
     @Override
     public int getLayoutId() {
@@ -41,7 +37,21 @@ public class MessageFragment extends BaseFragment<FragmentMessageBinding> {
     }
 
     @Override
-    public void initEventAndData() {
+    public void initObserve() {
+        deviceViewModel.getApplyTimesResult().observe(this, result -> {
+            ToastUtils.showToast(result.getMessage());
+        });
+    }
+
+    @Override
+    public void initOnClick() {
+        binding.addApply.setOnClickListener(v -> {
+            showAddApplyDialog();
+        });
+    }
+
+    @Override
+    public void initView() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             context.getWindow().setStatusBarColor(getResources().getColor(R.color.white));
         }
@@ -73,15 +83,6 @@ public class MessageFragment extends BaseFragment<FragmentMessageBinding> {
 
             }
         });
-
-        binding.addApply.setOnClickListener(v -> {
-            showAddApplyDialog();
-        });
-
-        deviceViewModel.getApplyTimesResult().observe(this, result -> {
-            ToastUtils.showToast(result.getMessage());
-        });
-
     }
 
     public void success() {

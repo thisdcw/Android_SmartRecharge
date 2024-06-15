@@ -28,55 +28,36 @@ import java.util.List;
 
 public class InviteCodeListActivity extends BaseActivity<ActivityInviteCodeListBinding> {
 
-    private InviteRecodeAdapter adapter;
-
-    private final UserViewModel userViewModel = new UserViewModel();
-
+    private final InviteRecodeAdapter adapter = new InviteRecodeAdapter();
     private int cur = 1;
-
     private int size = 20;
-
-    private static final int FRESH_DELAY = 2000;
-    private final int LOAD_DELAY = 2000;
-
     private InputDialog codeDialog;
+    private RefreshLayout refreshLayout;
 
     @Override
     public void initView() {
-        RefreshLayout refreshLayout = binding.rvRefresh.refreshLayout;
+        refreshLayout = binding.rvRefresh.refreshLayout;
         refreshLayout.setRefreshHeader(new ClassicsHeader(mContext));
         refreshLayout.setRefreshFooter(new ClassicsFooter(mContext));
-        refreshLayout.setOnRefreshListener(refreshlayout -> {
-            cur = 1;
-            size = 20;
-            userViewModel.getInviteCodeList(cur, size);
-            refreshlayout.finishRefresh(FRESH_DELAY);//传入false表示刷新失败
-        });
-        refreshLayout.setOnLoadMoreListener(refreshlayout -> {
-            size += 20;
-            userViewModel.getInviteCodeList(cur, size);
-            refreshlayout.finishLoadMore(LOAD_DELAY);//传入false表示加载失败
-        });
-        adapter = new InviteRecodeAdapter();
         binding.rvRefresh.rv.setLayoutManager(new LinearLayoutManager(mContext));
         binding.rvRefresh.rv.setAdapter(adapter);
+        userViewModel.getInviteCodeList(cur, size);
+    }
 
+    @Override
+    public void initObserve() {
         userViewModel.getInviteCodeList().observe(this, response -> {
             if (response.getResultCode() == ResultCode.SUCCESS) {
                 ToastUtils.showToast(response.getMessage());
                 List<InviteRecord> records = response.getData().getRecords();
                 if (!records.isEmpty()) {
                     adapter.submitList(records);
-                }else {
+                } else {
                     binding.rvRefresh.empty.setVisibility(View.VISIBLE);
                 }
             }
 
         });
-        userViewModel.getInviteCodeList(cur, size);
-
-        binding.navBar.getRightImageView().setOnClickListener(v -> showAddInviteCodeDialog());
-
         userViewModel.getCreateCodeResult().observe(this, result -> {
             if (result.getResultCode() == ResultCode.SUCCESS) {
                 ToastUtils.showToast(result.getMessage());
@@ -85,7 +66,29 @@ public class InviteCodeListActivity extends BaseActivity<ActivityInviteCodeListB
                 ToastUtils.showToast(result.getMessage());
             }
         });
+        userViewModel.getLoadingSate().observe(this, loading -> {
+            if (loading) {
+                binding.rvRefresh.avi.show();
+            } else {
+                binding.rvRefresh.avi.hide();
+            }
+        });
+    }
 
+    @Override
+    public void initListener() {
+        refreshLayout.setOnRefreshListener(refreshlayout -> {
+            cur = 1;
+            size = 20;
+            userViewModel.getInviteCodeList(cur, size);
+            refreshlayout.finishRefresh(Constants.FRESH_DELAY);//传入false表示刷新失败
+        });
+        refreshLayout.setOnLoadMoreListener(refreshlayout -> {
+            size += 20;
+            userViewModel.getInviteCodeList(cur, size);
+            refreshlayout.finishLoadMore(Constants.LOAD_DELAY);//传入false表示加载失败
+        });
+        binding.navBar.getRightImageView().setOnClickListener(v -> showAddInviteCodeDialog());
         adapter.setClickClip(s -> {
             // 复制文本到剪贴板
             ClipboardManager clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
@@ -93,13 +96,6 @@ public class InviteCodeListActivity extends BaseActivity<ActivityInviteCodeListB
             clipboardManager.setPrimaryClip(clipData);
 
             ToastUtils.showToast("已复制邀请码到剪切板");
-        });
-        userViewModel.getLoadingSate().observe(this,loading->{
-            if (loading){
-                binding.rvRefresh.avi.show();
-            }else {
-                binding.rvRefresh.avi.hide();
-            }
         });
     }
 

@@ -29,7 +29,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="18dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -64,6 +63,23 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:text="商户名"
+                        android:textColor="@color/settings_code_list_item_head"
+                        android:textSize="14sp" />
+                    <TextView
+                        android:id="@+id/remark"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="备注"
+                        android:textColor="@color/settings_code_list_item_head"
+                        android:textSize="14sp" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="剩余次数"
                         android:textColor="@color/settings_code_list_item_head"
                         android:textSize="14sp" />
                 </LinearLayout>

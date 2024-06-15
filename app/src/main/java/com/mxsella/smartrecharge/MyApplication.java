@@ -21,29 +21,19 @@ import java.util.Objects;
 import me.jessyan.autosize.AutoSizeConfig;
 
 public class MyApplication extends Application {
+
     static {
         //设置全局的Header构建器
         SmartRefreshLayout.setDefaultRefreshHeaderCreator((context, layout) -> {
-            layout.setPrimaryColorsId(R.color.primary, android.R.color.white);//全局设置主题颜色
+            layout.setPrimaryColorsId(R.color.primary, R.color.white);//全局设置主题颜色
             return new ClassicsHeader(context);
         });
 
-        SmartRefreshLayout.setDefaultRefreshFooterCreator((context, layout) -> {
-            return new ClassicsFooter(context).setDrawableSize(20);
-        });
+        SmartRefreshLayout.setDefaultRefreshFooterCreator((context, layout) -> new ClassicsFooter(context).setDrawableSize(20));
     }
 
     private static MyApplication instance;
     private TimeBroadcastReceiver timeBroadcastReceiver;
-    private boolean isConnected = false;
-
-    public void setConnected(boolean connected) {
-        isConnected = connected;
-    }
-
-    public boolean isConnected() {
-        return isConnected;
-    }
 
     @Override
     public void onCreate() {

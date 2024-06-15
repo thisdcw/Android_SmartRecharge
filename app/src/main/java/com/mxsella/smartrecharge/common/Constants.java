@@ -12,6 +12,8 @@ public class Constants {
     public static final String ROLE_BRAND = "brand";//品牌商
     public static final String ROLE_AGENT = "agent";//代理商
     public static final String ROLE_STORE = "store";//店铺
+    public static final int FRESH_DELAY = 2000;
+    public static final int LOAD_DELAY = 2000;
 
     public static final HashMap<String, UserEnum> roleMap = new HashMap<String, UserEnum>() {
         private static final long serialVersionUID = 594984571348454340L;

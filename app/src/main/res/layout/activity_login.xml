@@ -48,7 +48,6 @@
                 android:hint="@string/login_enter_telephone"
                 android:inputType="number"
                 android:maxLength="11"
-                android:text="11111111111"
                 android:textColor="@color/black"
                 android:textColorHint="#ABABAB"
                 android:textSize="14sp" />
@@ -123,7 +122,6 @@
                 android:hint="@string/login_enter_password"
                 android:inputType="textPassword"
                 android:maxLength="42"
-                android:text="test1234"
                 android:textColor="@color/black"
                 android:textColorHint="#ABABAB"
                 android:textSize="14sp" />

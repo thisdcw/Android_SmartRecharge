@@ -20,16 +20,6 @@ public class RechargeCodeAdapter extends BaseQuickAdapter<RechargeCode, DataBind
 
     private ItemRechargeCodeBinding binding;
 
-    private ClickClip clickClip;
-
-    public void setClickClip(ClickClip clickClip) {
-        this.clickClip = clickClip;
-    }
-
-    public interface ClickClip {
-        void toClipBoard(String value);
-    }
-
     @Override
     protected void onBindViewHolder(@NonNull DataBindingHolder<ItemRechargeCodeBinding> itemRechargeCodeBindingDataBindingHolder, int i, @Nullable RechargeCode rechargeCode) {
         binding = itemRechargeCodeBindingDataBindingHolder.getBinding();

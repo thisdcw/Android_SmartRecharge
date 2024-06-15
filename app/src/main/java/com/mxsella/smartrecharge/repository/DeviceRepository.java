@@ -27,8 +27,12 @@ public class DeviceRepository extends NetworkRepository {
         super(handlerLoading);
     }
 
-    public void getDeviceSate(DeviceStateRequestBody deviceStateRequestBody, ApiResponseHandler<BaseResponse<Device>> handler) {
-        subscribeWithHandler(apiService.getDeviceSate(deviceStateRequestBody), handler);
+    public void bindDevice(String productName, String deviceId, ApiResponseHandler<BaseResponse<String>> handler) {
+        subscribeWithHandler(apiService.bindDevice(productName, deviceId), handler);
+    }
+
+    public void getDeviceSate(String productName,String deviceId, ApiResponseHandler<BaseResponse<Device>> handler) {
+        subscribeWithHandler(apiService.getDeviceSate(productName, deviceId), handler);
     }
 
     public void useRechargeCode(UseRechargeCodeRequest useRechargeCodeRequest, ApiResponseHandler<BaseResponse<RechargeCode>> handler) {

@@ -1,6 +1,7 @@
 package com.mxsella.smartrecharge.repository;
 
 import com.mxsella.smartrecharge.common.net.ApiResponseHandler;
+import com.mxsella.smartrecharge.model.domain.ChildUser;
 import com.mxsella.smartrecharge.model.request.ModifySubRequestBody;
 import com.mxsella.smartrecharge.model.request.ModifyUserRequestBody;
 import com.mxsella.smartrecharge.model.response.BaseResponse;
@@ -23,7 +24,7 @@ public class UserRepository extends NetworkRepository {
         subscribeWithHandler(apiService.getUserInfo(), handler);
     }
 
-    public void changeSub(ModifySubRequestBody userRequestBody, ApiResponseHandler<BaseResponse<User>> handler) {
+    public void changeSub(ModifySubRequestBody userRequestBody, ApiResponseHandler<BaseResponse<ChildUser>> handler) {
         subscribeWithHandler(apiService.changeSub(userRequestBody), handler);
     }
 
@@ -39,8 +40,8 @@ public class UserRepository extends NetworkRepository {
         subscribeWithHandler(apiService.changePasswordWithCode(telephone, verify, password), handler);
     }
 
-    public void getChildrenUser(int cur, int size, ApiResponseHandler<BaseResponse<ListResponse<User>>> handler) {
-        subscribeWithHandler(apiService.getChildrenUser(cur, size), handler);
+    public void getChildrenUser(int cur, int size, String productName, ApiResponseHandler<BaseResponse<ListResponse<ChildUser>>> handler) {
+        subscribeWithHandler(apiService.getChildrenUser(cur, size, productName), handler);
     }
 
     public void createInviteCode(SubNameRequestBody body, ApiResponseHandler<BaseResponse<String>> handler) {

@@ -20,16 +20,6 @@ public class ApplyDealListAdapter extends BaseQuickAdapter<ApplyTimes, DataBindi
 
     private ItemApplyDealBinding binding;
 
-    private ClickClip clickClip;
-
-    public void setClickClip(ClickClip clickClip) {
-        this.clickClip = clickClip;
-    }
-
-    public interface ClickClip {
-        void toClipBoard(String value);
-    }
-
     @Override
     protected void onBindViewHolder(@NonNull DataBindingHolder<ItemApplyDealBinding> itemInviteRecordBindingDataBindingHolder, int i, @Nullable ApplyTimes applyTimes) {
         binding = itemInviteRecordBindingDataBindingHolder.getBinding();

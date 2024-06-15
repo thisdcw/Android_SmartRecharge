@@ -14,6 +14,7 @@ import com.mxsella.smartrecharge.comm.ICommunicateService;
 import com.mxsella.smartrecharge.comm.Protocol;
 import com.mxsella.smartrecharge.comm.ReceivePacket;
 import com.mxsella.smartrecharge.common.Config;
+import com.mxsella.smartrecharge.common.Constants;
 import com.mxsella.smartrecharge.common.base.BaseActivity;
 import com.mxsella.smartrecharge.common.db.RechargeHistory;
 import com.mxsella.smartrecharge.common.db.RechargeHistoryManager;
@@ -38,13 +39,8 @@ public class UseRechargeCodeActivity extends BaseActivity<ActivityUseRechargeCod
 
     private int cur = 1;
     private int size = 20;
-    private static final int FRESH_DELAY = 2000;
-    private final int LOAD_DELAY = 2000;
 
     private final GridItemAdapter gridItemAdapter = new GridItemAdapter();
-
-    private final DeviceViewModel deviceViewModel = new DeviceViewModel();
-    private final UserViewModel userViewModel = new UserViewModel();
 
     private String productName;
     private CountDownTimer countDownTimer;
@@ -55,6 +51,7 @@ public class UseRechargeCodeActivity extends BaseActivity<ActivityUseRechargeCod
     private RechargeHistory rechargeHistory;
     private boolean isCountDown = false;
     private RechargeHistoryManager historyManager;
+    private RefreshLayout refreshLayout;
 
     @Override
     public int layoutId() {
@@ -67,32 +64,18 @@ public class UseRechargeCodeActivity extends BaseActivity<ActivityUseRechargeCod
         productName = deviceViewModel.getProductName();
         deviceMac = Config.getDeviceMac();
         iCommunicateService = BleService.getInstance();
-
         binding.rv.rv.setLayoutManager(new GridLayoutManager(mContext, 3));
         binding.rv.rv.setAdapter(gridItemAdapter);
         getCodeList();
 
-        RefreshLayout refreshLayout = binding.rv.refreshLayout;
+        refreshLayout = binding.rv.refreshLayout;
         refreshLayout.setRefreshHeader(new ClassicsHeader(mContext));
         refreshLayout.setRefreshFooter(new ClassicsFooter(mContext));
-        refreshLayout.setOnRefreshListener(refreshlayout -> {
-            if (productName == null) {
-                refreshlayout.finishRefresh(false);//传入false表示刷新失败
-            }
-            cur = 1;
-            size = 20;
-            getCodeList();
-            refreshlayout.finishRefresh(FRESH_DELAY);//传入false表示刷新失败
-        });
-        refreshLayout.setOnLoadMoreListener(refreshlayout -> {
-            if (productName == null) {
-                refreshlayout.finishRefresh(false);//传入false表示刷新失败
-            }
-            size += 20;
-            getCodeList();
-            refreshlayout.finishLoadMore(LOAD_DELAY);//传入false表示加载失败
-        });
-        iCommunicateService.setListener(this::handlePacket);
+
+    }
+
+    @Override
+    public void initObserve() {
         deviceViewModel.getRechargeCodeListResult().observe(this, result -> {
             if (result.getResultCode() == ResultCode.SUCCESS) {
                 ListResponse<RechargeCode> data = result.getData();
@@ -104,8 +87,6 @@ public class UseRechargeCodeActivity extends BaseActivity<ActivityUseRechargeCod
             }
             ToastUtils.showToast(result.getMessage());
         });
-        gridItemAdapter.setOnItemClickListener((baseQuickAdapter, view, i) -> charge(gridItemAdapter.getItem(i)));
-
         deviceViewModel.getUseRechargeCodeResult().observe(this, result -> {
             String message = "充值失败";
             if (result.getResultCode() == ResultCode.SUCCESS) {
@@ -116,6 +97,32 @@ public class UseRechargeCodeActivity extends BaseActivity<ActivityUseRechargeCod
             saveRechargeHistory();
             ToastUtils.showToast(message);
         });
+    }
+
+    @Override
+    public void initListener() {
+        refreshLayout.setOnRefreshListener(refreshlayout -> {
+            if (productName == null) {
+                refreshlayout.finishRefresh(false);//传入false表示刷新失败
+            }
+            cur = 1;
+            size = 20;
+            getCodeList();
+            refreshlayout.finishRefresh(Constants.FRESH_DELAY);//传入false表示刷新失败
+        });
+        refreshLayout.setOnLoadMoreListener(refreshlayout -> {
+            if (productName == null) {
+                refreshlayout.finishRefresh(false);//传入false表示刷新失败
+            }
+            size += 20;
+            getCodeList();
+            refreshlayout.finishLoadMore(Constants.LOAD_DELAY);//传入false表示加载失败
+        });
+        iCommunicateService.setListener(this::handlePacket);
+
+        gridItemAdapter.setOnItemClickListener((baseQuickAdapter, view, i) -> charge(gridItemAdapter.getItem(i)));
+
+
         binding.navBar.getRightTextView().setOnClickListener(v -> {
 
             navTo(UseHistoryActivity.class);

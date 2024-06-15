@@ -5,6 +5,7 @@ import android.view.View;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.mxsella.smartrecharge.R;
+import com.mxsella.smartrecharge.common.Constants;
 import com.mxsella.smartrecharge.common.base.BaseFragment;
 import com.mxsella.smartrecharge.databinding.FragmentDealApplyBinding;
 import com.mxsella.smartrecharge.inter.DialogClickListener;
@@ -26,43 +27,30 @@ public class DealApplyFragment extends BaseFragment<FragmentDealApplyBinding> {
 
     private int cur = 1;
     private int size = 20;
-    private static final int FRESH_DELAY = 2000;
-    private final int LOAD_DELAY = 2000;
 
     private String productName;
-
-    private final DeviceViewModel deviceViewModel = new DeviceViewModel();
 
     private final ApplyDealListAdapter adapter = new ApplyDealListAdapter();
 
     private DealApplyDialog dealApplyDialog;
 
     @Override
-    public void initEventAndData() {
-        productName = deviceViewModel.getProductName();
-        getApplyList();
-        binding.rvRefresh.rv.setLayoutManager(new LinearLayoutManager(context));
-        binding.rvRefresh.rv.setAdapter(adapter);
+    public void initObserve() {
+        deviceViewModel.getDealApplyResult().observe(this, result -> {
+            if (result.getResultCode() == ResultCode.SUCCESS) {
+                ToastUtils.showToast(result.getMessage());
+                getApplyList();
+            } else {
+                ToastUtils.showToast(result.getMessage());
+            }
 
-        RefreshLayout refreshLayout = binding.rvRefresh.refreshLayout;
-        refreshLayout.setRefreshHeader(new ClassicsHeader(context));
-        refreshLayout.setRefreshFooter(new ClassicsFooter(context));
-        refreshLayout.setOnRefreshListener(refreshlayout -> {
-            if (productName == null) {
-                refreshlayout.finishRefresh(false);//传入false表示刷新失败
-            }
-            cur = 1;
-            size = 20;
-            getApplyList();
-            refreshlayout.finishRefresh(FRESH_DELAY);//传入false表示刷新失败
         });
-        refreshLayout.setOnLoadMoreListener(refreshlayout -> {
-            if (productName == null) {
-                refreshlayout.finishRefresh(false);//传入false表示刷新失败
+        deviceViewModel.getLoadingSate().observe(this, loading -> {
+            if (loading) {
+                binding.rvRefresh.avi.show();
+            } else {
+                binding.rvRefresh.avi.hide();
             }
-            size += 20;
-            getApplyList();
-            refreshlayout.finishLoadMore(LOAD_DELAY);//传入false表示加载失败
         });
         deviceViewModel.getGetChildApplyListResult().observe(this, result -> {
             if (result.getResultCode() == ResultCode.SUCCESS) {
@@ -79,6 +67,11 @@ public class DealApplyFragment extends BaseFragment<FragmentDealApplyBinding> {
                 binding.rvRefresh.empty.setVisibility(View.VISIBLE);
             }
         });
+    }
+
+    @Override
+    public void initOnClick() {
+
         adapter.setOnItemClickListener((baseQuickAdapter, view, i) -> {
             ApplyTimes item = adapter.getItem(i);
             if (item == null) {
@@ -90,21 +83,34 @@ public class DealApplyFragment extends BaseFragment<FragmentDealApplyBinding> {
             }
             showDealDialog(item);
         });
-        deviceViewModel.getDealApplyResult().observe(this, result -> {
-            if (result.getResultCode() == ResultCode.SUCCESS) {
-                ToastUtils.showToast(result.getMessage());
-                getApplyList();
-            } else {
-                ToastUtils.showToast(result.getMessage());
-            }
 
-        });
-        deviceViewModel.getLoadingSate().observe(this, loading -> {
-            if (loading) {
-                binding.rvRefresh.avi.show();
-            } else {
-                binding.rvRefresh.avi.hide();
+    }
+
+    @Override
+    public void initView() {
+        productName = deviceViewModel.getProductName();
+        getApplyList();
+        binding.rvRefresh.rv.setLayoutManager(new LinearLayoutManager(context));
+        binding.rvRefresh.rv.setAdapter(adapter);
+        RefreshLayout refreshLayout = binding.rvRefresh.refreshLayout;
+        refreshLayout.setRefreshHeader(new ClassicsHeader(context));
+        refreshLayout.setRefreshFooter(new ClassicsFooter(context));
+        refreshLayout.setOnRefreshListener(refreshlayout -> {
+            if (productName == null) {
+                refreshlayout.finishRefresh(false);//传入false表示刷新失败
             }
+            cur = 1;
+            size = 20;
+            getApplyList();
+            refreshlayout.finishRefresh(Constants.FRESH_DELAY);//传入false表示刷新失败
+        });
+        refreshLayout.setOnLoadMoreListener(refreshlayout -> {
+            if (productName == null) {
+                refreshlayout.finishRefresh(false);//传入false表示刷新失败
+            }
+            size += 20;
+            getApplyList();
+            refreshlayout.finishLoadMore(Constants.LOAD_DELAY);//传入false表示加载失败
         });
     }
 

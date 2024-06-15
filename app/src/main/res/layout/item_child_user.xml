@@ -6,7 +6,7 @@
 
         <variable
             name="user"
-            type="com.mxsella.smartrecharge.model.domain.User" />
+            type="com.mxsella.smartrecharge.model.domain.ChildUser" />
     </data>
 
     <LinearLayout
@@ -19,7 +19,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="43dp"
-            android:layout_marginHorizontal="18dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -55,6 +54,24 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="@{user.subName}"
+                    android:textSize="14sp"
+                    android:textColor="@color/settings_code_list_item_text"/>
+                <TextView
+                    android:id="@+id/remark"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@{user.remark}"
+                    android:textSize="14sp"
+                    android:textColor="@color/settings_code_list_item_text"/>
+                <TextView
+                    android:id="@+id/remain_times"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@{String.valueOf(user.times)}"
                     android:textSize="14sp"
                     android:textColor="@color/settings_code_list_item_text"/>
             </LinearLayout>

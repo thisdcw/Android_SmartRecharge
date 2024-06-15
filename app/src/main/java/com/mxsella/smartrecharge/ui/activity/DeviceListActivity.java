@@ -33,10 +33,6 @@ import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import java.util.List;
 
 public class DeviceListActivity extends BaseActivity<ActivityDeviceListBinding> {
-
-    private final DeviceViewModel deviceViewModel = new DeviceViewModel();
-    private static final int FRESH_DELAY = 2000;
-    private final int LOAD_DELAY = 2000;
     private int cur = 1;
     private DeviceListAdapter adapter;
     private String productName = null;
@@ -48,7 +44,7 @@ public class DeviceListActivity extends BaseActivity<ActivityDeviceListBinding> 
     private String newDeviceId = null;
     private String userRole = null;
     private User currentUser;
-    private final UserViewModel userViewModel = new UserViewModel();
+    private RefreshLayout refreshLayout;
 
     @Override
     public int layoutId() {
@@ -72,27 +68,14 @@ public class DeviceListActivity extends BaseActivity<ActivityDeviceListBinding> 
             }
         }
         getDeviceList();
-        RefreshLayout refreshLayout = binding.rvRefresh.refreshLayout;
+        refreshLayout = binding.rvRefresh.refreshLayout;
         refreshLayout.setRefreshHeader(new ClassicsHeader(mContext));
         refreshLayout.setRefreshFooter(new ClassicsFooter(mContext));
-        refreshLayout.setOnRefreshListener(refreshlayout -> {
-            if (productName == null) {
-                refreshlayout.finishRefresh(false);//传入false表示刷新失败
-            }
-            cur = 1;
-            size = 20;
-            getDeviceList();
-            refreshlayout.finishRefresh(FRESH_DELAY);//传入false表示刷新失败
-        });
-        refreshLayout.setOnLoadMoreListener(refreshlayout -> {
-            if (productName == null) {
-                refreshlayout.finishRefresh(false);//传入false表示刷新失败
-            }
-            size += 20;
-            getDeviceList();
-            refreshlayout.finishLoadMore(LOAD_DELAY);//传入false表示加载失败
-        });
 
+    }
+
+    @Override
+    public void initObserve() {
         deviceViewModel.getDeviceList().observe(this, result -> {
             if (result.getResultCode() == ResultCode.SUCCESS) {
                 ListResponse<Device> data = result.getData();
@@ -100,11 +83,57 @@ public class DeviceListActivity extends BaseActivity<ActivityDeviceListBinding> 
                 if (!records.isEmpty()) {
                     SortUtil.sortByTimeDescending(records);
                     adapter.submitList(records);
-                }else {
+                } else {
                     binding.rvRefresh.empty.setVisibility(View.VISIBLE);
                 }
             }
 
+        });
+
+        deviceViewModel.getAddDeviceResult().observe(this, result -> {
+            if (result.getResultCode() == ResultCode.SUCCESS) {
+                ToastUtils.showToast(result.getMessage());
+                getDeviceList();
+            } else {
+                ToastUtils.showToast(result.getMessage());
+            }
+        });
+
+        deviceViewModel.getUpdateBrandResult().observe(this, result -> {
+            if (result.getResultCode() == ResultCode.SUCCESS) {
+                ToastUtils.showToast(result.getMessage());
+                getDeviceList();
+            } else {
+                ToastUtils.showToast(result.getMessage());
+            }
+        });
+        deviceViewModel.getLoadingSate().observe(this, loading -> {
+            if (loading) {
+                binding.rvRefresh.avi.show();
+            } else {
+                binding.rvRefresh.avi.hide();
+            }
+        });
+    }
+
+    @Override
+    public void initListener() {
+        refreshLayout.setOnRefreshListener(refreshlayout -> {
+            if (productName == null) {
+                refreshlayout.finishRefresh(false);//传入false表示刷新失败
+            }
+            cur = 1;
+            size = 20;
+            getDeviceList();
+            refreshlayout.finishRefresh(Constants.FRESH_DELAY);//传入false表示刷新失败
+        });
+        refreshLayout.setOnLoadMoreListener(refreshlayout -> {
+            if (productName == null) {
+                refreshlayout.finishRefresh(false);//传入false表示刷新失败
+            }
+            size += 20;
+            getDeviceList();
+            refreshlayout.finishLoadMore(Constants.LOAD_DELAY);//传入false表示加载失败
         });
         binding.navBar.getRightImageView().setOnClickListener(v -> {
             showSearchDeviceDialog();
@@ -124,27 +153,27 @@ public class DeviceListActivity extends BaseActivity<ActivityDeviceListBinding> 
             }
             showAddDeviceDialog();
         });
-        deviceViewModel.getAddDeviceResult().observe(this, result -> {
-            if (result.getResultCode() == ResultCode.SUCCESS) {
-                ToastUtils.showToast(result.getMessage());
-                getDeviceList();
-            } else {
-                ToastUtils.showToast(result.getMessage());
-            }
-        });
         adapter.setOnItemClickListener((baseQuickAdapter, view, i) -> {
             Device item = adapter.getItem(i);
             if (item == null) {
                 return;
             }
             deviceInfoDialog = new DeviceInfoDialog(item);
+            deviceInfoDialog.setUnbindListener(new DialogClickListener() {
+                @Override
+                public void onConfirm() {
+                    deviceViewModel.updateBrand(item.getDeviceId(), "");
+                }
+
+                @Override
+                public void onCancel() {
+
+                }
+            });
             deviceInfoDialog.show(getSupportFragmentManager(), "device_info");
         });
         adapter.setEditListener((v, position) -> {
-            if (userRole == null) {
-                return;
-            }
-            if (userRole.equals(Constants.ROLE_STORE)) {
+            if (userRole.equals(UserEnum.STORE.getRole())) {
                 ToastUtils.showToast("无权限");
                 return;
             }
@@ -153,21 +182,6 @@ public class DeviceListActivity extends BaseActivity<ActivityDeviceListBinding> 
                 return;
             }
             showUpdateBrandDialog(item.getDeviceId());
-        });
-        deviceViewModel.getUpdateBrandResult().observe(this, result -> {
-            if (result.getResultCode() == ResultCode.SUCCESS) {
-                ToastUtils.showToast(result.getMessage());
-                getDeviceList();
-            } else {
-                ToastUtils.showToast(result.getMessage());
-            }
-        });
-        deviceViewModel.getLoadingSate().observe(this, loading -> {
-            if (loading) {
-                binding.rvRefresh.avi.show();
-            } else {
-                binding.rvRefresh.avi.hide();
-            }
         });
         binding.navBar.getRightImageView().setOnClickListener(v -> {
             binding.search.setVisibility(View.VISIBLE);

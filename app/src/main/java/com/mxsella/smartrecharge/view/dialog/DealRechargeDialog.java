@@ -56,7 +56,6 @@ public class DealRechargeDialog extends BaseDialog<DialogDealRechargeBinding> {
             }
             dismiss();
         });
-
     }
 
     public void setDialogListener(DialogClickListener dialogListener) {

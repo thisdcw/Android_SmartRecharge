@@ -1,5 +1,6 @@
 package com.mxsella.smartrecharge.common.net.service;
 
+import com.mxsella.smartrecharge.model.domain.ChildUser;
 import com.mxsella.smartrecharge.model.domain.RechargeCode;
 import com.mxsella.smartrecharge.model.domain.UserHistory;
 import com.mxsella.smartrecharge.model.request.DeviceStateRequestBody;
@@ -109,7 +110,7 @@ public interface ApiService {
      * @return
      */
     @POST("user/sub/list/{current}/{size}")
-    Observable<BaseResponse<ListResponse<User>>> getChildrenUser(@Path("current") int current, @Path("size") int size);
+    Observable<BaseResponse<ListResponse<ChildUser>>> getChildrenUser(@Path("current") int current, @Path("size") int size, @Query("productName") String productName);
 
     /**
      * 验证码修改密码
@@ -149,14 +150,22 @@ public interface ApiService {
      * @param subRequestBody
      * @return
      */
-    @POST("user/user_info/sub_name/change")
-    Observable<BaseResponse<User>> changeSub(@Body ModifySubRequestBody subRequestBody);
+    @POST("user/user_info/sub_info/change")
+    Observable<BaseResponse<ChildUser>> changeSub(@Body ModifySubRequestBody subRequestBody);
 
 
+    /**
+     * 获取用户信息
+     *
+     * @return
+     */
     @GET("user/user_info/get")
     Observable<BaseResponse<User>> getUserInfo();
     //================================================================================================================================
 
+
+    @POST("device/device/bind")
+    Observable<BaseResponse<String>> bindDevice(@Query("productName") String productName, @Query("deviceId") String deviceId);
 
     /**
      * 获取用户次数历史
@@ -305,10 +314,10 @@ public interface ApiService {
     /**
      * 获取设备状态
      *
-     * @param deviceStateRequestBody
+     * @param
      * @return
      */
     @POST("device/device/status")
-    Observable<BaseResponse<Device>> getDeviceSate(@Body DeviceStateRequestBody deviceStateRequestBody);
+    Observable<BaseResponse<Device>> getDeviceSate(@Query("productName") String productName, @Query("deviceId") String deviceId);
 
 }

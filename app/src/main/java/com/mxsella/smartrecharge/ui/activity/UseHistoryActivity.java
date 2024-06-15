@@ -9,9 +9,6 @@ import com.mxsella.smartrecharge.common.db.RechargeHistoryManager;
 import com.mxsella.smartrecharge.databinding.ActivityUseHistoryBinding;
 import com.mxsella.smartrecharge.ui.adapter.UseHistoryAdapter;
 import com.mxsella.smartrecharge.utils.LogUtil;
-import com.scwang.smart.refresh.footer.ClassicsFooter;
-import com.scwang.smart.refresh.header.ClassicsHeader;
-import com.scwang.smart.refresh.layout.api.RefreshLayout;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,11 +26,6 @@ public class UseHistoryActivity extends BaseActivity<ActivityUseHistoryBinding> 
     public void initView() {
         binding.rv.setLayoutManager(new LinearLayoutManager(this));
         binding.rv.setAdapter(adapter);
-        getHistoryList();
-
-    }
-
-    private void getHistoryList() {
         RechargeHistoryManager rechargeHistoryManager = RechargeHistoryManager.getInstance();
         List<RechargeHistory> allRechargeHistory = rechargeHistoryManager.getAllRechargeHistory();
         LogUtil.test(allRechargeHistory.toString());
@@ -46,5 +38,15 @@ public class UseHistoryActivity extends BaseActivity<ActivityUseHistoryBinding> 
             }
         }).collect(Collectors.toList());
         adapter.submitList(collect);
+    }
+
+    @Override
+    public void initObserve() {
+
+    }
+
+    @Override
+    public void initListener() {
+
     }
 }

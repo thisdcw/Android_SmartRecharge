@@ -20,16 +20,6 @@ public class TimesHistoryAdapter extends BaseQuickAdapter<UserHistory, DataBindi
 
     private ItemTimesHistoryBinding binding;
 
-    private ClickClip clickClip;
-
-    public void setClickClip(ClickClip clickClip) {
-        this.clickClip = clickClip;
-    }
-
-    public interface ClickClip {
-        void toClipBoard(String value);
-    }
-
     @Override
     protected void onBindViewHolder(@NonNull DataBindingHolder<ItemTimesHistoryBinding> itemInviteRecordBindingDataBindingHolder, int i, @Nullable UserHistory userHistory) {
         binding = itemInviteRecordBindingDataBindingHolder.getBinding();

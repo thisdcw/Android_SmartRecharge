@@ -25,8 +25,6 @@ public class ManualRechargeActivity extends BaseActivity<ActivityManualRechargeB
     private int remainTimes = 0;
     private int rechargeTimes = 0;
     private String deviceId;
-    private final DeviceViewModel deviceViewModel = new DeviceViewModel();
-    private final UserViewModel userViewModel = new UserViewModel();
     private InputDialog diyRechargeDialog;
     private final int[][] card_time = {
             {10, 30, 50},
@@ -48,7 +46,10 @@ public class ManualRechargeActivity extends BaseActivity<ActivityManualRechargeB
             remainTimes = Config.getRemainTimes();
             binding.remainTimes.setText(String.valueOf(Config.getRemainTimes()));
         }
+    }
 
+    @Override
+    public void initObserve() {
         deviceViewModel.getDeviceRechargeResult().observe(this, result -> {
             if (result.getResultCode() == ResultCode.SUCCESS) {
                 //充值成功之后查询用户剩余次数
@@ -66,10 +67,10 @@ public class ManualRechargeActivity extends BaseActivity<ActivityManualRechargeB
                 ToastUtils.showToast(result.getResultCode().getMessage());
             }
         });
-        initCardOnClick();
     }
 
-    private void initCardOnClick() {
+    @Override
+    public void initListener() {
         binding.card11.setOnClickListener(v -> {
             rechargeTimes = card_time[0][0];
             setSelect();

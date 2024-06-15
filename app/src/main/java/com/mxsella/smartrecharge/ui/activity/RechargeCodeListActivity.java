@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.mxsella.smartrecharge.R;
 import com.mxsella.smartrecharge.common.Config;
+import com.mxsella.smartrecharge.common.Constants;
 import com.mxsella.smartrecharge.common.base.BaseActivity;
 import com.mxsella.smartrecharge.databinding.ActivityRechargeCodeListBinding;
 import com.mxsella.smartrecharge.model.domain.RechargeCode;
@@ -22,12 +23,10 @@ import java.util.List;
 public class RechargeCodeListActivity extends BaseActivity<ActivityRechargeCodeListBinding> {
 
     private final RechargeCodeAdapter rechargeCodeAdapter = new RechargeCodeAdapter();
-    private static final int FRESH_DELAY = 2000;
-    private final int LOAD_DELAY = 2000;
     private int cur = 1;
     private boolean isCur = false;
     private int size = 20;
-    private final DeviceViewModel deviceViewModel = new DeviceViewModel();
+    private RefreshLayout refreshLayout;
 
     @Override
     public int layoutId() {
@@ -39,21 +38,14 @@ public class RechargeCodeListActivity extends BaseActivity<ActivityRechargeCodeL
         binding.rvRefresh.rv.setLayoutManager(new LinearLayoutManager(this));
         binding.rvRefresh.rv.setAdapter(rechargeCodeAdapter);
         getCodeList();
-        RefreshLayout refreshLayout = binding.rvRefresh.refreshLayout;
+        refreshLayout = binding.rvRefresh.refreshLayout;
         refreshLayout.setRefreshHeader(new ClassicsHeader(mContext));
         refreshLayout.setRefreshFooter(new ClassicsFooter(mContext));
-        refreshLayout.setOnRefreshListener(refreshlayout -> {
-            cur = 1;
-            size = 20;
-            getCodeList();
-            refreshlayout.finishRefresh(FRESH_DELAY);//传入false表示刷新失败
-        });
-        refreshLayout.setOnLoadMoreListener(refreshlayout -> {
-            size += 20;
-            getCodeList();
-            refreshlayout.finishLoadMore(LOAD_DELAY);//传入false表示加载失败
-        });
+        binding.navBar.getRightTextView().setText("当前设备");
+    }
 
+    @Override
+    public void initObserve() {
         deviceViewModel.getRechargeCodeListResult().observe(this, result -> {
             if (result.getResultCode() == ResultCode.SUCCESS) {
                 List<RechargeCode> records = result.getData().getRecords();
@@ -78,7 +70,21 @@ public class RechargeCodeListActivity extends BaseActivity<ActivityRechargeCodeL
                 getCodeList();
             }
         });
-        binding.navBar.getRightTextView().setText("当前设备");
+    }
+
+    @Override
+    public void initListener() {
+        refreshLayout.setOnRefreshListener(refreshlayout -> {
+            cur = 1;
+            size = 20;
+            getCodeList();
+            refreshlayout.finishRefresh(Constants.FRESH_DELAY);//传入false表示刷新失败
+        });
+        refreshLayout.setOnLoadMoreListener(refreshlayout -> {
+            size += 20;
+            getCodeList();
+            refreshlayout.finishLoadMore(Constants.LOAD_DELAY);//传入false表示加载失败
+        });
         binding.navBar.getRightTextView().setOnClickListener(v -> {
             if (isCur) {
                 binding.navBar.getRightTextView().setText("当前设备");

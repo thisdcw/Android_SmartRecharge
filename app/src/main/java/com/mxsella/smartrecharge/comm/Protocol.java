@@ -1,10 +1,6 @@
 package com.mxsella.smartrecharge.comm;
 
-import com.mxsella.smartrecharge.utils.PayUtils;
-
 import java.nio.ByteBuffer;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.Random;
 
 public class Protocol {

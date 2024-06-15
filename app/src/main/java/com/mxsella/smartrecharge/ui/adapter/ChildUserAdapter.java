@@ -10,38 +10,19 @@ import androidx.annotation.Nullable;
 import com.chad.library.adapter4.BaseQuickAdapter;
 import com.chad.library.adapter4.viewholder.DataBindingHolder;
 import com.mxsella.smartrecharge.databinding.ItemChildUserBinding;
-import com.mxsella.smartrecharge.model.domain.User;
+import com.mxsella.smartrecharge.inter.ClickClipListener;
+import com.mxsella.smartrecharge.inter.OnClickListener;
+import com.mxsella.smartrecharge.model.domain.ChildUser;
 
-public class ChildUserAdapter extends BaseQuickAdapter<User, DataBindingHolder<ItemChildUserBinding>> {
+public class ChildUserAdapter extends BaseQuickAdapter<ChildUser, DataBindingHolder<ItemChildUserBinding>> {
 
     private ItemChildUserBinding binding;
-
-    private ClickClip clickClip;
-
-    private OnClickListener onClickListener;
-
-    public interface OnClickListener {
-        void onClick(User user);
-    }
-
-    public OnClickListener getOnClickListener() {
-        return onClickListener;
-    }
-
-    public void setOnClickListener(OnClickListener onClickListener) {
-        this.onClickListener = onClickListener;
-    }
-
-    public void setClickClip(ClickClip clickClip) {
-        this.clickClip = clickClip;
-    }
-
-    public interface ClickClip {
-        void toClipBoard(String value);
-    }
+    private ClickClipListener<String> clickClip;
+    private OnClickListener<ChildUser> onClickListener;
+    private OnClickListener<ChildUser> changeRemarkListener;
 
     @Override
-    protected void onBindViewHolder(@NonNull DataBindingHolder<ItemChildUserBinding> itemInviteRecordBindingDataBindingHolder, int i, @Nullable User user) {
+    protected void onBindViewHolder(@NonNull DataBindingHolder<ItemChildUserBinding> itemInviteRecordBindingDataBindingHolder, int i, @Nullable ChildUser user) {
         binding = itemInviteRecordBindingDataBindingHolder.getBinding();
         binding.setUser(user);
         binding.id.setOnLongClickListener(v -> {
@@ -55,6 +36,11 @@ public class ChildUserAdapter extends BaseQuickAdapter<User, DataBindingHolder<I
                 onClickListener.onClick(user);
             }
         });
+        binding.remark.setOnClickListener(v -> {
+            if (getChangeRemarkListener() != null) {
+                changeRemarkListener.onClick(user);
+            }
+        });
         binding.executePendingBindings();
     }
 
@@ -64,4 +50,31 @@ public class ChildUserAdapter extends BaseQuickAdapter<User, DataBindingHolder<I
         binding = ItemChildUserBinding.inflate(LayoutInflater.from(context), viewGroup, false);
         return new DataBindingHolder<>(binding);
     }
+
+    public OnClickListener<ChildUser> getChangeRemarkListener() {
+        return changeRemarkListener;
+    }
+
+    public void setChangeRemarkListener(OnClickListener<ChildUser> changeRemarkListener) {
+        this.changeRemarkListener = changeRemarkListener;
+    }
+
+    public OnClickListener<ChildUser> getOnClickListener() {
+        return onClickListener;
+    }
+
+    public void setOnClickListener(OnClickListener<ChildUser> onClickListener) {
+        this.onClickListener = onClickListener;
+    }
+
+
+    public ClickClipListener<String> getClickClip() {
+        return clickClip;
+    }
+
+    public void setClickClip(ClickClipListener<String> clickClip) {
+        this.clickClip = clickClip;
+    }
+
+
 }

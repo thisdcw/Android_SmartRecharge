@@ -19,7 +19,7 @@
             android:layout_marginTop="12dp"
             android:layout_marginBottom="12dp"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/ask_text"
@@ -35,7 +35,7 @@
 
         <LinearLayout
             android:layout_width="214dp"
-            android:layout_height="180dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="12dp"
             android:gravity="center_horizontal"
@@ -63,7 +63,8 @@
                 android:layout_height="36dp"
                 android:gravity="center"
                 android:hint="@string/device_info_brand"
-                android:textColorHint="@color/text_gray" />
+                android:textColorHint="@color/text_gray"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/agent"
@@ -71,7 +72,8 @@
                 android:layout_height="36dp"
                 android:gravity="center"
                 android:hint="@string/device_info_agent"
-                android:textColorHint="@color/text_gray" />
+                android:textColorHint="@color/text_gray"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/store"
@@ -79,9 +81,35 @@
                 android:layout_height="36dp"
                 android:gravity="center"
                 android:hint="@string/device_info_store"
-                android:textColorHint="@color/text_gray" />
+                android:textColorHint="@color/text_gray"
+                android:visibility="gone" />
 
 
         </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/remark"
+            android:layout_width="214dp"
+            android:layout_height="44dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:visibility="gone"
+            android:text="暂未分配"
+            android:textColor="@color/text_gray"
+            android:textSize="16dp" />
+
+        <Button
+            android:id="@+id/unbind"
+            android:layout_width="214dp"
+            android:layout_height="44dp"
+            android:visibility="gone"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/primary_btn"
+            android:text="解绑子级归属"
+            android:textColor="@color/white"
+            android:textSize="16dp" />
     </LinearLayout>
 </layout>

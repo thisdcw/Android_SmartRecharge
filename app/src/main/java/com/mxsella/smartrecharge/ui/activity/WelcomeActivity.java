@@ -40,6 +40,16 @@ public class WelcomeActivity extends BaseActivity<ActivityWelcomeBinding> {
         new Handler().postDelayed(navRunnable, DELAY_TIME);
     }
 
+    @Override
+    public void initObserve() {
+
+    }
+
+    @Override
+    public void initListener() {
+
+    }
+
     private void navTo() {
         if (!Config.isLogin()) {
             navToWithFinish(LoginActivity.class);

@@ -23,10 +23,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class MainActivity extends BaseActivity<ActivityMainBinding> {
-
-    DeviceViewModel deviceViewModel = new DeviceViewModel();
-    UserViewModel userViewModel = new UserViewModel();
-    List<RechargeHistory> collect;
+    private List<RechargeHistory> collect;
 
     private RechargeHistoryManager historyManager;
 
@@ -34,9 +31,27 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     public void initView() {
         PermissionUtil.getInstance(this).requestBlePermission().requestExternalPermission().requestCameraPermission();
         historyManager = RechargeHistoryManager.getInstance();
-        initEvent();
-
+        NavController nav = Navigation.findNavController(this, R.id.nav_host_fragment);
+        binding.bottomNavigation.setOnNavigationItemSelectedListener(item -> {
+            if (item.getItemId() == R.id.device_fragment) {
+                nav.navigate(R.id.device_fragment);
+                return true;
+            } else if (item.getItemId() == R.id.history_fragment) {
+                nav.navigate(R.id.history_fragment);
+                return true;
+            } else if (item.getItemId() == R.id.settings_fragment) {
+                nav.navigate(R.id.settings_fragment);
+                return true;
+            } else {
+                return false;
+            }
+        });
         checkData();
+        deviceViewModel.getUserTimes();
+    }
+
+    @Override
+    public void initObserve() {
         deviceViewModel.getUseRechargeCodeResult().observe(this, result -> {
             if (result.getResultCode() == ResultCode.SUCCESS) {
                 //更新状态
@@ -46,6 +61,20 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
                 historyManager.saveOrUpdate(historyById);
             }
         });
+
+        deviceViewModel.getGetUserTimesResult().observe(this, result -> {
+            if (result.getResultCode() == ResultCode.SUCCESS) {
+                Config.saveRemainTimes(result.getData());
+                ToastUtils.showToast(result.getResultCode().getMessage());
+            } else {
+                ToastUtils.showToast(result.getResultCode().getMessage());
+            }
+        });
+    }
+
+    @Override
+    public void initListener() {
+
     }
 
     public void connectBle(View view) {
@@ -65,24 +94,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
         Config.setLogin(false);
         Config.saveRemainTimes(0);
         navToFinishAll(WelcomeActivity.class);
-    }
-
-    private void initEvent() {
-        NavController nav = Navigation.findNavController(this, R.id.nav_host_fragment);
-        binding.bottomNavigation.setOnNavigationItemSelectedListener(item -> {
-            if (item.getItemId() == R.id.device_fragment) {
-                nav.navigate(R.id.device_fragment);
-                return true;
-            } else if (item.getItemId() == R.id.history_fragment) {
-                nav.navigate(R.id.history_fragment);
-                return true;
-            } else if (item.getItemId() == R.id.settings_fragment) {
-                nav.navigate(R.id.settings_fragment);
-                return true;
-            } else {
-                return false;
-            }
-        });
     }
 
     private void checkData() {

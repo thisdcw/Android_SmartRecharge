@@ -37,8 +37,6 @@ public class BleActivity extends BaseActivity<ActivityBleBinding> {
     private int position;
     private BleDeviceInfo connectDevice;
 
-    private final DeviceViewModel deviceViewModel = new DeviceViewModel();
-
     @Override
     public int layoutId() {
         return R.layout.activity_ble;
@@ -59,6 +57,23 @@ public class BleActivity extends BaseActivity<ActivityBleBinding> {
             bleDeviceInfo.setDeviceName(curDevice.getName());
             bleAdapter.add(bleDeviceInfo);
         }
+
+    }
+
+    @Override
+    public void initObserve() {
+        deviceViewModel.getDeviceState().observe(this, result -> {
+            if (result.getResultCode() == ResultCode.SUCCESS) {
+                dealBle();
+            } else {
+                ToastUtils.showToast("无权限");
+                disConnect();
+            }
+        });
+    }
+
+    @Override
+    public void initListener() {
         binding.navBar.getRightTextView().setOnClickListener(v -> {
             scanBle();
         });
@@ -69,14 +84,6 @@ public class BleActivity extends BaseActivity<ActivityBleBinding> {
                 LogUtil.d("未连接点击");
                 connect();
             } else {
-                disConnect();
-            }
-        });
-        deviceViewModel.getDeviceState().observe(this, result -> {
-            if (result.getResultCode() == ResultCode.SUCCESS) {
-                dealBle();
-            } else {
-                ToastUtils.showToast("无权限");
                 disConnect();
             }
         });
@@ -120,14 +127,12 @@ public class BleActivity extends BaseActivity<ActivityBleBinding> {
                 connectDevice.setConnectState(false);
                 bleAdapter.set(position, connectDevice);
                 Config.saveBle(new BleDeviceInfo());
-                MyApplication.getInstance().setConnected(false);
             }
         });
     }
 
     public void dealBle() {
         Config.saveBle(connectDevice);
-        MyApplication.getInstance().setConnected(true);
     }
 
     void disConnect() {
